@@ -1,0 +1,1207 @@
+<title>Portfolio Site Editor</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap">
+<style>
+/* Layout: sticky toolbar · page index on the left · field sheets on the right (mirrors the site's 5/7 split) */
+:root{
+  --bg:#ffffff; --fg:#0a0a0a; --muted:#6f6f6f; --faint:#a3a3a3;
+  --soft:#f5f5f5; --field:#f7f7f7; --line:#e9e9e9; --ph:#d9d9d9; --ph-ink:#8a8a8a;
+  --ink-inv:#ffffff; --warn:#a15c00; --warn-bg:#fff6e8; --ok:#1d6b3a;
+  --display:"Inter","Inter Display",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --text:"Inter",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c0c0c; --fg:#f2f2f2; --muted:#9a9a9a; --faint:#6b6b6b;
+  --soft:#161616; --field:#1b1b1b; --line:#262626; --ph:#333; --ph-ink:#8c8c8c;
+  --ink-inv:#0c0c0c; --warn:#f0b35c; --warn-bg:#2a2112; --ok:#6fd39a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c0c0c; --fg:#f2f2f2; --muted:#9a9a9a; --faint:#6b6b6b;
+  --soft:#161616; --field:#1b1b1b; --line:#262626; --ph:#333; --ph-ink:#8c8c8c;
+  --ink-inv:#0c0c0c; --warn:#f0b35c; --warn-bg:#2a2112; --ok:#6fd39a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:500 14px/1.55 var(--text);font-optical-sizing:auto;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* toolbar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar .in{display:flex;align-items:center;gap:16px;min-height:64px;padding-block:10px;flex-wrap:wrap}
+.brand{font:800 20px/1 var(--display);letter-spacing:-.03em;font-variation-settings:"opsz" 32;white-space:nowrap}
+.brand small{font:700 11px/1 var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-left:10px;vertical-align:middle}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+.status[data-s="saved"] i{background:var(--ok)} .status[data-s="saving"] i{background:var(--fg);animation:pulse 1s infinite}
+.status[data-s="local"] i,.status[data-s="error"] i{background:var(--warn)}
+@keyframes pulse{50%{opacity:.25}}
+.spacer{flex:1}
+.count{font-size:13px;color:var(--muted);white-space:nowrap}
+.count b{color:var(--fg);font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 18px;border-radius:999px;border:0;background:var(--fg);color:var(--ink-inv);font-weight:600;cursor:pointer;white-space:nowrap}
+.btn svg{width:15px;height:15px;fill:currentColor}
+.btn.ghost{background:var(--soft);color:var(--fg)}
+.btn.small{height:32px;padding:0 14px;font-size:13px}
+.btn:disabled{opacity:.4;cursor:default}
+.linkbtn{border:0;background:none;padding:0;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--fg)}
+
+/* shell */
+.shell{display:grid;grid-template-columns:260px minmax(0,1fr);gap:48px;padding-block:32px 120px;max-width:1360px;margin:0 auto}
+aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px);align-self:start;display:flex;flex-direction:column;gap:24px;max-height:calc(100vh - 120px);overflow:auto}
+.search{width:100%;height:44px;border:0;border-bottom:2px solid transparent;background:var(--field);padding:0 14px;outline:none}
+.search:focus{border-bottom-color:var(--fg)}
+nav.pages{display:flex;flex-direction:column}
+nav.pages a{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);color:var(--muted);text-decoration:none;font-weight:600}
+nav.pages a:hover{color:var(--fg)}
+nav.pages a[aria-current="page"]{color:var(--fg)}
+nav.pages a[aria-current="page"] span:first-child::before{content:"→ "}
+nav.pages a em{font-style:normal;font-size:12px;font-variant-numeric:tabular-nums;color:var(--fg);background:var(--soft);border-radius:99px;padding:0 8px}
+.apply{background:var(--soft);padding:16px;display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--muted)}
+.apply h3{margin:0;font:700 13px/1.3 var(--text);letter-spacing:.06em;text-transform:uppercase;color:var(--fg)}
+.apply ol{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.apply code{font:12px var(--mono);color:var(--fg)}
+
+/* main */
+main{min-width:0}
+.head{display:flex;flex-direction:column;gap:10px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+h1{margin:0;font:800 clamp(40px,6vw,72px)/.95 var(--display);letter-spacing:-.05em;font-variation-settings:"opsz" 32;text-wrap:balance}
+.head p{margin:0;max-width:62ch;color:var(--muted)}
+.notice{background:var(--warn-bg);color:var(--warn);padding:12px 16px;font-size:13px;font-weight:600}
+section.sec{padding-top:40px}
+section.sec>h2{margin:0 0 4px;font:700 26px/1.2 var(--display);letter-spacing:-.02em;font-variation-settings:"opsz" 32}
+section.sec>.sub{color:var(--muted);font-size:13px;margin-bottom:12px}
+.row{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:24px;padding:18px 0;border-top:1px solid var(--line);position:relative}
+.row.changed::before{content:"";position:absolute;left:-14px;top:22px;width:6px;height:6px;border-radius:50%;background:var(--fg)}
+.row .meta{display:flex;flex-direction:column;gap:4px;min-width:0}
+.row label{font-weight:700}
+.row .key{font:11px/1.4 var(--mono);color:var(--faint);overflow-wrap:anywhere}
+.row .acts{display:flex;gap:14px;margin-top:4px;flex-wrap:wrap}
+.row .ctl{display:flex;flex-direction:column;gap:8px;min-width:0}
+textarea.f,input.f,select.f{width:100%;border:0;border-bottom:2px solid transparent;background:var(--field);padding:12px 14px;outline:none;border-radius:0;resize:vertical}
+textarea.f{min-height:46px;line-height:1.5;field-sizing:content}
+textarea.f.big{font:700 22px/1.2 var(--display);letter-spacing:-.02em;font-variation-settings:"opsz" 32}
+.f:focus{border-bottom-color:var(--fg)}
+.f:disabled{opacity:.45;text-decoration:line-through}
+.hint{font-size:12px;color:var(--faint)}
+.url{display:flex;gap:8px;align-items:center}
+.url span{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
+.check{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer}
+
+/* image field */
+.img{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:start}
+.thumb{position:relative;width:150px;aspect-ratio:4/3;background:var(--ph);overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--ph-ink);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-align:center;padding:8px}
+.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.thumb.logo img{object-fit:contain;background:var(--bg)}
+.img .ctl2{display:flex;flex-direction:column;gap:8px;min-width:0}
+.img .btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.drop{outline:2px dashed var(--fg);outline-offset:4px}
+
+/* list editors (projects / posts / socials) */
+details.card{border-top:1px solid var(--line)}
+details.card>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:16px;padding:18px 0}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary .n{font:700 13px var(--text);color:var(--faint);font-variant-numeric:tabular-nums;width:28px}
+details.card>summary .t{font:700 22px/1.2 var(--display);letter-spacing:-.02em;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+details.card>summary .pl{width:30px;height:30px;flex:none;display:flex;align-items:center;justify-content:center}
+details.card>summary .pl svg{width:20px;height:20px;fill:var(--fg);transition:transform .35s cubic-bezier(.25,1,.5,1)}
+details.card[open]>summary .pl svg{transform:rotate(135deg)}
+details.card .body{padding:0 0 24px 44px}
+.subhead{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:24px 0 4px}
+.socials{display:flex;flex-direction:column;gap:8px}
+.social{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr) auto;gap:8px}
+
+/* search results */
+.res-page{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+mark{background:var(--fg);color:var(--ink-inv);padding:0 2px}
+
+/* export dialog */
+/* canvas mode: the real site in a frame, edited in place */
+body.canvas-on .shell{grid-template-columns:minmax(0,1fr);max-width:none;padding-block:14px 16px}
+body.canvas-on aside{display:none}
+body.canvas-on #btn-canvas{display:none}
+.cv{display:flex;flex-direction:column;gap:12px;height:calc(100vh - 110px);height:calc(100dvh - 110px);min-height:420px}
+.cv-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.cv-bar select.f{width:auto;min-width:240px;max-width:100%;height:40px;padding:0 12px}
+.cv-bar .hint{flex:1;min-width:200px}
+.seg{display:inline-flex;background:var(--soft);border-radius:999px;padding:3px}
+.seg button{border:0;background:none;padding:6px 14px;border-radius:999px;font-weight:600;font-size:13px;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--bg);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.cv-stage{flex:1;min-height:0;position:relative;overflow:hidden;background:var(--soft);border:1px solid var(--line)}
+.cv-frame{position:absolute;top:0;left:50%;border:0;background:#fff;transform-origin:top center}
+.cv-load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:600;pointer-events:none}
+.lbl{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.lbl .f{text-transform:none;letter-spacing:0;color:var(--fg);font-weight:500;font-size:14px;width:100%}
+.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;max-height:44vh;overflow:auto}
+.pick button{border:2px solid transparent;padding:0;background:var(--ph);aspect-ratio:1;cursor:pointer;overflow:hidden;position:relative}
+.pick button:hover,.pick button:focus-visible{border-color:var(--fg)}
+.pick img,.pick video{width:100%;height:100%;object-fit:cover;display:block}
+.pick-drop{border:1.5px dashed var(--line);padding:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.pick-drop.drop{border-color:var(--fg);background:var(--soft)}
+.modal{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.modal .box{background:var(--bg);width:min(760px,100%);max-height:100%;display:flex;flex-direction:column;gap:14px;padding:24px}
+.modal h2{margin:0;font:700 26px/1.2 var(--display);letter-spacing:-.02em}
+.modal textarea{width:100%;min-height:320px;flex:1;font:12px/1.5 var(--mono);background:var(--field);border:0;padding:14px;resize:vertical}
+.modal .acts{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--ink-inv);padding:10px 18px;border-radius:99px;font-weight:600;z-index:50}
+
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr;gap:24px}
+  aside{position:static;max-height:none}
+  nav.pages{flex-direction:row;flex-wrap:wrap;gap:4px 16px}
+  nav.pages a{border:0;padding:4px 0}
+  .row{grid-template-columns:1fr;gap:10px}
+  .row.changed::before{left:-10px}
+  details.card .body{padding-left:0}
+  .img{grid-template-columns:1fr}
+  .social{grid-template-columns:1fr 1fr auto}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="bar"><div class="wrap in">
+  <div class="brand">Site Editor<small>Your portfolio</small></div>
+  <span class="status" id="status" data-s="loading" role="status"><i></i><span>Loading</span></span>
+  <span class="spacer"></span>
+  <a class="btn small" href="#canvas" id="btn-canvas">Edit on canvas</a>
+  <a class="btn ghost small" href="https://design-portfolio-eta-peach.vercel.app" target="_blank" rel="noopener">Live site ↗</a>
+  <span class="count"><b id="nchanged">0</b> edits</span>
+  <button class="btn ghost small" id="btn-copy" type="button">View code</button>
+  <button class="btn" id="btn-export" type="button"><svg viewBox="0 0 256 256" aria-hidden="true"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"/></svg>Export content.js</button>
+</div></header>
+
+<div class="wrap"><div class="shell">
+  <aside>
+    <input class="search" id="search" type="search" placeholder="Search all copy…" aria-label="Search all copy">
+    <nav class="pages" id="pages" aria-label="Pages"></nav>
+    <div class="apply">
+      <h3>Put edits live</h3>
+      <ol>
+        <li>Ask Claude to <b>apply my site editor changes</b>. Claude downloads your uploaded images too.</li>
+        <li>Or export and replace <code>assets/js/content.js</code> in your site folder.</li>
+        <li>Then ask Claude to <b>redeploy</b> so the live site on Vercel shows them.</li>
+      </ol>
+      <span>Use <code>{name}</code>, <code>{role}</code>, <code>{city}</code> or <code>{email}</code> in any text to insert your details.</span>
+    </div>
+  </aside>
+  <main id="main" aria-live="polite"></main>
+</div></div>
+<div id="modal-root"></div>
+
+<script>
+const DATA = {"site": {"name": "Your Name", "brand": "", "role": "Design Engineer", "location": "CITY, CC", "timezone": "Europe/London", "since": "2018", "email": "hello@yourname.com", "socials": [{"label": "LinkedIn", "href": "https://www.linkedin.com/"}, {"label": "X (Twitter)", "href": "https://x.com/"}, {"label": "Instagram", "href": "https://www.instagram.com/"}], "projects": [{"slug": "project-01", "title": "Project One", "year": "2026", "shape": "portrait", "services": "Product Design, Design System, Front-end Engineering", "summary": "A short summary of the project — what it is, who it was for, and what you did. Replace this placeholder with your own words.", "image": "", "disc": ""}, {"slug": "project-02", "title": "Project Two", "year": "2025", "shape": "landscape", "services": "Web App, Interaction Design, Prototyping", "summary": "A short summary of the project — what it is, who it was for, and what you did. Replace this placeholder with your own words.", "image": "", "disc": ""}, {"slug": "project-03", "title": "Project Three", "year": "2025", "shape": "portrait", "services": "Brand Website, Motion, Creative Development", "summary": "A short summary of the project — what it is, who it was for, and what you did. Replace this placeholder with your own words.", "image": "", "disc": ""}, {"slug": "project-04", "title": "Project Four", "year": "2024", "shape": "portrait", "services": "Mobile App, UI Engineering, Accessibility", "summary": "A short summary of the project — what it is, who it was for, and what you did. Replace this placeholder with your own words.", "image": "", "disc": ""}, {"slug": "project-05", "title": "Project Five", "year": "2024", "shape": "landscape", "services": "Design Tooling, Component Library, Documentation", "summary": "A short summary of the project — what it is, who it was for, and what you did. Replace this placeholder with your own words.", "image": "", "disc": ""}], "posts": [{"slug": "the-logic-of-emotion", "title": "The Logic of Emotion", "date": "April 26, 2026", "excerpt": "In design, clarity isn’t about simplicity for its own sake. It’s about removing what doesn’t serve meaning — until what remains feels inevitable."}, {"slug": "precision-over-perfection", "title": "Precision Over Perfection", "date": "March 29, 2026", "excerpt": "Design isn’t about getting everything right — it’s about making the right things matter."}, {"slug": "the-language-of-shape", "title": "The Language of Shape", "date": "March 2, 2026", "excerpt": "Every curve, line, and contrast says something. Good design doesn’t speak louder — it speaks clearer."}, {"slug": "thinking-in-motion", "title": "Thinking in Motion", "date": "February 9, 2026", "excerpt": "Motion is not decoration. It explains how an interface thinks, and every transition tells part of the story."}, {"slug": "systems-that-breathe", "title": "Systems That Breathe", "date": "January 18, 2026", "excerpt": "A design system is never finished. The best ones leave room for the next idea without losing their shape."}, {"slug": "code-as-material", "title": "Code as Material", "date": "December 7, 2025", "excerpt": "When you design in the medium you ship in, the gap between intention and outcome starts to disappear."}]}, "fields": [{"key": "home.intro.loader", "page": "Home", "section": "Intro sequence", "label": "Black 0–100% loader", "default": "first", "type": "select", "options": [["first", "First visit in a browser tab only"], ["every", "Every time the homepage loads"], ["never", "Never — start at the title"]]}, {"key": "home.intro.loaderMin", "page": "Home", "section": "Intro sequence", "label": "Loader minimum length", "default": "1.8", "type": "number", "hint": "seconds (it also waits for the page and discs to load, up to 5 s)", "min": 0.5, "max": 5, "step": 0.1}, {"key": "home.intro.titleHold", "page": "Home", "section": "Intro sequence", "label": "How long the first title stays", "default": "1.1", "type": "number", "hint": "seconds, before it swaps to the main title", "min": 0.3, "max": 5, "step": 0.1}, {"key": "home.intro.discsDelay", "page": "Home", "section": "Intro sequence", "label": "Reading pause before the discs", "default": "1.6", "type": "number", "hint": "seconds after the intro text appears", "min": 0, "max": 6, "step": 0.1}, {"key": "home.hero.1", "page": "Home", "section": "Hero", "type": "longtext", "label": "Paragraph", "default": "— a design engineer shaping products and digital experiences through motion, clarity, and timeless craft. Based in your city, working globally, I help ambitious teams express who they are and what they stand for."}, {"key": "home.hero.pre1", "page": "Home", "section": "Hero", "type": "text", "label": "Intro title, line 1 (shown first, then replaced by the line below)", "default": "Human"}, {"key": "home.hero.pre2", "page": "Home", "section": "Hero", "type": "text", "label": "Intro title, line 2 (shown first, then replaced)", "default": "Agentic"}, {"key": "home.hero.2", "page": "Home", "section": "Hero", "type": "text", "label": "Title, line 1", "default": "Design"}, {"key": "home.hero.3", "page": "Home", "section": "Hero", "type": "text", "label": "Title, line 2", "default": "Engineer"}, {"key": "home.hero.4", "page": "Home", "section": "Hero", "type": "text", "label": "Text", "default": "© 2018-26"}, {"key": "home.scramble.1", "page": "Home", "section": "Scramble", "type": "longtext", "label": "Paragraph", "default": "I keep my process clear, collaborative, and focused. I work closely with the teams I partner with, shaping each project with intention and care. Every idea is explored from multiple angles, refined together, and guided by a shared sense of purpose. Nothing is added without reason, and nothing essential is left behind. The result is work that feels thoughtful, precise, and built to last beyond trends."}, {"key": "home.scramble.2", "page": "Home", "section": "Scramble", "type": "longtext", "label": "Paragraph", "default": "My way of working is straightforward. I design in the medium I ship in, keeping the process open and honest so decisions remain meaningful. Dialogue is constant, feedback is shared, and the direction becomes sharper with every step. I believe clarity comes from collaboration, and that strong ideas emerge when design and engineering think as one."}, {"key": "home.scramble.sentence", "page": "Home", "section": "Scramble", "label": "Scattered-words sentence", "default": "{name}® brings ideas and code together, turning imagination into clarity and connection into beauty.", "type": "longtext"}, {"key": "home.reel.img1", "page": "Home", "section": "Reel", "type": "image", "label": "Showreel / video still", "default": ""}, {"key": "home.reel.ticker", "page": "Home", "section": "Reel", "label": "Scrolling ticker text", "default": "Ideas in Motion.", "type": "text"}, {"key": "home.services.1", "page": "Home", "section": "Services", "type": "text", "label": "Heading", "default": "My Services"}, {"key": "home.services.2", "page": "Home", "section": "Services", "type": "longtext", "label": "Paragraph", "default": "If you’re looking for clarity in design and code, let’s build it together."}, {"key": "home.services.3", "page": "Home", "section": "Services", "type": "text", "label": "Button", "default": "Get Started", "href": "contact.html"}, {"key": "home.services.4", "page": "Home", "section": "Services", "type": "text", "label": "Index label", "default": "A /"}, {"key": "home.services.5", "page": "Home", "section": "Services", "type": "longtext", "label": "Heading", "default": "I design and build interfaces that bring clarity and distinction to products — thoughtful visuals, cohesive structure, and code that lasts."}, {"key": "home.services.6", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Product Design"}, {"key": "home.services.7", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "UI Engineering"}, {"key": "home.services.8", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Prototyping"}, {"key": "home.services.9", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Responsive Layouts"}, {"key": "home.services.10", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Accessibility"}, {"key": "home.services.11", "page": "Home", "section": "Services", "type": "text", "label": "Index label", "default": "B /"}, {"key": "home.services.12", "page": "Home", "section": "Services", "type": "longtext", "label": "Heading", "default": "I create design systems that scale — tokens, components, and documentation shared seamlessly between design and code."}, {"key": "home.services.13", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Design Tokens"}, {"key": "home.services.14", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Component Libraries"}, {"key": "home.services.15", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Figma to Code"}, {"key": "home.services.16", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Documentation"}, {"key": "home.services.17", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Theming"}, {"key": "home.services.18", "page": "Home", "section": "Services", "type": "text", "label": "Index label", "default": "C /"}, {"key": "home.services.19", "page": "Home", "section": "Services", "type": "longtext", "label": "Heading", "default": "I craft motion and interaction that guide attention and make every change of state feel intentional across all screens."}, {"key": "home.services.20", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Interaction Design"}, {"key": "home.services.21", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Motion Guidelines"}, {"key": "home.services.22", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Micro-interactions"}, {"key": "home.services.23", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Creative Development"}, {"key": "home.services.24", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "WebGL & Canvas"}, {"key": "home.services.25", "page": "Home", "section": "Services", "type": "text", "label": "Index label", "default": "D /"}, {"key": "home.services.26", "page": "Home", "section": "Services", "type": "longtext", "label": "Heading", "default": "I help teams make confident decisions by defining direction, sharpening the product, and building the foundation for meaningful growth."}, {"key": "home.services.27", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Design Audits"}, {"key": "home.services.28", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Front-end Architecture"}, {"key": "home.services.29", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Performance"}, {"key": "home.services.30", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Workshops"}, {"key": "home.services.31", "page": "Home", "section": "Services", "type": "text", "label": "Tag", "default": "Roadmaps & Recommendations"}, {"key": "home.in-numbers.1", "page": "Home", "section": "In Numbers", "type": "text", "label": "Heading", "default": "In Numbers"}, {"key": "home.in-numbers.2", "page": "Home", "section": "In Numbers", "type": "longtext", "label": "Paragraph", "default": "A closer look at the milestones and collaborations that define my ongoing practice."}, {"key": "home.in-numbers.3", "page": "Home", "section": "In Numbers", "type": "text", "label": "Button", "default": "Let's work together", "href": "contact.html"}, {"key": "home.in-numbers.img1", "page": "Home", "section": "In Numbers", "type": "image", "label": "Big-number image", "default": ""}, {"key": "home.in-numbers.img2", "page": "Home", "section": "In Numbers", "type": "image", "label": "Big-number image", "default": ""}, {"key": "home.in-numbers.img3", "page": "Home", "section": "In Numbers", "type": "image", "label": "Big-number image", "default": ""}, {"key": "home.in-numbers.4", "page": "Home", "section": "In Numbers", "type": "longtext", "label": "Heading", "default": "12 Industry\nAwards"}, {"key": "home.in-numbers.5", "page": "Home", "section": "In Numbers", "type": "longtext", "label": "Paragraph", "default": "Recognized across global juries for clarity, craft, and concept. Every award reflects the same commitment: creating work with intention, designing with purpose, and shaping ideas that resonate far beyond their launch."}, {"key": "home.in-numbers.6", "page": "Home", "section": "In Numbers", "type": "text", "label": "Button", "default": "See Awards", "href": "#awards"}, {"key": "home.in-numbers.7", "page": "Home", "section": "In Numbers", "type": "longtext", "label": "Heading", "default": "42 Clients\nWorldwide"}, {"key": "home.in-numbers.8", "page": "Home", "section": "In Numbers", "type": "longtext", "label": "Paragraph", "default": "Built on relationships, not transactions. I partner with teams who value dialogue, trust, and shared ambition — working together to create products and digital experiences that feel true to who they are."}, {"key": "home.in-numbers.9", "page": "Home", "section": "In Numbers", "type": "text", "label": "Button", "default": "See Clients", "href": "#clients"}, {"key": "home.in-numbers.10", "page": "Home", "section": "In Numbers", "type": "longtext", "label": "Heading", "default": "83 Shipped\nProjects"}, {"key": "home.in-numbers.11", "page": "Home", "section": "In Numbers", "type": "longtext", "label": "Paragraph", "default": "Each project becomes part of my rhythm — ideas shaped, stories refined, and systems brought to life. Every collaboration deepens my perspective and strengthens the work that follows."}, {"key": "home.in-numbers.12", "page": "Home", "section": "In Numbers", "type": "text", "label": "Button", "default": "See Portfolio", "href": "portfolio.html"}, {"key": "home.in-numbers.num1", "page": "Home", "section": "In Numbers", "label": "Big number 1 (two digits)", "default": "12", "type": "text"}, {"key": "home.in-numbers.num2", "page": "Home", "section": "In Numbers", "label": "Big number 2 (two digits)", "default": "42", "type": "text"}, {"key": "home.in-numbers.num3", "page": "Home", "section": "In Numbers", "label": "Big number 3 (two digits)", "default": "83", "type": "text"}, {"key": "home.awards.1", "page": "Home", "section": "Awards", "type": "text", "label": "Heading", "default": "My"}, {"key": "home.awards.2", "page": "Home", "section": "Awards", "type": "text", "label": "Heading", "default": "Awards"}, {"key": "home.awards.3", "page": "Home", "section": "Awards", "type": "text", "label": "Paragraph", "default": "Selected moments where my work was acknowledged by others."}, {"key": "home.awards.4", "page": "Home", "section": "Awards", "type": "text", "label": "Button", "default": "My Portfolio", "href": "portfolio.html"}, {"key": "home.awards.5", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "Red Dot"}, {"key": "home.awards.6", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "Brand & Communication Design"}, {"key": "home.awards.7", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "x3"}, {"key": "home.awards.8", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "European Design Awards"}, {"key": "home.awards.9", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "Visual Identity"}, {"key": "home.awards.10", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "x1"}, {"key": "home.awards.11", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "ADC Europe"}, {"key": "home.awards.12", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "Branding & Typography"}, {"key": "home.awards.13", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "x2"}, {"key": "home.awards.14", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "D&AD"}, {"key": "home.awards.15", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "Digital Design"}, {"key": "home.awards.16", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "x3"}, {"key": "home.awards.17", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "Tokyo TDC"}, {"key": "home.awards.18", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "Typography Excellence"}, {"key": "home.awards.19", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "x1"}, {"key": "home.awards.20", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "Awwwards"}, {"key": "home.awards.21", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "Site of the Day"}, {"key": "home.awards.22", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "x2"}, {"key": "home.awards.23", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "Awwwards"}, {"key": "home.awards.24", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "Honorable Mention"}, {"key": "home.awards.25", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "x3"}, {"key": "home.awards.26", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "FWA"}, {"key": "home.awards.27", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "Site of the Day"}, {"key": "home.awards.28", "page": "Home", "section": "Awards", "type": "text", "label": "Text", "default": "x1"}, {"key": "home.about-single-person.1", "page": "Home", "section": "About (Single Person)", "type": "text", "label": "Heading", "default": "About Me"}, {"key": "home.about-single-person.2", "page": "Home", "section": "About (Single Person)", "type": "longtext", "label": "Paragraph", "default": "I’m {name}, a design engineer working where design meets code. What started as a fascination with how things look and feel has grown into a practice that brings structure, imagination, and craft to every project I take on."}, {"key": "home.about-single-person.3", "page": "Home", "section": "About (Single Person)", "type": "text", "label": "Button", "default": "More About Me", "href": "studio.html"}, {"key": "home.about-single-person.img1", "page": "Home", "section": "About (Single Person)", "type": "image", "label": "Card photo", "default": ""}, {"key": "home.about-single-person.4", "page": "Home", "section": "About (Single Person)", "type": "text", "label": "Text", "default": "Your Name"}, {"key": "home.about-single-person.5", "page": "Home", "section": "About (Single Person)", "type": "text", "label": "Text", "default": "Design Engineer"}, {"key": "home.about-single-person.img2", "page": "Home", "section": "About (Single Person)", "type": "image", "label": "Card photo", "default": ""}, {"key": "home.about-single-person.6", "page": "Home", "section": "About (Single Person)", "type": "text", "label": "Text", "default": "Available"}, {"key": "home.about-single-person.7", "page": "Home", "section": "About (Single Person)", "type": "text", "label": "Text", "default": "For new projects"}, {"key": "home.partners.1", "page": "Home", "section": "Partners", "type": "text", "label": "Heading", "default": "Selected Clients"}, {"key": "home.partners.2", "page": "Home", "section": "Partners", "type": "longtext", "label": "Paragraph", "default": "Here are some of the brands I’ve had the privilege to collaborate with."}, {"key": "home.partners.img1", "page": "Home", "section": "Partners", "type": "image", "label": "Client logo", "default": ""}, {"key": "home.partners.img2", "page": "Home", "section": "Partners", "type": "image", "label": "Client logo", "default": ""}, {"key": "home.partners.img3", "page": "Home", "section": "Partners", "type": "image", "label": "Client logo", "default": ""}, {"key": "home.partners.img4", "page": "Home", "section": "Partners", "type": "image", "label": "Client logo", "default": ""}, {"key": "home.partners.img5", "page": "Home", "section": "Partners", "type": "image", "label": "Client logo", "default": ""}, {"key": "home.partners.img6", "page": "Home", "section": "Partners", "type": "image", "label": "Client logo", "default": ""}, {"key": "home.partners.img7", "page": "Home", "section": "Partners", "type": "image", "label": "Client logo", "default": ""}, {"key": "home.partners.img8", "page": "Home", "section": "Partners", "type": "image", "label": "Client logo", "default": ""}, {"key": "home.partners.img9", "page": "Home", "section": "Partners", "type": "image", "label": "Client logo", "default": ""}, {"key": "home.partners.img10", "page": "Home", "section": "Partners", "type": "image", "label": "Client logo", "default": ""}, {"key": "home.partners.img11", "page": "Home", "section": "Partners", "type": "image", "label": "Client logo", "default": ""}, {"key": "home.partners.img12", "page": "Home", "section": "Partners", "type": "image", "label": "Client logo", "default": ""}, {"key": "home.partners.img13", "page": "Home", "section": "Partners", "type": "image", "label": "Full-width image", "default": ""}, {"key": "home.process.1", "page": "Home", "section": "Process", "type": "text", "label": "Heading", "default": "The Process"}, {"key": "home.process.2", "page": "Home", "section": "Process", "type": "longtext", "label": "Paragraph", "default": "How I take a project from the first conversation to launch — and well beyond it."}, {"key": "home.process.3", "page": "Home", "section": "Process", "type": "text", "label": "Text", "default": "Discovery"}, {"key": "home.process.4", "page": "Home", "section": "Process", "type": "text", "label": "Text", "default": "Strategy"}, {"key": "home.process.5", "page": "Home", "section": "Process", "type": "text", "label": "Text", "default": "Design & Build"}, {"key": "home.process.6", "page": "Home", "section": "Process", "type": "text", "label": "Text", "default": "Launch & Beyond"}, {"key": "home.process.7", "page": "Home", "section": "Process", "type": "text", "label": "Heading", "default": "Discovery"}, {"key": "home.process.8", "page": "Home", "section": "Process", "type": "longtext", "label": "Paragraph", "default": "I start by listening. This phase is about understanding your goals, audience, and challenges — finding clarity before I begin designing."}, {"key": "home.process.9", "page": "Home", "section": "Process", "type": "text", "label": "Heading", "default": "Strategy"}, {"key": "home.process.10", "page": "Home", "section": "Process", "type": "longtext", "label": "Paragraph", "default": "I translate insights into direction, defining the concept, structure, and technical approach that shape your product or brand."}, {"key": "home.process.11", "page": "Home", "section": "Process", "type": "text", "label": "Heading", "default": "Design & Build"}, {"key": "home.process.12", "page": "Home", "section": "Process", "type": "longtext", "label": "Paragraph", "default": "Ideas take form. From interface to interaction, I design, prototype, and develop with precision and care."}, {"key": "home.process.13", "page": "Home", "section": "Process", "type": "text", "label": "Heading", "default": "Launch & Beyond"}, {"key": "home.process.14", "page": "Home", "section": "Process", "type": "longtext", "label": "Paragraph", "default": "Delivery is only the beginning. I test, refine, and support long after launch — ensuring the work performs and evolves."}, {"key": "home.testimonials.1", "page": "Home", "section": "Testimonials", "type": "text", "label": "Heading", "default": "Client reflections"}, {"key": "home.testimonials.2", "page": "Home", "section": "Testimonials", "type": "longtext", "label": "Paragraph", "default": "Honest impressions from the teams I’ve collaborated with across product, brand, and digital work."}, {"key": "home.testimonials.img1", "page": "Home", "section": "Testimonials", "type": "image", "label": "Testimonial photo", "default": ""}, {"key": "home.testimonials.3", "page": "Home", "section": "Testimonials", "type": "longtext", "label": "Paragraph", "default": "“{name} turned our complex ideas into something clear and elegant — then built it, pixel for pixel. It feels natural to us.”"}, {"key": "home.testimonials.4", "page": "Home", "section": "Testimonials", "type": "text", "label": "Paragraph", "default": "Client Name"}, {"key": "home.testimonials.5", "page": "Home", "section": "Testimonials", "type": "text", "label": "Paragraph", "default": "Company"}, {"key": "home.testimonials.img2", "page": "Home", "section": "Testimonials", "type": "image", "label": "Testimonial photo", "default": ""}, {"key": "home.testimonials.6", "page": "Home", "section": "Testimonials", "type": "longtext", "label": "Paragraph", "default": "“Rare to find someone who thinks in systems and still sweats every detail. Our product finally feels like one thing.”"}, {"key": "home.testimonials.7", "page": "Home", "section": "Testimonials", "type": "text", "label": "Paragraph", "default": "Client Name"}, {"key": "home.testimonials.8", "page": "Home", "section": "Testimonials", "type": "text", "label": "Paragraph", "default": "Company"}, {"key": "home.testimonials.img3", "page": "Home", "section": "Testimonials", "type": "image", "label": "Testimonial photo", "default": ""}, {"key": "home.testimonials.9", "page": "Home", "section": "Testimonials", "type": "longtext", "label": "Paragraph", "default": "“The prototypes were so close to production that our engineers shipped them almost as-is. A huge time saver.”"}, {"key": "home.testimonials.10", "page": "Home", "section": "Testimonials", "type": "text", "label": "Paragraph", "default": "Client Name"}, {"key": "home.testimonials.11", "page": "Home", "section": "Testimonials", "type": "text", "label": "Paragraph", "default": "Company"}, {"key": "home.testimonials.img4", "page": "Home", "section": "Testimonials", "type": "image", "label": "Testimonial photo", "default": ""}, {"key": "home.testimonials.12", "page": "Home", "section": "Testimonials", "type": "longtext", "label": "Paragraph", "default": "“Calm, precise, and fast. Every conversation made the direction sharper and the work better.”"}, {"key": "home.testimonials.13", "page": "Home", "section": "Testimonials", "type": "text", "label": "Paragraph", "default": "Client Name"}, {"key": "home.testimonials.14", "page": "Home", "section": "Testimonials", "type": "text", "label": "Paragraph", "default": "Company"}, {"key": "home.testimonials.img5", "page": "Home", "section": "Testimonials", "type": "image", "label": "Testimonial photo", "default": ""}, {"key": "home.testimonials.15", "page": "Home", "section": "Testimonials", "type": "longtext", "label": "Paragraph", "default": "“The motion work gave our brand a voice we didn’t know it had. People notice it every single day.”"}, {"key": "home.testimonials.16", "page": "Home", "section": "Testimonials", "type": "text", "label": "Paragraph", "default": "Client Name"}, {"key": "home.testimonials.17", "page": "Home", "section": "Testimonials", "type": "text", "label": "Paragraph", "default": "Company"}, {"key": "home.testimonials.img6", "page": "Home", "section": "Testimonials", "type": "image", "label": "Testimonial photo", "default": ""}, {"key": "home.testimonials.18", "page": "Home", "section": "Testimonials", "type": "longtext", "label": "Paragraph", "default": "“A true partner. Clear thinking, honest feedback, and a design system our whole team actually uses.”"}, {"key": "home.testimonials.19", "page": "Home", "section": "Testimonials", "type": "text", "label": "Paragraph", "default": "Client Name"}, {"key": "home.testimonials.20", "page": "Home", "section": "Testimonials", "type": "text", "label": "Paragraph", "default": "Company"}, {"key": "home.pricing.1", "page": "Home", "section": "Pricing", "type": "text", "label": "Heading", "default": "Pricing"}, {"key": "home.pricing.2", "page": "Home", "section": "Pricing", "type": "text", "label": "Paragraph", "default": "Monthly"}, {"key": "home.pricing.3", "page": "Home", "section": "Pricing", "type": "text", "label": "Paragraph", "default": "Yearly –20%"}, {"key": "home.pricing.4", "page": "Home", "section": "Pricing", "type": "longtext", "label": "Paragraph", "default": "Choose a plan that fits your pace, your team, and your goals. From startups to scaling brands, my monthly options give you the design and engineering support you need."}, {"key": "home.pricing.5", "page": "Home", "section": "Pricing", "type": "text", "label": "Paragraph", "default": "Not sure where to start? Let’s figure it out together."}, {"key": "home.pricing.6", "page": "Home", "section": "Pricing", "type": "text", "label": "Button", "default": "Let's Talk", "href": "contact.html"}, {"key": "home.pricing.7", "page": "Home", "section": "Pricing", "type": "text", "label": "Heading", "default": "Foundation Package"}, {"key": "home.pricing.8", "page": "Home", "section": "Pricing", "type": "text", "label": "Paragraph", "default": "For early-stage teams that need a clear product and visual foundation."}, {"key": "home.pricing.9", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Discovery session"}, {"key": "home.pricing.10", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Product direction"}, {"key": "home.pricing.11", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "UI design"}, {"key": "home.pricing.12", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Visual system"}, {"key": "home.pricing.13", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Clickable prototype"}, {"key": "home.pricing.14", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Handoff documentation"}, {"key": "home.pricing.15", "page": "Home", "section": "Pricing", "type": "text", "label": "Small label", "default": "Starting from"}, {"key": "home.pricing.16", "page": "Home", "section": "Pricing", "type": "text", "label": "Text", "default": "/month"}, {"key": "home.pricing.18", "page": "Home", "section": "Pricing", "type": "text", "label": "Heading", "default": "Studio Package"}, {"key": "home.pricing.19", "page": "Home", "section": "Pricing", "type": "text", "label": "Paragraph", "default": "For websites, platforms, or digital-first products."}, {"key": "home.pricing.20", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "UX structure & sitemap"}, {"key": "home.pricing.21", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "UI design"}, {"key": "home.pricing.22", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Component system"}, {"key": "home.pricing.23", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Responsive build"}, {"key": "home.pricing.24", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Interaction & motion direction"}, {"key": "home.pricing.25", "page": "Home", "section": "Pricing", "type": "text", "label": "Small label", "default": "Starting from"}, {"key": "home.pricing.26", "page": "Home", "section": "Pricing", "type": "text", "label": "Text", "default": "/month"}, {"key": "home.pricing.28", "page": "Home", "section": "Pricing", "type": "text", "label": "Heading", "default": "Signature Package"}, {"key": "home.pricing.29", "page": "Home", "section": "Pricing", "type": "longtext", "label": "Paragraph", "default": "For teams that want everything aligned, from design system to shipped product."}, {"key": "home.pricing.30", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Product strategy"}, {"key": "home.pricing.31", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Design system"}, {"key": "home.pricing.32", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Front-end build"}, {"key": "home.pricing.33", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Motion direction"}, {"key": "home.pricing.34", "page": "Home", "section": "Pricing", "type": "text", "label": "List item", "default": "Performance & accessibility"}, {"key": "home.pricing.35", "page": "Home", "section": "Pricing", "type": "text", "label": "Small label", "default": "Starting from"}, {"key": "home.pricing.36", "page": "Home", "section": "Pricing", "type": "text", "label": "Text", "default": "/month"}, {"key": "home.pricing.price1.monthly", "page": "Home", "section": "Pricing", "label": "Foundation · monthly price", "default": "6500", "type": "text"}, {"key": "home.pricing.price1.yearly", "page": "Home", "section": "Pricing", "label": "Foundation · yearly price", "default": "5200", "type": "text"}, {"key": "home.pricing.price2.monthly", "page": "Home", "section": "Pricing", "label": "Studio · monthly price", "default": "8000", "type": "text"}, {"key": "home.pricing.price2.yearly", "page": "Home", "section": "Pricing", "label": "Studio · yearly price", "default": "6400", "type": "text"}, {"key": "home.pricing.price3.monthly", "page": "Home", "section": "Pricing", "label": "Signature · monthly price", "default": "14000", "type": "text"}, {"key": "home.pricing.price3.yearly", "page": "Home", "section": "Pricing", "label": "Signature · yearly price", "default": "11200", "type": "text"}, {"key": "home.notes.1", "page": "Home", "section": "Notes", "type": "text", "label": "Paragraph", "default": "My thoughts on how products, systems, and stories find their form."}, {"key": "home.notes.2", "page": "Home", "section": "Notes", "type": "text", "label": "Button", "default": "Read All", "href": "feed.html"}, {"key": "home.notes.3", "page": "Home", "section": "Notes", "type": "text", "label": "Heading", "default": "Notes"}, {"key": "home.let-s-talk.1", "page": "Home", "section": "Let's Talk", "type": "text", "label": "Paragraph", "default": "Prefer email? Write to me directly."}, {"key": "home.let-s-talk.2", "page": "Home", "section": "Let's Talk", "type": "text", "label": "Button", "default": "Email Me", "href": "mailto:hello@yourname.com"}, {"key": "home.faq.1", "page": "Home", "section": "Faq", "type": "text", "label": "Heading", "default": "Questions, answered."}, {"key": "home.faq.2", "page": "Home", "section": "Faq", "type": "text", "label": "Paragraph", "default": "Learn more about the person and principles behind the work."}, {"key": "home.faq.3", "page": "Home", "section": "Faq", "type": "text", "label": "Button", "default": "About me", "href": "studio.html"}, {"key": "home.faq.4", "page": "Home", "section": "Faq", "type": "text", "label": "Heading", "default": "How do you start a new project?"}, {"key": "home.faq.5", "page": "Home", "section": "Faq", "type": "longtext", "label": "Paragraph", "default": "I start by listening. Every project begins with a short discovery phase where I learn about your goals, challenges, and expectations. From there, I define the creative direction, scope, and deliverables, and set a timeline that balances clarity with craft."}, {"key": "home.faq.6", "page": "Home", "section": "Faq", "type": "text", "label": "Heading", "default": "Can you help with strategy, not just design?"}, {"key": "home.faq.7", "page": "Home", "section": "Faq", "type": "longtext", "label": "Paragraph", "default": "Yes — strategy is part of everything I do. Before I design, I help define your message, audience, and positioning. That foundation shapes every decision that follows."}, {"key": "home.faq.8", "page": "Home", "section": "Faq", "type": "text", "label": "Heading", "default": "Do you also build what you design?"}, {"key": "home.faq.9", "page": "Home", "section": "Faq", "type": "longtext", "label": "Paragraph", "default": "Yes. As a design engineer I take work from concept to production-ready code — components, interactions, and front-end architecture — so nothing gets lost in handoff."}, {"key": "home.faq.10", "page": "Home", "section": "Faq", "type": "text", "label": "Heading", "default": "How long does a typical project take?"}, {"key": "home.faq.11", "page": "Home", "section": "Faq", "type": "longtext", "label": "Paragraph", "default": "It depends on the scope and level of detail. A small website or product refresh may take around 4–6 weeks, while larger, more complex projects can run 2–4 months."}, {"key": "home.faq.12", "page": "Home", "section": "Faq", "type": "longtext", "label": "Paragraph", "default": "Still have questions? Let’s talk about your project and how I can help."}, {"key": "home.faq.13", "page": "Home", "section": "Faq", "type": "text", "label": "Button", "default": "Ask a question", "href": "contact.html"}, {"key": "home.meta.title", "page": "Home", "section": "Search & sharing", "type": "text", "label": "Browser tab title", "default": "Your Name — Design Engineer"}, {"key": "home.meta.description", "page": "Home", "section": "Search & sharing", "type": "longtext", "label": "Search description", "default": "Design engineer shaping products and digital experiences through motion, clarity, and timeless craft."}, {"key": "portfolio.portfolio.1", "page": "Portfolio", "section": "Portfolio", "type": "text", "label": "Page heading", "default": "Portfolio"}, {"key": "portfolio.portfolio.2", "page": "Portfolio", "section": "Portfolio", "type": "text", "label": "Subheading", "default": "scroll / drag"}, {"key": "portfolio.meta.title", "page": "Portfolio", "section": "Search & sharing", "type": "text", "label": "Browser tab title", "default": "Portfolio — Your Name"}, {"key": "portfolio.meta.description", "page": "Portfolio", "section": "Search & sharing", "type": "longtext", "label": "Search description", "default": "Selected work. Scroll or drag to explore."}, {"key": "studio.intro.1", "page": "About (Studio)", "section": "Intro", "type": "text", "label": "Paragraph", "default": "Have a project in mind? I’d love to hear about it."}, {"key": "studio.intro.2", "page": "About (Studio)", "section": "Intro", "type": "text", "label": "Button", "default": "Let’s Talk", "href": "contact.html"}, {"key": "studio.intro.3", "page": "About (Studio)", "section": "Intro", "type": "longtext", "label": "Page heading", "default": "I am\n{name}®"}, {"key": "studio.intro.4", "page": "About (Studio)", "section": "Intro", "type": "longtext", "label": "Paragraph", "default": "{name} is a design engineer working around clarity, intention, and craft. I believe that strong ideas come from thoughtful collaboration, steady focus, and an honest approach to problem-solving. Every project starts with understanding — the people, the context, and the possibilities — before anything is designed or built."}, {"key": "studio.intro.5", "page": "About (Studio)", "section": "Intro", "type": "longtext", "label": "Paragraph", "default": "I work independently and alongside teams, shaping products and digital experiences that feel precise, adaptable, and meaningful. My goal is simple: create work that lasts, grows, and continues to make sense long after launch. This is how I think, how I build, and how I show up for the people I work with."}, {"key": "studio.statement-snapshots.1", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "I bring the missing pieces together —"}, {"key": "studio.statement-snapshots.2", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "the gaps between design and code, the breaks in your story, the places"}, {"key": "studio.statement-snapshots.3", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "longtext", "label": "Text", "default": "where clarity slips. I connect strategy, design, and engineering into one continuous system, so nothing feels scattered or out of place."}, {"key": "studio.statement-snapshots.img1", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "image", "label": "Card photo", "default": ""}, {"key": "studio.statement-snapshots.4", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "Your Name"}, {"key": "studio.statement-snapshots.5", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "Design Engineer"}, {"key": "studio.statement-snapshots.img2", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "image", "label": "Card photo", "default": ""}, {"key": "studio.statement-snapshots.6", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "Systems"}, {"key": "studio.statement-snapshots.7", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "Tokens, components & docs"}, {"key": "studio.statement-snapshots.img3", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "image", "label": "Card photo", "default": ""}, {"key": "studio.statement-snapshots.8", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "Interface"}, {"key": "studio.statement-snapshots.9", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "Product & UI design"}, {"key": "studio.statement-snapshots.img4", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "image", "label": "Card photo", "default": ""}, {"key": "studio.statement-snapshots.10", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "Engineering"}, {"key": "studio.statement-snapshots.11", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "Front-end & prototyping"}, {"key": "studio.statement-snapshots.img5", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "image", "label": "Card photo", "default": ""}, {"key": "studio.statement-snapshots.12", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "Motion"}, {"key": "studio.statement-snapshots.13", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "Interaction & animation"}, {"key": "studio.statement-snapshots.img6", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "image", "label": "Card photo", "default": ""}, {"key": "studio.statement-snapshots.14", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "Writing"}, {"key": "studio.statement-snapshots.15", "page": "About (Studio)", "section": "Statement + Snapshots", "type": "text", "label": "Text", "default": "Notes on craft"}, {"key": "studio.principles.1", "page": "About (Studio)", "section": "Principles", "type": "text", "label": "Heading", "default": "My Principles."}, {"key": "studio.principles.2", "page": "About (Studio)", "section": "Principles", "type": "longtext", "label": "Paragraph", "default": "If you feel aligned with my principles, let’s build something together."}, {"key": "studio.principles.3", "page": "About (Studio)", "section": "Principles", "type": "text", "label": "Button", "default": "Work With Me", "href": "contact.html"}, {"key": "studio.principles.4", "page": "About (Studio)", "section": "Principles", "type": "text", "label": "Index label", "default": "A /"}, {"key": "studio.principles.5", "page": "About (Studio)", "section": "Principles", "type": "longtext", "label": "Heading", "default": "I remove the unnecessary and focus on what moves the work forward. Simple beats complicated every time."}, {"key": "studio.principles.6", "page": "About (Studio)", "section": "Principles", "type": "text", "label": "Index label", "default": "B /"}, {"key": "studio.principles.7", "page": "About (Studio)", "section": "Principles", "type": "longtext", "label": "Heading", "default": "Good work comes from good relationships. I collaborate with people I respect — clients and teammates alike."}, {"key": "studio.principles.8", "page": "About (Studio)", "section": "Principles", "type": "text", "label": "Index label", "default": "C /"}, {"key": "studio.principles.9", "page": "About (Studio)", "section": "Principles", "type": "longtext", "label": "Heading", "default": "Design and code are one material. Shaping both keeps every idea honest, from first sketch to shipped product."}, {"key": "studio.gallery.img1", "page": "About (Studio)", "section": "Gallery", "type": "image", "label": "Gallery image (1089px wide)", "default": ""}, {"key": "studio.gallery.img2", "page": "About (Studio)", "section": "Gallery", "type": "image", "label": "Gallery image (615px wide)", "default": ""}, {"key": "studio.gallery.img3", "page": "About (Studio)", "section": "Gallery", "type": "image", "label": "Gallery image (1089px wide)", "default": ""}, {"key": "studio.gallery.img4", "page": "About (Studio)", "section": "Gallery", "type": "image", "label": "Gallery image (820px wide)", "default": ""}, {"key": "studio.experience.1", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Heading", "default": "Experience"}, {"key": "studio.experience.2", "page": "About (Studio)", "section": "Experience", "type": "longtext", "label": "Paragraph", "default": "I believe meaningful work comes from people who care about clarity, craft, and the ideas behind the work. I’ve shaped my practice around these principles — keeping my focus narrow so the thinking stays sharp and the output stays strong."}, {"key": "studio.experience.3", "page": "About (Studio)", "section": "Experience", "type": "longtext", "label": "Paragraph", "default": "Every project is handled with intention. I collaborate closely, give space for good ideas to grow, and treat design and engineering as disciplines that deserve patience and precision."}, {"key": "studio.experience.4", "page": "About (Studio)", "section": "Experience", "type": "longtext", "label": "Paragraph", "default": "I’m a designer who writes code, guided by clarity, craft, and a shared approach to meaningful work."}, {"key": "studio.experience.5", "page": "About (Studio)", "section": "Experience", "type": "longtext", "label": "Paragraph", "default": "A selection of the roles that shaped how I work. Replace these placeholders with your own history."}, {"key": "studio.experience.6", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Heading", "default": "Senior Design Engineer"}, {"key": "studio.experience.7", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Paragraph", "default": "Company Name · 2023 — Present"}, {"key": "studio.experience.8", "page": "About (Studio)", "section": "Experience", "type": "longtext", "label": "Paragraph", "default": "Leading the design system and front-end architecture for a product used by millions. Bridging design and engineering from concept to production."}, {"key": "studio.experience.9", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Subheading", "default": "What I did"}, {"key": "studio.experience.10", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "List item", "default": "Built and maintained the cross-platform design system"}, {"key": "studio.experience.11", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "List item", "default": "Prototyped and shipped new product surfaces"}, {"key": "studio.experience.12", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "List item", "default": "Set motion and interaction guidelines"}, {"key": "studio.experience.13", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Heading", "default": "Design Engineer"}, {"key": "studio.experience.14", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Paragraph", "default": "Company Name · 2020 — 2023"}, {"key": "studio.experience.15", "page": "About (Studio)", "section": "Experience", "type": "longtext", "label": "Paragraph", "default": "Designed and built interfaces across web and mobile, working closely with product and engineering to bring ideas to life."}, {"key": "studio.experience.16", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Subheading", "default": "What I did"}, {"key": "studio.experience.17", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "List item", "default": "Shipped responsive UI systems and components"}, {"key": "studio.experience.18", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "List item", "default": "Owned accessibility and performance standards"}, {"key": "studio.experience.19", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "List item", "default": "Mentored designers learning to code"}, {"key": "studio.experience.20", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Heading", "default": "Product Designer"}, {"key": "studio.experience.21", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Paragraph", "default": "Company Name · 2018 — 2020"}, {"key": "studio.experience.22", "page": "About (Studio)", "section": "Experience", "type": "longtext", "label": "Paragraph", "default": "Shaped product flows and visual language for an early-stage startup — from research to high-fidelity prototypes."}, {"key": "studio.experience.23", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Subheading", "default": "What I did"}, {"key": "studio.experience.24", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "List item", "default": "Ran discovery and usability research"}, {"key": "studio.experience.25", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "List item", "default": "Defined the visual identity and UI kit"}, {"key": "studio.experience.26", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "List item", "default": "Built interactive prototypes in code"}, {"key": "studio.experience.27", "page": "About (Studio)", "section": "Experience", "type": "longtext", "label": "Paragraph", "default": "Want the full picture? Download my CV or send me a message on LinkedIn and I’ll share more about my background."}, {"key": "studio.timeline.moreTitle", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Timeline: more experience heading", "default": "More experience"}, {"key": "studio.timeline.more", "page": "About (Studio)", "section": "Experience", "type": "longtext", "label": "Timeline: more experience (one block per role — first line = organisation; blank line between)", "default": ""}, {"key": "studio.timeline.educationTitle", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Timeline: education heading", "default": "Education"}, {"key": "studio.timeline.education", "page": "About (Studio)", "section": "Experience", "type": "longtext", "label": "Timeline: education (one block per school; blank line between)", "default": ""}, {"key": "studio.timeline.linkLabel", "page": "About (Studio)", "section": "Experience", "type": "text", "label": "Timeline: full-history link (button text + link)", "default": "Full history on LinkedIn", "href": "#"}, {"key": "studio.featured-project.img1", "page": "About (Studio)", "section": "Featured Project", "type": "image", "label": "Featured project image", "default": ""}, {"key": "studio.featured.ticker", "page": "About (Studio)", "section": "Featured Project", "label": "Scrolling ticker text", "default": "Featured Project.", "type": "text"}, {"key": "studio.meta.title", "page": "About (Studio)", "section": "Search & sharing", "type": "text", "label": "Browser tab title", "default": "About — Your Name"}, {"key": "studio.meta.description", "page": "About (Studio)", "section": "Search & sharing", "type": "longtext", "label": "Search description", "default": "About me — a design engineer working where design meets code."}, {"key": "feed.meta.title", "page": "Feed", "section": "Search & sharing", "type": "text", "label": "Browser tab title", "default": "Feed — Your Name"}, {"key": "feed.meta.description", "page": "Feed", "section": "Search & sharing", "type": "longtext", "label": "Search description", "default": "Notes on design, engineering, and the craft in between."}, {"key": "contact.contact.1", "page": "Contact", "section": "Contact", "type": "text", "label": "Paragraph", "default": "Prefer email? Write to me directly."}, {"key": "contact.contact.2", "page": "Contact", "section": "Contact", "type": "text", "label": "Button", "default": "Email Me", "href": "mailto:hello@yourname.com"}, {"key": "contact.meta.title", "page": "Contact", "section": "Search & sharing", "type": "text", "label": "Browser tab title", "default": "Contact — Your Name"}, {"key": "contact.meta.description", "page": "Contact", "section": "Search & sharing", "type": "longtext", "label": "Search description", "default": "Let’s talk about your project."}, {"key": "project.project-template.2", "page": "Project template", "section": "Project template", "type": "text", "label": "Small label", "default": "Credits"}, {"key": "project.project-template.3", "page": "Project template", "section": "Project template", "type": "text", "label": "Button", "default": "Live Project", "href": "#"}, {"key": "project.meta.title", "page": "Project template", "section": "Search & sharing", "type": "text", "label": "Browser tab title", "default": "Project — Your Name"}, {"key": "article.article-template.1", "page": "Article template", "section": "Article template", "type": "text", "label": "Paragraph", "default": "More thoughts on design, engineering, and craft."}, {"key": "article.article-template.2", "page": "Article template", "section": "Article template", "type": "text", "label": "Button", "default": "All Notes", "href": "feed.html"}, {"key": "article.meta.title", "page": "Article template", "section": "Search & sharing", "type": "text", "label": "Browser tab title", "default": "Note — Your Name"}, {"key": "notfound.404.1", "page": "404", "section": "404", "type": "text", "label": "Page heading", "default": "404"}, {"key": "notfound.404.2", "page": "404", "section": "404", "type": "longtext", "label": "Paragraph", "default": "The page you’re looking for has moved, or never existed. Let’s get you back on track."}, {"key": "notfound.404.3", "page": "404", "section": "404", "type": "text", "label": "Button", "default": "Back Home", "href": "index.html"}, {"key": "notfound.meta.title", "page": "404", "section": "Search & sharing", "type": "text", "label": "Browser tab title", "default": "404 — Your Name"}, {"key": "global.nav.portfolio", "page": "Global", "section": "Navigation", "label": "Menu item 1", "default": "Portfolio", "type": "text"}, {"key": "global.nav.studio", "page": "Global", "section": "Navigation", "label": "Menu item 2", "default": "Studio", "type": "text"}, {"key": "global.nav.feed", "page": "Global", "section": "Navigation", "label": "Menu item 3", "default": "Feed", "type": "text"}, {"key": "global.nav.contact", "page": "Global", "section": "Navigation", "label": "Menu item 4", "default": "Contact", "type": "text"}, {"key": "global.footer.wordmark", "page": "Global", "section": "Footer", "label": "Big footer wordmark", "default": "{name}®", "type": "text"}, {"key": "global.footer.newsletter", "page": "Global", "section": "Footer", "label": "Newsletter blurb", "default": "Join my newsletter for thoughts on design, engineering, and the craft in between — sent occasionally, when there’s something worth sharing.", "type": "longtext"}, {"key": "global.footer.newsletterPlaceholder", "page": "Global", "section": "Footer", "label": "Newsletter field placeholder", "default": "Your Email Here", "type": "text"}, {"key": "global.footer.newsletterThanks", "page": "Global", "section": "Footer", "label": "Newsletter thank-you", "default": "Thanks — you’re on the list.", "type": "text"}, {"key": "global.footer.socialLabel", "page": "Global", "section": "Footer", "label": "Social column label", "default": "Social", "type": "text"}, {"key": "global.footer.legalLabel", "page": "Global", "section": "Footer", "label": "Legal column label", "default": "Legal", "type": "text"}, {"key": "global.footer.privacy", "page": "Global", "section": "Footer", "label": "Privacy link", "default": "Privacy Policy", "type": "text", "href": "#"}, {"key": "global.footer.terms", "page": "Global", "section": "Footer", "label": "Terms link", "default": "Terms of Service", "type": "text", "href": "#"}, {"key": "global.footer.credit", "page": "Global", "section": "Footer", "label": "Credit label", "default": "Designed & built by", "type": "text"}, {"key": "global.footer.rights", "page": "Global", "section": "Footer", "label": "Rights line", "default": "All rights reserved.", "type": "text"}, {"key": "global.form.title", "page": "Global", "section": "Contact form", "label": "Form heading", "default": "Let’s Talk!", "type": "text"}, {"key": "global.form.line1", "page": "Global", "section": "Contact form", "label": "Sentence 1", "default": "Hey {name}, my name is", "type": "text"}, {"key": "global.form.namePlaceholder", "page": "Global", "section": "Contact form", "label": "Name field placeholder", "default": "Your Name *", "type": "text"}, {"key": "global.form.line2", "page": "Global", "section": "Contact form", "label": "Sentence 2", "default": "and I’m writing from", "type": "text"}, {"key": "global.form.companyPlaceholder", "page": "Global", "section": "Contact form", "label": "Company field placeholder", "default": "Company Name", "type": "text"}, {"key": "global.form.line3", "page": "Global", "section": "Contact form", "label": "Sentence 3", "default": "I’m getting in touch because I’d like to", "type": "text"}, {"key": "global.form.messagePlaceholder", "page": "Global", "section": "Contact form", "label": "Message field placeholder", "default": "Message *", "type": "text"}, {"key": "global.form.line4", "page": "Global", "section": "Contact form", "label": "Sentence 4", "default": "My budget is roughly", "type": "text"}, {"key": "global.form.budgetPlaceholder", "page": "Global", "section": "Contact form", "label": "Budget placeholder", "default": "Select a Budget *", "type": "text"}, {"key": "global.form.budgetOptions", "page": "Global", "section": "Contact form", "label": "Budget options (one per line)", "default": "$5,000 - $10,000\n$10,000 - $20,000\n$20,000 +", "type": "longtext"}, {"key": "global.form.line5", "page": "Global", "section": "Contact form", "label": "Sentence 5", "default": "and I'd like to start", "type": "text"}, {"key": "global.form.timeframePlaceholder", "page": "Global", "section": "Contact form", "label": "Timeframe placeholder", "default": "Choose a Timeframe *", "type": "text"}, {"key": "global.form.timeframeOptions", "page": "Global", "section": "Contact form", "label": "Timeframe options (one per line)", "default": "As soon as possible\nNext month\nWhenever you’re available", "type": "longtext"}, {"key": "global.form.line6", "page": "Global", "section": "Contact form", "label": "Sentence 6", "default": "You can contact me at", "type": "text"}, {"key": "global.form.emailPlaceholder", "page": "Global", "section": "Contact form", "label": "Email field placeholder", "default": "Email *", "type": "text"}, {"key": "global.form.signoff", "page": "Global", "section": "Contact form", "label": "Sign-off", "default": "…Looking forward to your reply!", "type": "text"}, {"key": "global.form.fineprint", "page": "Global", "section": "Contact form", "label": "Fine print", "default": "By submitting you agree to my Terms and Privacy Policy.", "type": "text"}, {"key": "global.form.submit", "page": "Global", "section": "Contact form", "label": "Submit button", "default": "Get in Touch", "type": "text"}], "caseDefaults": {"challenge": "The challenge was to create clarity in a crowded space. Every project begins with competing needs — for progress, speed, and depth, expression and restraint. The task is to bring structure without losing sight of what truly matters.", "statement": "The challenge was clear: design a product that would express sophistication without excess, and stay fast without feeling bare.", "approach": "My approach is guided by reduction and intent. Every project begins with listening — understanding the context, the people, and the purpose behind the work. I move beyond surface details to uncover what truly drives the product.", "approach2": "From there, I build with precision. Research, iteration, and refinement shape each decision until form and function align — in design files and in code.", "outcome": "The outcome was more than just a refresh — it became a system. A set of components, patterns, and principles the team can grow with.", "outcome2": "The design language became a unifying force across every touchpoint, from the marketing site to the product itself.", "resultsIntro": "These shifts translated into measurable improvements:", "stat1Value": "+62%", "stat1Label": "Increase in sign-ups", "stat2Value": "+40%", "stat2Label": "Return user rate", "stat3Value": "+78%", "stat3Label": "Task completion", "stat4Value": "+36%", "stat4Label": "Conversion rate", "credits": "{name} (Design & Engineering), Collaborator Name (Strategy), Collaborator Name (Content)", "liveUrl": ""}, "articleBody": "This is placeholder body copy for your article. Replace it with your own writing — each paragraph uses the 20px body style from the original template, with comfortable line length and spacing.\n\nGood interfaces are the sum of many small, careful decisions. The spacing between two lines of text, the duration of a hover state, the moment a component decides to wrap — each one either supports the idea or distracts from it.\n\n## A section heading\n\nUse headings to break longer pieces into clear chapters. Keep them short and descriptive so readers can scan the structure before committing to the details.\n\n> “Clarity isn’t simplicity for its own sake — it’s removing what doesn’t serve meaning.”\n\nClose with a thought that connects back to the work. What changed because of this idea, and what would you try next time?"};
+(function () {
+  /* ======================================================================
+     State: defaults come from the site; only differences are stored.
+     ====================================================================== */
+  const clone = o => JSON.parse(JSON.stringify(o));
+  const DEF = DATA;
+  const fields = DEF.fields;
+  const byKey = Object.fromEntries(fields.map(f => [f.key, f]));
+  let state = { site: clone(DEF.site), text: {}, links: {}, images: {} };
+  let db = null, assets = null, downloads = null, docRef = null, mode = 'loading';
+  let saveTimer = null, pending = false;
+  let saved = null;        // the state the database is known to hold (null = no document yet)
+  let lastSeen = 0;        // updatedAt of that state
+  let inFlight = null, again = false, deferRender = false;
+  const DRAFT = 'site-editor-draft';
+
+  const PAGES = [
+    { id: 'site-settings', name: 'Site settings', eyebrow: 'Everywhere', intro: 'Your name, role, location and contact details. These appear across every page — in the nav, the clock, the footer and wherever {name} is used.' },
+    { id: 'home', name: 'Home', page: 'Home', eyebrow: 'index.html', intro: 'The intro sequence (loader, title swap, when the discs arrive) and every heading, paragraph, button, tag, image and number on the homepage, top to bottom. The 3D discs in the hero are your 5 projects — edit them under Portfolio.' },
+    { id: 'portfolio', name: 'Portfolio', page: 'Portfolio', eyebrow: 'portfolio.html + project pages', intro: 'The drag-and-scroll canvas and your 5 projects. Each project has its own case-study page with copy, stats and gallery images.' },
+    { id: 'about', name: 'About', page: 'About (Studio)', eyebrow: 'studio.html', intro: 'The About page: intro, statement, snapshot cards, principles, gallery and experience.' },
+    { id: 'feed', name: 'Feed & notes', page: 'Feed', eyebrow: 'feed.html + article pages', intro: 'Your notes. They appear on the Feed, the homepage Notes section and their own article pages.' },
+    { id: 'contact', name: 'Contact', page: 'Contact', eyebrow: 'contact.html', intro: 'The Contact page. The form itself is edited under Navigation & footer, because it also appears on the homepage.' },
+    { id: 'project-page', name: 'Project page', page: 'Project template', eyebrow: 'project.html', intro: 'Labels shared by every project page. Per-project copy is under Portfolio.' },
+    { id: 'article-page', name: 'Article page', page: 'Article template', eyebrow: 'article.html', intro: 'Labels shared by every article page. Per-article copy is under Feed & notes.' },
+    { id: 'nav-footer', name: 'Navigation & footer', page: 'Global', eyebrow: 'Every page', intro: 'Menu labels, footer copy and links, and every sentence and placeholder in the contact form.' },
+    { id: 'page-404', name: '404', page: '404', eyebrow: '404.html', intro: 'The page people see when a link is broken.' }
+  ];
+
+  /* ---- value helpers ---------------------------------------------------- */
+  const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+  const textVal = k => has(state.text, k) ? state.text[k] : byKey[k].default;
+  const isChanged = k => has(state.text, k) || has(state.links, k) || has(state.images, k);
+  const pageFields = p => fields.filter(f => f.page === p);
+  const changedIn = p => {
+    if (p.id === 'site-settings') return siteDiffCount(['name', 'role', 'location', 'timezone', 'since', 'email', 'socials']);
+    let n = pageFields(p.page).filter(f => isChanged(f.key)).length;
+    if (p.id === 'portfolio') n += siteDiffCount(['projects']);
+    if (p.id === 'feed') n += siteDiffCount(['posts']);
+    return n;
+  };
+  function siteDiffCount(keys) {
+    let n = 0;
+    for (const k of keys) {
+      const a = state.site[k], b = DEF.site[k];
+      if (Array.isArray(a)) {
+        const m = Math.max(a.length, (b || []).length);
+        for (let i = 0; i < m; i++) if (JSON.stringify(a[i]) !== JSON.stringify((b || [])[i])) n++;
+      } else if (JSON.stringify(a) !== JSON.stringify(b)) n++;
+    }
+    return n;
+  }
+  const totalChanged = () => PAGES.reduce((s, p) => s + changedIn(p), 0);
+  const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const imgSrc = v => !v ? '' : v.startsWith('asset:') ? '/_blob/' + v.slice(6) : v;
+  const ICON_PLUS = '<svg viewBox="0 0 256 256" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg>';
+
+  /* ======================================================================
+     Persistence (artifact database, falls back to this browser)
+     ====================================================================== */
+  const setStatus = (s, label) => { const el = document.getElementById('status'); el.dataset.s = s; el.lastElementChild.textContent = label; };
+  /* Saving: only the fields that changed are written (a merge), one write at a
+     time. A stale view can therefore never overwrite other fields, and an edit
+     made just before a refresh is kept as a draft in this browser until the
+     database confirms it.                                                     */
+  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  const current4 = () => clone({ site: state.site, text: state.text, links: state.links, images: state.images });
+  function payload() { return { site: state.site, text: state.text, links: state.links, images: state.images, updatedAt: Date.now() }; }
+  function changes() {
+    const base = saved || { site: {}, text: {}, links: {}, images: {} };
+    const out = {}; let n = 0;
+    ['text', 'links', 'images'].forEach(g => {
+      const a = state[g] || {}, b = base[g] || {}, d = {};
+      for (const k in a) if (!same(a[k], b[k])) { d[k] = a[k]; n++; }
+      for (const k in b) if (!has(a, k)) { d[k] = null; n++; }        // reset to default
+      if (Object.keys(d).length) out[g] = d;
+    });
+    const sd = {};
+    for (const k in state.site) if (!same(state.site[k], (base.site || {})[k])) { sd[k] = state.site[k]; n++; }
+    if (Object.keys(sd).length) out.site = sd;
+    return n ? out : null;
+  }
+  function applyChanges(d) {
+    ['text', 'links', 'images'].forEach(g => { for (const k in (d[g] || {})) { if (d[g][k] === null) delete state[g][k]; else state[g][k] = d[g][k]; } });
+    Object.assign(state.site, d.site || {});
+  }
+  const keepDraft = () => { try { localStorage.setItem(DRAFT, JSON.stringify({ at: Date.now(), state: current4() })); } catch (e) {} };
+  const clearDraft = () => { try { localStorage.removeItem(DRAFT); } catch (e) {} };
+  function scheduleSave() {
+    pending = true; refreshCounts();
+    setStatus('saving', 'Saving');
+    if (docRef) keepDraft();
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(save, 600);
+  }
+  function save() {
+    clearTimeout(saveTimer);
+    if (!docRef) {
+      if (!reportedOk) { reportedOk = true; report('save-local-only', { reason: 'no database connection' }); }
+      try { localStorage.setItem('site-editor-content', JSON.stringify(payload())); pending = false; setStatus('local', 'Saved in this browser'); }
+      catch (e) { setStatus('error', 'Not saved'); }
+      return Promise.resolve();
+    }
+    if (inFlight) { again = true; return inFlight; }               // one write at a time
+    const diff = changes();
+    if (!diff) { pending = false; clearDraft(); setStatus('saved', 'Saved'); return Promise.resolve(); }
+    const at = Date.now(); diff.updatedAt = at;
+    const full = payload(); full.updatedAt = at;
+    if (JSON.stringify(full).length > 250000) { setStatus('error', 'Too large to save'); toast('Too much content to save in one go — shorten long text or remove pasted images.'); return Promise.resolve(); }
+    const sent = current4();
+    // only plain JSON goes to the database (no undefined values anywhere)
+    const plain = o => JSON.parse(JSON.stringify(o));
+    // a write that never answers must not block every later save
+    const timed = p => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej({ code: 'timeout', message: 'The database did not answer within 20 seconds.' }), 20000))]);
+    inFlight = (async () => {
+      try {
+        if (saved) {
+          try { await timed(docRef.update(plain(diff))); }
+          catch (e1) {
+            // a merge the database refuses: fall back to writing the whole document
+            if (e1 && /not_granted|revoked/.test(e1.code || '')) throw e1;
+            console.warn('[editor] merge save refused, saving the whole document instead:', e1);
+            await timed(docRef.set(plain(full)));
+          }
+        } else await timed(docRef.set(plain(full)));
+        saved = sent; lastSeen = at;
+        if (!reportedOk) { reportedOk = true; report('save-ok', { diffKeys: Object.keys(diff || {}) }); }
+        if (!again && same(current4(), sent)) { pending = false; clearDraft(); setStatus('saved', 'Saved'); }
+      } catch (e) {
+        again = false;
+        keepDraft();                                   // restored and retried on the next visit
+        console.error('[editor] save failed:', e);
+        report('save-failed', { error: errInfo(e), diffKeys: Object.keys(diff || {}) });
+        const code = (e && e.code) || 'unknown', msg = (e && e.message) || '';
+        setStatus('error', code === 'not_granted' ? 'View only' : 'Not saved');
+        toast(code === 'not_granted' ? 'You can view this editor but not save changes.'
+          : `Couldn’t save (${code}${msg ? ': ' + msg : ''}). Your edits are kept in this browser and retried on your next edit.`, 9000);
+      } finally {
+        inFlight = null;
+        if (again) { again = false; save(); }
+      }
+    })();
+    return inFlight;
+  }
+  // leaving or refreshing: send anything still waiting
+  addEventListener('pagehide', () => { if (pending) save(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && pending) save(); });
+  const clean = o => { const r = {}; for (const k in (o || {})) if (o[k] !== null && o[k] !== undefined) r[k] = o[k]; return r; };
+  function load(p) {
+    if (!p) return;
+    // The database hands back FROZEN objects: copy them, or every edit to a
+    // project, note or link is silently ignored and nothing gets saved.
+    p = JSON.parse(JSON.stringify(p));
+    state = { site: Object.assign(clone(DEF.site), p.site || {}), text: clean(p.text), links: clean(p.links), images: clean(p.images) };
+  }
+
+  /* Diagnostics: when something goes wrong, a small JSON note is uploaded to
+     this editor's own file storage so Claude can read what happened (no
+     content, just the error). At most a few per visit.                      */
+  let reports = 0, reportedOk = false;
+  const errInfo = e => e ? { code: e.code, name: e.name, message: String(e.message || e).slice(0, 400), stack: String(e.stack || '').slice(0, 600) } : null;
+  async function report(event, detail) {
+    if (!assets || reports >= 6) return;
+    reports++;
+    try {
+      const note = { event, detail, at: new Date().toISOString(), editor: 'v11', mode, db: !!db, docRef: !!docRef, saved: !!saved, lastSeen, canvas: location.hash === '#canvas', ua: navigator.userAgent };
+      await assets.upload(new Blob([JSON.stringify(note, null, 1)], { type: 'application/json' }), { type: 'application/json' });
+    } catch (e) {}
+  }
+  addEventListener('error', e => report('page-error', { message: e.message, file: e.filename, line: e.lineno, col: e.colno }));
+  addEventListener('unhandledrejection', e => report('unhandled-rejection', errInfo(e.reason)));
+
+  async function boot() {
+    render();
+    const use = n => (window.claude && window.claude.use) ? window.claude.use(n).catch(e => { report('use-failed', { cap: n, error: errInfo(e) }); return null; }) : Promise.resolve(null);
+    [db, assets, downloads] = await Promise.all([use('db'), use('assets'), use('downloads')]);
+    if (!db) report('no-db', { hasClaude: !!window.claude });
+    if (assets) assets.list().then(r => (r.assets || []).forEach(a => { assetTypes[a.id] = a.contentType; })).catch(() => {});
+    if (db) {
+      docRef = db.doc('editor/content');
+      const timer = setTimeout(() => setStatus('error', 'Still connecting…'), 10000);
+      let readOk = false;
+      try {
+        const snap = await docRef.get();
+        readOk = true;
+        clearTimeout(timer);
+        if (snap.exists) { const d = snap.data(); load(d); saved = current4(); lastSeen = d.updatedAt || 0; }
+        setStatus('saved', snap.exists ? 'Saved' : 'Ready');
+        // edits from a refresh that happened before they finished saving
+        try {
+          const dr = JSON.parse(localStorage.getItem(DRAFT) || 'null');
+          if (dr && dr.state && dr.at > lastSeen) {
+            state = { site: Object.assign(clone(DEF.site), dr.state.site || {}), text: dr.state.text || {}, links: dr.state.links || {}, images: dr.state.images || {} };
+            if (changes()) { scheduleSave(); setTimeout(() => toast('Restored edits that hadn’t finished saving.'), 400); } else clearDraft();
+          } else clearDraft();
+        } catch (e) {}
+        // someone else saved (another tab or device): take theirs, keep our unsaved edits on top.
+        // Cached copies and our own writes are ignored, so an old copy can't replace newer work.
+        docRef.onSnapshot(s => {
+          if (!s.exists || s.metadata.fromCache || s.metadata.hasPendingWrites) return;
+          const d = s.data();
+          if (!d.updatedAt || d.updatedAt <= lastSeen || inFlight) return;
+          const mine = changes();
+          load(d); saved = current4(); lastSeen = d.updatedAt;
+          if (mine) applyChanges(mine);
+          const a = document.activeElement;
+          if (a && main.contains(a) && a.matches('input, textarea, select')) deferRender = true; else render();
+        }, () => {});
+        main.addEventListener('focusout', () => { if (deferRender) { deferRender = false; setTimeout(() => { if (!main.contains(document.activeElement)) render(); }, 0); } });
+      } catch (e) {
+        clearTimeout(timer);
+        // only a failed READ means the database is unreachable; anything else is a bug to report, not a reason to stop saving
+        if (!readOk) { report('boot-read-failed', errInfo(e)); docRef = null; localMode(); }
+        else report('boot-after-read-error', errInfo(e));
+      }
+    } else localMode();
+    booted = true;
+    render();
+  }
+  function localMode() {
+    try { const s = localStorage.getItem('site-editor-content'); if (s) load(JSON.parse(s)); } catch (e) {}
+    mode = 'local';
+    setStatus('local', 'Saving in this browser');
+  }
+
+  /* ======================================================================
+     Rendering
+     ====================================================================== */
+  const main = document.getElementById('main');
+  const current = () => PAGES.find(p => '#' + p.id === location.hash) || PAGES[0];
+  function refreshCounts() {
+    document.getElementById('nchanged').textContent = totalChanged();
+    document.getElementById('pages').innerHTML = PAGES.map(p => {
+      const n = changedIn(p);
+      return `<a href="#${p.id}" ${p === current() ? 'aria-current="page"' : ''}><span>${esc(p.name)}</span>${n ? `<em>${n}</em>` : ''}</a>`;
+    }).join('');
+  }
+  function render() {
+    if (location.hash === '#canvas') { refreshCounts(); return renderCanvas(); }
+    if (canvasMounted) { canvasMounted = false; document.body.classList.remove('canvas-on'); }
+    refreshCounts();
+    const q = document.getElementById('search').value.trim();
+    if (q) return renderSearch(q);
+    const p = current();
+    let h = `<div class="head"><span class="eyebrow">${esc(p.eyebrow)}</span><h1>${esc(p.name)}</h1><p>${esc(p.intro)}</p></div>`;
+    if (mode === 'local') h += `<p class="notice" style="margin-top:20px">Edits are being kept in this browser only. Sign in to claude.ai to save them to the editor so Claude can apply them.</p>`;
+    if (p.id === 'site-settings') h += renderSettings();
+    else {
+      if (p.id === 'portfolio') h += renderProjects();
+      if (p.id === 'feed') h += renderPosts();
+      h += renderFieldSections(pageFields(p.page));
+    }
+    main.innerHTML = h;
+  }
+  function renderFieldSections(list) {
+    const groups = [];
+    list.forEach(f => { let g = groups.find(x => x.name === f.section); if (!g) groups.push(g = { name: f.section, items: [] }); g.items.push(f); });
+    return groups.map(g => `<section class="sec"><h2>${esc(g.name === 'Faq' ? 'FAQ' : g.name)}</h2>${g.items.map(fieldRow).join('')}</section>`).join('');
+  }
+  function fieldRow(f) {
+    const k = f.key, ch = isChanged(k);
+    if (f.type === 'image') return imageRow(f, k, state.images[k], ch, 'text');
+    const v = textVal(k), hidden = has(state.text, k) && state.text[k] === '';
+    const big = /Heading|heading|wordmark|Big number/.test(f.label) && (v || '').length < 80;
+    const setting = f.type === 'select' || f.type === 'number';   // settings can't be hidden
+    return `<div class="row ${ch ? 'changed' : ''}" data-key="${esc(k)}">
+      <div class="meta"><label for="f-${esc(k)}">${esc(f.label)}</label><span class="key">${esc(k)}</span>
+        <div class="acts">${ch ? `<button class="linkbtn" data-reset="${esc(k)}" type="button">Reset to default</button>` : ''}
+        ${setting ? '' : `<label class="check"><input type="checkbox" data-hide="${esc(k)}" ${hidden ? 'checked' : ''}> Hide</label>`}</div></div>
+      <div class="ctl">
+        ${f.type === 'select' ? `<select class="f" id="f-${esc(k)}" data-text="${esc(k)}">${f.options.map(([val, lab]) => `<option value="${esc(val)}" ${v === val ? 'selected' : ''}>${esc(lab)}</option>`).join('')}</select>`
+        : f.type === 'number' ? `<input class="f" type="number" id="f-${esc(k)}" data-text="${esc(k)}" min="${f.min ?? 0}" max="${f.max ?? 10}" step="${f.step ?? .1}" value="${esc(v)}" style="max-width:160px">${f.hint ? `<span class="hint" style="margin-left:12px">${esc(f.hint)}</span>` : ''}`
+        : `<textarea class="f ${big ? 'big' : ''}" id="f-${esc(k)}" data-text="${esc(k)}" rows="${f.type === 'longtext' ? 3 : 1}" ${hidden ? 'disabled' : ''}>${esc(hidden ? byKey[k].default : v)}</textarea>`}
+        ${f.href !== undefined ? `<div class="url"><span>Link</span><input class="f" data-link="${esc(k)}" value="${esc(state.links[k] ?? f.href)}" aria-label="${esc(f.label)} link"></div>` : ''}
+      </div></div>`;
+  }
+  function imageRow(f, k, v, ch, kind, extraAttr = '') {
+    const src = imgSrc(v), isLogo = /logo/i.test(f.label);
+    const local = v && !/^(https?:|data:|asset:|\/)/.test(v);
+    return `<div class="row ${ch ? 'changed' : ''}" data-key="${esc(k)}">
+      <div class="meta"><label>${esc(f.label)}</label><span class="key">${esc(k)}</span>
+        <div class="acts">${v ? `<button class="linkbtn" data-imgclear="${esc(k)}" ${extraAttr} type="button">Back to placeholder</button>` : ''}</div></div>
+      <div class="img" data-dropimg="${esc(k)}" ${extraAttr}>
+        <div class="thumb ${isLogo ? 'logo' : ''}">${src && !local ? `<img src="${esc(src)}" alt="">` : local ? 'Local file' : 'Placeholder'}</div>
+        <div class="ctl2">
+          <div class="btns">
+            ${assets ? `<label class="btn ghost small" style="cursor:pointer">Upload image<input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" hidden data-upload="${esc(k)}" ${extraAttr}></label>` : ''}
+            <span class="hint">${assets ? 'or drop a file here, or paste a URL / site path' : 'Paste an image URL or a path like assets/img/photo.jpg'}</span>
+          </div>
+          <input class="f" data-imgurl="${esc(k)}" ${extraAttr} value="${esc(v && !v.startsWith('asset:') ? v : '')}" placeholder="${v && v.startsWith('asset:') ? 'Uploaded image' : 'https://… or assets/img/…'}" aria-label="${esc(f.label)} URL">
+          ${v && v.startsWith('asset:') ? `<span class="hint">Uploaded. It replaces the placeholder on the live site the next time you ask Claude to <b>apply my site editor changes and redeploy</b>.</span>` : ''}
+        </div>
+      </div></div>`;
+  }
+
+  /* ---- Site settings ---------------------------------------------------- */
+  const SETTINGS = [
+    ['name', 'Your name', 'Shown in the footer wordmark and wherever {name} appears.'],
+    ['brand', 'Nav wordmark', 'Optional. Replaces the name in the top-left logo and on the discs (e.g. SQUIRE). Empty = your name®.'],
+    ['role', 'Role', 'Used on About cards and anywhere {role} appears. The hero headline is under Home.'],
+    ['location', 'Clock location', 'The label beside the live clock, e.g. LONDON, UK.'],
+    ['timezone', 'Time zone', 'IANA name, e.g. Europe/London or America/New_York.'],
+    ['since', 'Practising since', 'Shown as © 2018-26.'],
+    ['email', 'Email', 'Where the contact form and “Email Me” buttons send people.']
+  ];
+  function settingRow([k, label, hint]) {
+    const ch = JSON.stringify(state.site[k]) !== JSON.stringify(DEF.site[k]);
+    return `<div class="row ${ch ? 'changed' : ''}"><div class="meta"><label for="s-${k}">${label}</label><span class="hint">${esc(hint)}</span>
+      ${ch ? `<div class="acts"><button class="linkbtn" data-sreset="${k}" type="button">Reset to default</button></div>` : ''}</div>
+      <div class="ctl"><input class="f" id="s-${k}" data-site="${k}" value="${esc(state.site[k] ?? '')}" ${k === 'timezone' ? 'list="tz"' : ''}></div></div>`;
+  }
+  function renderSettings() {
+    const tz = ['Europe/London', 'Europe/Dublin', 'Europe/Paris', 'Europe/Berlin', 'Europe/Amsterdam', 'Europe/Madrid', 'Europe/Stockholm', 'America/New_York', 'America/Chicago', 'America/Denver', 'America/Los_Angeles', 'America/Toronto', 'America/Sao_Paulo', 'Asia/Tokyo', 'Asia/Singapore', 'Asia/Dubai', 'Australia/Sydney', 'Pacific/Auckland'];
+    return `<section class="sec"><h2>Identity</h2>${SETTINGS.map(settingRow).join('')}<datalist id="tz">${tz.map(t => `<option value="${t}">`).join('')}</datalist></section>
+      <section class="sec"><h2>Social links</h2><p class="sub">Shown in the footer on every page.</p>
+        <div class="socials">${state.site.socials.map((s, i) => `<div class="social">
+          <input class="f" data-social="${i}" data-sf="label" value="${esc(s.label)}" aria-label="Social link ${i + 1} label">
+          <input class="f" data-social="${i}" data-sf="href" value="${esc(s.href)}" aria-label="Social link ${i + 1} URL">
+          <button class="btn ghost small" data-socialdel="${i}" type="button">Remove</button></div>`).join('')}</div>
+        <p style="margin-top:12px"><button class="btn ghost small" data-socialadd type="button">Add link</button></p></section>`;
+  }
+
+  /* ---- Projects (limit 5) ----------------------------------------------- */
+  const CASE = [
+    ['challenge', 'The challenge (/1)', 'longtext'], ['statement', 'Big statement', 'longtext'],
+    ['approach', 'Approach, paragraph 1 (/2)', 'longtext'], ['approach2', 'Approach, paragraph 2', 'longtext'],
+    ['outcome', 'Outcome, paragraph 1 (/3)', 'longtext'], ['outcome2', 'Outcome, paragraph 2', 'longtext'],
+    ['resultsIntro', 'Results intro', 'text'],
+    ['stat1Value', 'Stat 1 value', 'text'], ['stat1Label', 'Stat 1 label', 'text'], ['stat2Value', 'Stat 2 value', 'text'], ['stat2Label', 'Stat 2 label', 'text'],
+    ['stat3Value', 'Stat 3 value', 'text'], ['stat3Label', 'Stat 3 label', 'text'], ['stat4Value', 'Stat 4 value', 'text'], ['stat4Label', 'Stat 4 label', 'text'],
+    ['credits', 'Credits', 'longtext'], ['liveUrl', 'Live project URL', 'text'],
+    ['sourceUrl', 'Full case study link (optional)', 'text'],
+    ['more', 'Extra sections — “## Heading” then paragraphs', 'longtext'],
+    ['refs', 'References — “## Group” then one “Label: https://…” per line', 'longtext']
+  ];
+  function listField(path, label, value, type = 'text', hint = '') {
+    return `<div class="row"><div class="meta"><label>${esc(label)}</label>${hint ? `<span class="hint">${esc(hint)}</span>` : ''}</div>
+      <div class="ctl">${type === 'select' ? value : `<textarea class="f ${type === 'title' ? 'big' : ''}" rows="${type === 'longtext' ? 3 : 1}" data-path="${esc(path)}">${esc(value)}</textarea>`}</div></div>`;
+  }
+  function renderProjects() {
+    const ps = state.site.projects;
+    return `<section class="sec"><h2>Projects</h2><p class="sub">Up to 5, each shown as a 3D disc. All 5 spin through the homepage hero and sit flat on the Portfolio canvas (repeating across its 12 spots). Each opens its own case-study page.</p>
+      ${ps.map((p, i) => {
+        const c = p.case || {};
+        const cv = k => has(c, k) ? c[k] : (DEF.caseDefaults[k] ?? '');
+        return `<details class="card" ${openCards.has('p' + i) ? 'open' : ''} data-card="p${i}"><summary><span class="n">0${i + 1}</span><span class="t">${esc(p.title || 'Untitled project')}</span><span class="pl">${ICON_PLUS}</span></summary><div class="body">
+          ${listField(`projects.${i}.title`, 'Title', p.title, 'title')}
+          ${listField(`projects.${i}.year`, 'Year', p.year)}
+          ${listField(`projects.${i}.services`, 'Services', p.services, 'text', 'Separate with commas — each one gets its own line in the project hero')}
+          ${listField(`projects.${i}.summary`, 'Summary', p.summary, 'longtext')}
+          ${listField(`projects.${i}.shape`, 'Disc size on Portfolio', `<select class="f" data-path="projects.${i}.shape"><option value="portrait" ${p.shape !== 'landscape' ? 'selected' : ''}>Small (420 px)</option><option value="landscape" ${p.shape === 'landscape' ? 'selected' : ''}>Large (480 px)</option></select>`, 'select')}
+          ${listField(`projects.${i}.slug`, 'Page address', p.slug, 'text', 'project.html?p=' + p.slug)}
+          <div class="subhead">Disc</div>
+          ${listField(`projects.${i}.discTitle`, 'Title on the disc', p.discTitle || '', 'text', 'Empty = the project title')}
+          ${listField(`projects.${i}.discMark`, 'Small wordmark under the title', p.discMark || '', 'text', 'Empty = your nav wordmark or name®')}
+          ${listField(`projects.${i}.discRim`, 'Text around the rim', p.discRim || '', 'text', 'Empty = Designed by · first service · year · wordmark')}
+          ${listField(`projects.${i}.discInk`, 'Disc text colour', `<select class="f" data-path="projects.${i}.discInk"><option value="black" ${p.discInk !== 'white' ? 'selected' : ''}>Black</option><option value="white" ${p.discInk === 'white' ? 'selected' : ''}>White</option></select>`, 'select')}
+          ${imageRow({ label: 'Disc art (square image, GIF or looping video, printed on the disc — replaces the generated cover)' }, `projects.${i}.disc`, p.disc, !!p.disc, 'path', `data-ipath="projects.${i}.disc"`)}
+          ${imageRow({ label: 'Hero image (full-bleed at the top of the project page, behind the name, summary and services; also used on the disc if there is no disc art)' }, `projects.${i}.image`, p.image, !!p.image, 'path', `data-ipath="projects.${i}.image"`)}
+          <div class="subhead">Case study page</div>
+          ${CASE.map(([k, l, t]) => listField(`projects.${i}.case.${k}`, l, cv(k), t)).join('')}
+          <div class="subhead">Gallery images</div>
+          ${(() => { const gc = [6, 8].includes(+c.galleryCount) ? +c.galleryCount : 4; return listField(`projects.${i}.case.galleryCount`, 'Gallery blocks under /2', `<select class="f" data-path="projects.${i}.case.galleryCount" data-rerender="1">${[4, 6, 8].map(n => `<option value="${n}" ${gc === n ? 'selected' : ''}>${n} blocks</option>`).join('')}</select>`, 'select')
+            + Array.from({ length: gc }, (_, k) => k + 1).map(n => imageRow({ label: 'Gallery image ' + n }, `projects.${i}.case.gallery${n}`, c['gallery' + n], !!c['gallery' + n], 'path', `data-ipath="projects.${i}.case.gallery${n}"`)).join(''); })()}
+          <div class="subhead">Section images</div>
+          <p class="hint" style="margin:-4px 0 8px">Optional. Shown full width under that section; with no image the section has none (no gray box). /4 and /5 only exist when “More sections” has a second and third heading.</p>
+          ${[3, 4, 5].map(n => imageRow({ label: 'Image under /' + n }, `projects.${i}.case.image${n}`, c['image' + n], !!c['image' + n], 'path', `data-ipath="projects.${i}.case.image${n}"`)).join('')}
+        </div></details>`;
+      }).join('')}</section>`;
+  }
+
+  /* ---- Posts -------------------------------------------------------------- */
+  function renderPosts() {
+    const ps = state.site.posts;
+    return `<section class="sec"><h2>Notes</h2><p class="sub">The first two also appear on the homepage. Body: leave a blank line between paragraphs, start a line with “## ” for a heading and “> ” for a pull quote.</p>
+      ${ps.map((p, i) => `<details class="card" ${openCards.has('n' + i) ? 'open' : ''} data-card="n${i}"><summary><span class="n">${String(i + 1).padStart(2, '0')}</span><span class="t">${esc(p.title || 'Untitled note')}</span><span class="pl">${ICON_PLUS}</span></summary><div class="body">
+        ${listField(`posts.${i}.title`, 'Title', p.title, 'title')}
+        ${listField(`posts.${i}.date`, 'Date', p.date)}
+        ${listField(`posts.${i}.excerpt`, 'Excerpt', p.excerpt, 'longtext')}
+        ${listField(`posts.${i}.slug`, 'Page address', p.slug, 'text', 'article.html?p=' + p.slug)}
+        ${imageRow({ label: 'Cover image (type “none” for no image)' }, `posts.${i}.image`, p.image, !!p.image, 'path', `data-ipath="posts.${i}.image"`)}
+        ${listField(`posts.${i}.body`, 'Body', p.body ?? DEF.articleBody, 'longtext')}
+        ${listField(`posts.${i}.source`, 'Originally published at (link)', p.source || '', 'text', 'Optional. Shown at the end of the article.')}
+        <p style="padding-top:8px"><button class="btn ghost small" data-postdel="${i}" type="button">Delete this note</button></p>
+      </div></details>`).join('')}
+      <p style="margin-top:16px"><button class="btn ghost small" data-postadd type="button">Add a note</button></p></section>`;
+  }
+
+  /* ---- Search ------------------------------------------------------------- */
+  function renderSearch(q) {
+    const ql = q.toLowerCase();
+    const hits = fields.filter(f => f.type !== 'image' && (String(textVal(f.key)).toLowerCase().includes(ql) || f.label.toLowerCase().includes(ql) || f.key.includes(ql)));
+    let h = `<div class="head"><span class="eyebrow">Search</span><h1>${hits.length} match${hits.length === 1 ? '' : 'es'}</h1><p>Edit results directly, or clear the search to go back.</p></div>`;
+    const pages = [...new Set(hits.map(f => f.page))];
+    h += pages.map(pg => `<section class="sec"><div class="res-page">${esc(PAGES.find(p => p.page === pg)?.name || pg)}</div>${hits.filter(f => f.page === pg).map(fieldRow).join('')}</section>`).join('');
+    main.innerHTML = h;
+  }
+
+  /* ======================================================================
+     Editing
+     ====================================================================== */
+  const openCards = new Set();
+  function setPath(path, value) {
+    const parts = path.split('.');
+    let o = state.site;
+    for (let i = 0; i < parts.length - 1; i++) {
+      const k = isNaN(parts[i]) ? parts[i] : +parts[i];
+      if (o[k] === undefined) o[k] = {};
+      o = o[k];
+    }
+    const last = parts[parts.length - 1];
+    if (parts[parts.length - 2] === 'case' && value === (DEF.caseDefaults[last] ?? '')) delete o[last];
+    else if (last === 'body' && value === DEF.articleBody) delete o[last];
+    else o[last] = value;
+  }
+  function markRow(el, changed) {
+    const row = el.closest('.row'); if (row) row.classList.toggle('changed', changed);
+  }
+  main.addEventListener('input', e => {
+    const t = e.target;
+    if (t.dataset.text) {
+      const k = t.dataset.text;
+      if (t.value === byKey[k].default) delete state.text[k]; else state.text[k] = t.value;
+      markRow(t, isChanged(k));
+    } else if (t.dataset.link) {
+      const k = t.dataset.link;
+      if (t.value === byKey[k].href) delete state.links[k]; else state.links[k] = t.value;
+      markRow(t, isChanged(k));
+    } else if (t.dataset.site) {
+      state.site[t.dataset.site] = t.value;
+      markRow(t, t.value !== DEF.site[t.dataset.site]);
+    } else if (t.dataset.social) {
+      state.site.socials[+t.dataset.social][t.dataset.sf] = t.value;
+    } else if (t.dataset.path) {
+      setPath(t.dataset.path, t.value);
+      const sum = t.closest('details')?.querySelector('summary .t');
+      if (sum && /\.title$/.test(t.dataset.path)) sum.textContent = t.value || 'Untitled';
+    } else if (t.dataset.imgurl) {
+      setImage(t.dataset.imgurl, t.dataset.ipath, t.value.trim(), false);
+    } else return;
+    scheduleSave();
+  });
+  main.addEventListener('change', e => {
+    const t = e.target;
+    if (t.dataset.hide) {
+      const k = t.dataset.hide;
+      if (t.checked) state.text[k] = ''; else delete state.text[k];
+      scheduleSave(); render();
+    } else if (t.dataset.upload) {
+      if (t.files[0]) upload(t.files[0], t.dataset.upload, t.dataset.ipath);
+    } else if (t.dataset.path && t.tagName === 'SELECT') { setPath(t.dataset.path, t.value); scheduleSave(); if (t.dataset.rerender) { render(); if (canvasMounted) cvLoad(); } }
+  });
+  main.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const d = b.dataset;
+    if (d.reset) { delete state.text[d.reset]; delete state.links[d.reset]; delete state.images[d.reset]; }
+    else if (d.sreset) state.site[d.sreset] = clone(DEF.site[d.sreset]);
+    else if (d.imgclear) { setImage(d.imgclear, d.ipath, '', false); }
+    else if (d.socialadd !== undefined) state.site.socials.push({ label: 'New link', href: 'https://' });
+    else if (d.socialdel) state.site.socials.splice(+d.socialdel, 1);
+    else if (d.postadd !== undefined) { state.site.posts.push({ slug: 'new-note-' + (state.site.posts.length + 1), title: 'New note', date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }), excerpt: 'A one-line summary of this note.' }); openCards.add('n' + (state.site.posts.length - 1)); }
+    else if (d.postdel) { if (b.dataset.confirm) { state.site.posts.splice(+d.postdel, 1); } else { b.dataset.confirm = '1'; b.textContent = 'Click again to delete'; return; } }
+    else return;
+    scheduleSave(); render();
+  });
+  main.addEventListener('toggle', e => { const c = e.target.dataset?.card; if (c) e.target.open ? openCards.add(c) : openCards.delete(c); }, true);
+  // drag & drop images
+  main.addEventListener('dragover', e => { const z = e.target.closest('[data-dropimg]'); if (z && assets) { e.preventDefault(); z.classList.add('drop'); } });
+  main.addEventListener('dragleave', e => { const z = e.target.closest('[data-dropimg]'); if (z) z.classList.remove('drop'); });
+  main.addEventListener('drop', e => {
+    const z = e.target.closest('[data-dropimg]'); if (!z || !assets) return;
+    e.preventDefault(); z.classList.remove('drop');
+    const f = e.dataTransfer.files[0]; if (f) upload(f, z.dataset.dropimg, z.dataset.ipath);
+  });
+
+  function setImage(key, ipath, value, rerender = true) {
+    if (ipath) setPath(ipath, value);
+    else if (value) state.images[key] = value; else delete state.images[key];
+    scheduleSave();
+    if (rerender) render();
+    else { const row = main.querySelector(`[data-key="${CSS.escape(key)}"]`); if (row) { row.classList.toggle('changed', !!value); const th = row.querySelector('.thumb'); if (th && !value.startsWith('asset:')) th.innerHTML = value && /^(https?:|data:)/.test(value) ? `<img src="${esc(value)}" alt="">` : value ? 'Local file' : 'Placeholder'; } }
+  }
+  /* Uploads: big photos are scaled down in the browser first (max 2400px —
+     faster, and well under the 20 MB limit), then the file is stored and its
+     link is saved to the database straight away, not on the usual delay.   */
+  const assetTypes = {};
+  async function prepareFile(file) {
+    if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return file;
+    try {
+      const bmp = await createImageBitmap(file);
+      const s = Math.min(1, 2400 / Math.max(bmp.width, bmp.height));
+      if (s === 1 && file.size < 6e6) return file;
+      const c = document.createElement('canvas'); c.width = Math.round(bmp.width * s); c.height = Math.round(bmp.height * s);
+      c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+      let alpha = false;
+      if (file.type !== 'image/jpeg') {
+        const t = document.createElement('canvas'); t.width = t.height = 64; const tx = t.getContext('2d'); tx.drawImage(bmp, 0, 0, 64, 64);
+        const px = tx.getImageData(0, 0, 64, 64).data; for (let i = 3; i < px.length; i += 4) if (px[i] < 250) { alpha = true; break; }
+      }
+      const type = alpha ? 'image/png' : 'image/jpeg';
+      const blob = await new Promise(r => c.toBlob(r, type, .86));
+      if (!blob || blob.size >= file.size) return file;
+      return new File([blob], file.name.replace(/\.\w+$/, '') + (alpha ? '.png' : '.jpg'), { type });
+    } catch (e) { return file; }
+  }
+  const uploadError = e => {
+    const c = e && e.code || '';
+    return c === 'not_granted' ? 'Only people who can edit this page can upload.'
+      : c === 'too_large' ? 'That file is too large (20 MB max; SVG 2 MB).'
+      : c === 'unsupported_type' ? 'That file type isn’t supported. Use JPG, PNG, WebP, GIF, SVG, MP4, WebM or MOV.'
+      : c === 'quota_or_state' ? 'Storage is full — remove unused uploads and try again.'
+      : c === 'rate_limited' ? 'Too many uploads at once — wait a moment and try again.'
+      : c === 'upstream_auth' ? 'Your sign-in expired — reload the page and try again.'
+      : 'Upload failed (' + (c || 'unknown error') + '). Try again.';
+  };
+  async function uploadFile(file) {
+    if (!assets) throw { code: 'not_granted' };
+    const f = await prepareFile(file);
+    let r;
+    try { r = await assets.upload(f); }
+    catch (e) { if (e && e.code === 'store_unavailable') { await new Promise(x => setTimeout(x, 1200)); r = await assets.upload(f); } else throw e; }
+    assetTypes[r.id] = r.contentType;
+    return 'asset:' + r.id;
+  }
+  async function saveNow() {
+    await save();
+    if (inFlight) await inFlight;                 // a follow-up write may have been queued
+    return document.getElementById('status').dataset.s === 'saved';
+  }
+  async function upload(file, key, ipath) {
+    if (!assets) return;
+    setStatus('saving', 'Uploading'); toast('Uploading ' + file.name + '…');
+    let ref;
+    try { ref = await uploadFile(file); }
+    catch (e) { setStatus('error', 'Upload failed'); toast(uploadError(e)); return; }
+    setImage(key, ipath, ref);
+    toast((await saveNow()) ? 'Uploaded and saved — it replaces the placeholder when you apply.' : 'Uploaded, but the link didn’t save. Edit anything to retry, or reload.');
+  }
+
+  /* ======================================================================
+     Canvas: the real site pages (published next to this editor under site/)
+     rendered with the current content, edited in place. Everything saves
+     through the same state + save() as the form above.
+     ====================================================================== */
+  let canvasMounted = false, booted = false;
+  const cv = { file: 'index', param: null, mode: 'edit', width: 1440 };
+  const siteBase = new URL('site/', location.href).href;
+  const blobUrl = id => '/_blob/' + id + (/^video\//.test(assetTypes[id] || '') ? '#.mp4' : /^image\/gif/.test(assetTypes[id] || '') ? '#.gif' : '');
+  const displayUrl = v => typeof v === 'string' && v.startsWith('asset:') ? blobUrl(v.slice(6)) : v;
+  const deepUrls = v => Array.isArray(v) ? v.map(deepUrls) : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, deepUrls(x)])) : displayUrl(v);
+  const projIndex = () => Math.max(0, state.site.projects.findIndex(p => p.slug === cv.param));
+  const postIndex = () => Math.max(0, state.site.posts.findIndex(p => p.slug === cv.param));
+  function canvasPages() {
+    return [['index', 'Home'], ['portfolio', 'Portfolio'], ['studio', 'About'], ['feed', 'Feed'], ['contact', 'Contact'], ['404', '404 page']].map(([file, name]) => ({ file, param: null, name }))
+      .concat(state.site.projects.map(p => ({ file: 'project', param: p.slug, name: 'Project · ' + (p.title || p.slug) })))
+      .concat(state.site.posts.map(p => ({ file: 'article', param: p.slug, name: 'Note · ' + (p.title || p.slug) })));
+  }
+  function renderCanvas() {
+    document.body.classList.add('canvas-on');
+    if (!booted) { main.innerHTML = '<p class="hint" style="padding:40px 0">Loading your content…</p>'; return; }   // wait for the saved content
+    if (canvasMounted) return;
+    canvasMounted = true;
+    const pages = canvasPages();
+    main.innerHTML = `<div class="cv">
+      <div class="cv-bar">
+        <select class="f" id="cv-page" aria-label="Page">${pages.map((p, i) => `<option value="${i}" ${p.file === cv.file && p.param === cv.param ? 'selected' : ''}>${esc(p.name)}</option>`).join('')}</select>
+        <div class="seg" role="group" aria-label="Mode"><button type="button" data-cvmode="edit" aria-pressed="${cv.mode === 'edit'}">Edit</button><button type="button" data-cvmode="preview" aria-pressed="${cv.mode === 'preview'}">Preview</button></div>
+        <div class="seg" role="group" aria-label="Screen size">${[[1440, 'Desktop'], [834, 'Tablet'], [390, 'Phone']].map(([w, n]) => `<button type="button" data-cvw="${w}" aria-pressed="${cv.width === w}">${n}</button>`).join('')}</div>
+        <span class="hint">Click any text to edit it · click an image to replace it · click a <b>disc</b> to change its text and cover art · <b>Esc</b> or click away to finish. Lists and settings are in the form.</span>
+        <a class="btn ghost small" href="#home">Back to form</a>
+      </div>
+      ${mode === 'local' ? `<p class="notice">This editor can’t reach its database here, so edits are only kept in this browser. Open it signed in at claude.ai to save them where Claude can apply them.</p>` : ''}
+      <div class="cv-stage" id="cv-stage"><iframe class="cv-frame" id="cv-frame" title="Site preview"></iframe><div class="cv-load" id="cv-load">Loading page…</div></div>
+    </div>`;
+    const frame = document.getElementById('cv-frame');
+    frame.addEventListener('load', () => {
+      document.getElementById('cv-load').style.display = 'none';
+      let href = ''; try { href = frame.contentWindow.location.href; } catch (e) {}
+      if (href && href !== 'about:srcdoc') {                 // the page navigated itself (e.g. a disc click)
+        const u = new URL(href); cv.file = (u.pathname.split('/').pop() || 'index.html').replace(/\.html$/, '') || 'index'; cv.param = u.searchParams.get('p');
+        syncPageSelect(); cvLoad();
+      }
+    });
+    document.getElementById('cv-page').addEventListener('change', e => { const p = canvasPages()[+e.target.value]; cv.file = p.file; cv.param = p.param; cvLoad(); });
+    main.querySelector('.cv-bar').addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      if (b.dataset.cvmode) { cv.mode = b.dataset.cvmode; cvLoad(); }
+      if (b.dataset.cvw) { cv.width = +b.dataset.cvw; cvSize(); }
+      main.querySelectorAll('.cv-bar [aria-pressed]').forEach(x => x.setAttribute('aria-pressed', x.dataset.cvmode ? String(x.dataset.cvmode === cv.mode) : String(+x.dataset.cvw === cv.width)));
+    });
+    new ResizeObserver(cvSize).observe(document.getElementById('cv-stage'));
+    cvLoad();
+  }
+  function syncPageSelect() {
+    const sel = document.getElementById('cv-page'); if (!sel) return;
+    const pages = canvasPages();
+    sel.innerHTML = pages.map((p, i) => `<option value="${i}" ${p.file === cv.file && p.param === cv.param ? 'selected' : ''}>${esc(p.name)}</option>`).join('');
+  }
+  function cvSize() {
+    const stage = document.getElementById('cv-stage'), frame = document.getElementById('cv-frame'); if (!stage || !frame) return;
+    const W = stage.clientWidth, H = stage.clientHeight, s = Math.min(1, W / cv.width);
+    frame.style.width = cv.width + 'px'; frame.style.height = (H / s) + 'px';
+    frame.style.transform = `translateX(-50%) scale(${s})`;
+  }
+  async function cvLoad() {
+    const frame = document.getElementById('cv-frame'); if (!frame) return;
+    document.getElementById('cv-load').style.display = '';
+    cvSize();
+    let html;
+    try { html = await (await fetch(siteBase + cv.file + '.html', { cache: 'no-store' })).text(); }
+    catch (e) { document.getElementById('cv-load').textContent = 'Couldn’t load the page.'; return; }
+    const content = deepUrls({ site: state.site, text: Object.assign({}, state.text, { 'home.intro.loader': 'never' }), links: state.links, images: state.images });
+    const json = JSON.stringify(content).replace(/</g, '\\u003c');
+    let doc = html.replace(/<head>/i, `<head><base href="${siteBase}">`)
+      .replace(/<script src="assets\/js\/content\.js"><\/script>/, `<script>window.CONTENT=${json};${cv.param ? `window.PAGE_PARAM=${JSON.stringify(cv.param).replace(/</g, '\\u003c')};` : ''}<\/script>`)
+      .replace(/<\/body>/i, `<script>(${canvasLayer.toString()})();<\/script></body>`);
+    frame.srcdoc = doc;
+  }
+  const fmt = (v, reveal) => esc(v).replace(/\{name\}/g, esc(state.site.name)).replace(/\{role\}/g, esc(state.site.role)).replace(/\{city\}/g, esc(state.site.city || state.site.location)).replace(/\{email\}/g, esc(state.site.email)).replace(/\n/g, reveal ? '<br><br>' : '<br>');
+  // what each editable kind reads and writes
+  function cvGet(kind, key) {
+    const p = state.site.projects[projIndex()] || {}, n = state.site.posts[postIndex()] || {};
+    if (kind === 'text') return has(state.text, key) ? state.text[key] : (byKey[key] ? byKey[key].default : null);
+    if (kind === 'case') { const c = p.case || {}; return has(c, key) ? c[key] : (DEF.caseDefaults[key] ?? ''); }
+    if (kind === 'card') return p[key] ?? '';
+    if (kind === 'post') return n[key] ?? '';
+    return null;
+  }
+  function cvSet(kind, key, value) {
+    if (kind === 'text') { if (byKey[key] && value === byKey[key].default) delete state.text[key]; else state.text[key] = value; }
+    else if (kind === 'case') setPath(`projects.${projIndex()}.case.${key}`, value);
+    else if (kind === 'card') setPath(`projects.${projIndex()}.${key}`, value);
+    else if (kind === 'post') setPath(`posts.${postIndex()}.${key}`, value);
+    scheduleSave(); refreshCounts();
+  }
+  function imgSet(kind, key, ref) {
+    if (kind === 'img') { if (ref === undefined) delete state.images[key]; else state.images[key] = ref; }
+    else if (kind === 'pimg') setPath(key === 'cover' ? `projects.${projIndex()}.image` : `projects.${projIndex()}.case.${key}`, ref || '');
+  }
+  function pickImage(title) {
+    return new Promise(resolve => {
+      const root = document.getElementById('modal-root');
+      const done = v => { root.innerHTML = ''; resolve(v); };
+      root.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="pk"><div class="box">
+        <h2 id="pk">${esc(title)}</h2>
+        ${assets ? `<div class="pick-drop" id="pk-drop"><label class="btn" style="cursor:pointer">Upload from your computer<input type="file" accept="image/*,video/mp4,video/webm,video/quicktime" hidden id="pk-file"></label><span class="hint">or drop a file here. Large photos are resized for the web.</span></div>` : '<p class="hint">Uploading needs edit access to this page.</p>'}
+        <div><div class="eyebrow" style="margin-bottom:8px">Or use one you already uploaded</div><div class="pick" id="pk-grid"><span class="hint">Loading…</span></div></div>
+        <div class="url" style="display:flex;gap:8px"><input class="f" id="pk-url" placeholder="Or paste an image URL / site path (assets/img/…)"><button class="btn ghost small" type="button" id="pk-use">Use</button></div>
+        <div class="acts"><button class="btn ghost small" type="button" id="pk-ph">Back to gray placeholder</button><button class="btn ghost small" type="button" id="pk-cancel">Cancel</button></div>
+      </div></div>`;
+      const up = async f => {
+        if (!f) return;
+        const z = document.getElementById('pk-drop'); if (z) z.innerHTML = '<span class="hint">Uploading ' + esc(f.name) + '…</span>';
+        try { done(await uploadFile(f)); } catch (e) { toast(uploadError(e)); done(null); }
+      };
+      root.querySelector('.modal').onclick = e => { if (e.target.classList.contains('modal')) done(null); };
+      document.getElementById('pk-cancel').onclick = () => done(null);
+      document.getElementById('pk-ph').onclick = () => done(undefined);
+      document.getElementById('pk-use').onclick = () => { const v = document.getElementById('pk-url').value.trim(); if (v) done(v); };
+      const fi = document.getElementById('pk-file'); if (fi) fi.onchange = () => up(fi.files[0]);
+      const dz = document.getElementById('pk-drop');
+      if (dz) {
+        dz.ondragover = e => { e.preventDefault(); dz.classList.add('drop'); };
+        dz.ondragleave = () => dz.classList.remove('drop');
+        dz.ondrop = e => { e.preventDefault(); up(e.dataTransfer.files[0]); };
+      }
+      const grid = document.getElementById('pk-grid');
+      if (!assets) { grid.innerHTML = '<span class="hint">No uploads available here.</span>'; return; }
+      assets.list().then(r => {
+        const list = (r.assets || []).filter(a => /^(image|video)\//.test(a.contentType)).reverse();
+        list.forEach(a => { assetTypes[a.id] = a.contentType; });
+        grid.innerHTML = list.length ? list.map(a => `<button type="button" data-aid="${esc(a.id)}" aria-label="Uploaded ${esc(a.contentType)}">${/^video/.test(a.contentType) ? `<video src="${esc(a.url)}" muted playsinline preload="metadata"></video>` : `<img src="${esc(a.url)}" alt="" loading="lazy">`}</button>`).join('') : '<span class="hint">Nothing uploaded yet.</span>';
+        grid.onclick = e => { const b = e.target.closest('[data-aid]'); if (b) done('asset:' + b.dataset.aid); };
+      }).catch(() => { grid.innerHTML = '<span class="hint">Couldn’t list uploads.</span>'; });
+    });
+  }
+  /* Disc panel: the text printed on a project's disc + its cover art, with a live preview */
+  function discDefaultsFor(p) {
+    const w = document.getElementById('cv-frame')?.contentWindow;
+    if (w && w.__discDefaults) { try { return w.__discDefaults(p); } catch (e) {} }
+    const name = state.site.name || 'Your Name', brand = state.site.brand;
+    return { title: p.title || 'Project', mark: brand || name + '®', rim: ['Designed by   ' + name, (p.services || '').split(',')[0].trim(), p.year || '', brand || name + '®'].filter(Boolean).join('   ·   ') };
+  }
+  async function editDisc(i) {
+    const p = state.site.projects[i]; if (!p) return;
+    const d = discDefaultsFor(p);
+    let art = p.disc || '';
+    const root = document.getElementById('modal-root');
+    root.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="dk"><div class="box" style="width:min(860px,100%);overflow:auto">
+      <h2 id="dk">Disc — ${esc(p.title || 'Project ' + (i + 1))}</h2>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:0 0 auto;width:min(260px,100%)">
+          <canvas id="dk-prev" width="520" height="520" style="width:100%;aspect-ratio:1;border-radius:50%;background:var(--ph);display:block"></canvas>
+          <p class="hint" id="dk-artnote" style="margin-top:8px"></p>
+        </div>
+        <div style="flex:1;min-width:240px;display:flex;flex-direction:column;gap:12px">
+          <label class="lbl">Title on the disc<input class="f" id="dk-title" value="${esc(p.discTitle || '')}" placeholder="${esc(d.title)}"></label>
+          <label class="lbl">Small wordmark under the title<input class="f" id="dk-mark" value="${esc(p.discMark || '')}" placeholder="${esc(d.mark)}"></label>
+          <label class="lbl">Text around the rim<textarea class="f" id="dk-rim" rows="2" style="min-height:0;flex:none;font:500 14px/1.5 var(--text)" placeholder="${esc(d.rim)}">${esc(p.discRim || '')}</textarea></label>
+          <div class="lbl">Text colour<div style="display:flex;gap:8px;margin-top:6px" role="radiogroup" aria-label="Text colour">
+            <label class="btn ghost small" style="gap:8px;cursor:pointer"><input type="radio" name="dk-ink" value="black" ${p.discInk !== 'white' ? 'checked' : ''}><span style="width:14px;height:14px;border-radius:50%;background:#000;border:1px solid #888"></span>Black</label>
+            <label class="btn ghost small" style="gap:8px;cursor:pointer"><input type="radio" name="dk-ink" value="white" ${p.discInk === 'white' ? 'checked' : ''}><span style="width:14px;height:14px;border-radius:50%;background:#fff;border:1px solid #888"></span>White</label>
+          </div></div>
+          <span class="hint">Leave a field empty to use the default shown in grey. The text is printed over your cover art; pick the colour that reads best on it. Cover art can be a still image, an animated GIF or a short looping video (MP4, WebM or MOV; it plays muted).</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost small" type="button" id="dk-art">Upload or choose cover art…</button><button class="btn ghost small" type="button" id="dk-gen">Use the generated cover</button></div>
+        </div>
+      </div>
+      <div class="acts"><button class="btn ghost small" type="button" id="dk-cancel">Cancel</button><button class="btn" type="button" id="dk-save">Save disc</button></div>
+    </div></div>`;
+    const $ = id => document.getElementById(id);
+    let ink = p.discInk === 'white' ? 'white' : 'black';
+    const inkVal = () => (root.querySelector('input[name="dk-ink"]:checked') || {}).value || ink;
+    const note = () => { $('dk-artnote').textContent = art ? 'Using your uploaded cover art.' : p.image ? 'Using the project cover image (no disc art set).' : 'Using the generated gray cover.'; };
+    let tick = 0;
+    const preview = async () => {
+      const my = ++tick, w = $('cv-frame')?.contentWindow, cvs = $('dk-prev'); if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      if (!w || !w.__drawDiscArt) { ctx.clearRect(0, 0, 520, 520); return; }
+      const item = { title: $('dk-title').value || d.title, mark: $('dk-mark').value || d.mark, rim: $('dk-rim').value || d.rim, art: displayUrl(art || p.image || ''), ink: inkVal() };
+      try {
+        const c = await w.__drawDiscArt(item, i);
+        if (my !== tick || !$('dk-prev')) return;
+        ctx.clearRect(0, 0, 520, 520); ctx.drawImage(c, 0, 0, 520, 520);
+        // GIF / video covers: keep the preview playing while the panel is open
+        if (c.motion) { let lt = 0; const play = t => { if (my !== tick || !$('dk-prev')) return; if (t - lt > 40) { lt = t; c.motion.paint(); ctx.clearRect(0, 0, 520, 520); ctx.drawImage(c, 0, 0, 520, 520); } requestAnimationFrame(play); }; requestAnimationFrame(play); }
+      } catch (e) {}
+    };
+    let t2 = 0; const later = () => { clearTimeout(t2); t2 = setTimeout(preview, 150); };
+    const FIELDS = ['dk-title', 'dk-mark', 'dk-rim'];
+    // (re)attach every handler — the image picker borrows the dialog, so the panel is rebuilt after it
+    const bind = () => {
+      FIELDS.forEach(id => $(id).addEventListener('input', later));
+      root.querySelectorAll('input[name="dk-ink"]').forEach(r => { r.checked = r.value === ink; r.onchange = () => { ink = r.value; preview(); }; });
+      root.querySelector('.modal').onclick = e => { if (e.target.classList.contains('modal')) root.innerHTML = ''; };
+      $('dk-gen').onclick = () => { art = ''; note(); preview(); };
+      $('dk-cancel').onclick = () => { root.innerHTML = ''; };
+      $('dk-art').onclick = async () => {
+        const keep = root.innerHTML, vals = FIELDS.map(id => $(id).value);
+        const ref = await pickImage('Cover art for ' + (p.title || 'this disc'));
+        root.innerHTML = keep; FIELDS.forEach((id, k) => { $(id).value = vals[k]; });
+        bind();
+        if (ref !== null) art = ref === undefined ? '' : ref;
+        note(); preview();
+      };
+      $('dk-save').onclick = async () => {
+        const set = (k, v) => { if (v) p[k] = v; else delete p[k]; };
+        set('discTitle', $('dk-title').value.trim()); set('discMark', $('dk-mark').value.trim()); set('discRim', $('dk-rim').value.trim());
+        p.discInk = inkVal();
+        p.disc = art;
+        root.innerHTML = '';
+        const ok = await saveNow();
+        toast(ok ? 'Disc saved.' : 'The disc didn’t save. Edit anything to retry.');
+        refreshCounts();
+        if (canvasMounted) cvLoad();
+      };
+    };
+    bind(); note(); preview();
+  }
+
+  window.CANVAS = {
+    editDisc,
+    get mode() { return cv.mode; },
+    raw: cvGet,
+    html: (kind, key, reveal) => { const v = cvGet(kind, key); return v == null ? null : fmt(v, reveal); },
+    set: cvSet,
+    reset(kind, key) { if (kind === 'text') { delete state.text[key]; delete state.links[key]; } else cvSet(kind, key, kind === 'case' ? (DEF.caseDefaults[key] ?? '') : ''); scheduleSave(); refreshCounts(); cvLoad(); },
+    hide(kind, key) { cvSet(kind, key, ''); },
+    link: key => state.links[key] ?? (byKey[key] && byKey[key].href) ?? null,
+    setLink(key, url) { if (byKey[key] && url === byKey[key].href) delete state.links[key]; else state.links[key] = url; scheduleSave(); refreshCounts(); },
+    async pickImage(kind, key) {
+      const ref = await pickImage('Replace image');
+      if (ref === null) return null;
+      imgSet(kind, key, ref === undefined ? undefined : ref);
+      const ok = await saveNow();
+      toast(ok ? 'Image saved — it replaces the placeholder on the live site when you apply.' : 'The image link didn’t save. Edit anything to retry.');
+      return ref === undefined ? '' : displayUrl(ref);
+    },
+    hideImage(kind, key) { imgSet(kind, key, ''); scheduleSave(); refreshCounts(); },
+    setGallery(n) { setPath(`projects.${projIndex()}.case.galleryCount`, String(n)); scheduleSave(); refreshCounts(); render(); cvLoad(); },
+    go(href) {
+      const u = new URL(href, siteBase); const f = (u.pathname.split('/').pop() || 'index.html').replace(/\.html$/, '');
+      if (!/^(index|portfolio|studio|feed|contact|project|article|404)$/.test(f)) return false;
+      cv.file = f; cv.param = u.searchParams.get('p'); syncPageSelect(); cvLoad(); return true;
+    }
+  };
+
+  /* Runs INSIDE the site frame: outlines editable things and edits them in place. */
+  function canvasLayer() {
+    const P = parent.CANVAS; if (!P) return;
+    const D = document, H = D.documentElement, edit = P.mode === 'edit';
+    const st = D.createElement('style');
+    st.textContent = `
+      html.cv-edit, html.cv-edit *{cursor:default!important}
+      html.cv-edit .cursor{display:none!important}
+      html.cv-edit [data-cv]{cursor:text!important}
+      html.cv-edit [data-cv]:hover{outline:2px solid #2f6fed;outline-offset:3px}
+      html.cv-edit [data-cv-img]:hover{outline:3px dashed #2f6fed;outline-offset:-3px;cursor:pointer!important}
+      .cv-gt{display:flex;align-items:center;gap:4px;width:max-content;margin:120px 40px -160px auto;position:relative;z-index:5;padding:4px 4px 4px 14px;background:#111;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.2);font:600 12px/1 -apple-system,Inter,Arial,sans-serif;color:#fff;letter-spacing:0;text-transform:none}
+      .cv-gt span{margin-right:8px;opacity:.75}
+      .cv-gt button{all:unset;cursor:pointer!important;padding:8px 12px;border-radius:7px;color:#fff}
+      .cv-gt button:hover{background:#2c2c2c}
+      .cv-gt button[aria-pressed="true"]{background:#fff;color:#111}
+      html.cv-edit .p-img.is-empty{display:block}
+      html.cv-edit .p-img.is-empty .ph{aspect-ratio:16/5;border:2px dashed #b9c4d6;border-radius:12px;display:flex;align-items:center;justify-content:center}
+      html.cv-edit .p-img.is-empty .ph::after{content:'+ Add an image under this section (optional, hidden on the site until you add one)';font:600 14px/1.4 -apple-system,Inter,Arial,sans-serif;color:#5b6b85;padding:0 24px;text-align:center}
+      html.cv-edit .wcard[data-disc-index]:hover{outline:3px dashed #2f6fed;outline-offset:4px;cursor:pointer!important}
+      .cv-editing{outline:2px solid #111!important;outline-offset:3px;white-space:pre-wrap!important;background:rgba(47,111,237,.07)!important;transform:none!important;opacity:1!important}
+      .cv-editing *{transform:none!important;opacity:1!important}
+      .cv-tools{position:fixed;z-index:2147483646;display:flex;align-items:center;gap:2px;padding:4px;background:#111;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.28);font:600 12px/1 -apple-system,Inter,Arial,sans-serif;letter-spacing:0;text-transform:none}
+      .cv-tools button{all:unset;cursor:pointer!important;color:#fff;padding:8px 10px;border-radius:7px;white-space:nowrap}
+      .cv-tools button:hover{background:#2c2c2c}
+      .cv-tools input{all:unset;background:#fff;color:#111;padding:7px 9px;border-radius:6px;width:240px;cursor:text!important;font:500 12px/1.2 -apple-system,Inter,Arial,sans-serif}`;
+    D.head.appendChild(st);
+    H.classList.toggle('cv-edit', edit);
+    const internal = a => { const h = a.getAttribute('href') || ''; return h && !/^(https?:|mailto:|tel:|#|javascript:)/i.test(h); };
+    // links: stay inside the canvas (and carry the current content)
+    D.addEventListener('click', e => {
+      if (edit) return;
+      const a = e.target.closest('a[href]');
+      if (a && internal(a) && a.target !== '_blank') { e.preventDefault(); e.stopPropagation(); P.go(a.getAttribute('href')); }
+    }, true);
+    if (!edit) return;
+
+    const TEXT = [['[data-edit]', 'text', e => e.dataset.edit], ['[data-pfield]', 'case', e => e.dataset.pfield], ['#p-title', 'card', () => 'title'], ['#p-summary', 'card', () => 'summary'], ['#p-services', 'card', () => 'services'], ['#a-title', 'post', () => 'title'], ['#a-excerpt', 'post', () => 'excerpt'], ['#a-date', 'post', () => 'date']];
+    const IMG = [['[data-img]', 'img', e => e.dataset.img], ['[data-pimg]', 'pimg', e => e.dataset.pimg]];
+    const mark = () => {
+      TEXT.forEach(([s, k, f]) => D.querySelectorAll(s).forEach(e => { if (!e.dataset.cv) { e.dataset.cv = k; e.dataset.cvKey = f(e); } }));
+      IMG.forEach(([s, k, f]) => D.querySelectorAll(s).forEach(e => { if (!e.dataset.cvImg) { e.dataset.cvImg = k; e.dataset.cvKey = f(e); } }));
+    };
+    mark(); setTimeout(mark, 1200);
+    // project pages: 4 / 6 / 8 toggle for the gallery under /2
+    const grid = D.querySelector('.p-grid');
+    if (grid) {
+      const cur = +grid.dataset.count || 4, bar = D.createElement('div');
+      bar.className = 'cv-gt';
+      bar.innerHTML = '<span>Gallery blocks under /2</span>' + [4, 6, 8].map(n => `<button type="button" data-n="${n}" aria-pressed="${n === cur}">${n}</button>`).join('');
+      bar.addEventListener('click', e => { const b = e.target.closest('button[data-n]'); if (b && +b.dataset.n !== cur) P.setGallery(+b.dataset.n); });
+      grid.parentNode.insertBefore(bar, grid);
+    }
+
+    let tools = null, editing = null, orig = '', target = null;
+    const closeTools = () => { if (tools) tools.remove(); tools = null; target = null; };
+    const place = () => {
+      if (!tools || !target) return;
+      const r = target.getBoundingClientRect(), tw = tools.offsetWidth, th = tools.offsetHeight;
+      let top = r.top - th - 10; if (top < 8) top = Math.min(innerHeight - th - 8, r.bottom + 10);
+      tools.style.top = Math.max(8, top) + 'px';
+      tools.style.left = Math.max(8, Math.min(innerWidth - tw - 8, r.left)) + 'px';
+    };
+    addEventListener('scroll', place, { passive: true, capture: true }); addEventListener('resize', place);
+    const showTools = (el, buttons) => {
+      closeTools(); target = el;
+      tools = D.createElement('div'); tools.className = 'cv-tools';
+      buttons.forEach(([label, fn]) => { const b = D.createElement('button'); b.type = 'button'; b.textContent = label; b.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); fn(b); }); tools.appendChild(b); });
+      D.body.appendChild(tools); place();
+    };
+    const linkKey = el => { const a = el.closest('[data-href]'); return a ? a.dataset.href : null; };
+
+    function startText(el) {
+      const kind = el.dataset.cv, key = el.dataset.cvKey, raw = P.raw(kind, key);
+      if (raw == null) return;
+      editing = el; orig = el.innerHTML;
+      el.textContent = raw;
+      try { el.contentEditable = 'plaintext-only'; } catch (e) { el.contentEditable = 'true'; }
+      if (el.contentEditable !== 'plaintext-only') el.contentEditable = 'true';
+      el.classList.add('cv-editing'); el.focus();
+      const s = getSelection(), rg = D.createRange(); rg.selectNodeContents(el); rg.collapse(false); s.removeAllRanges(); s.addRange(rg);
+      const lk = linkKey(el);
+      showTools(el, [
+        ['Done', () => finish(true)],
+        ...(lk ? [['Link…', b => editLink(lk)]] : []),
+        ['Hide', () => { finish(false); P.hide(kind, key); el.style.display = 'none'; closeTools(); }],
+        ['Reset', () => { finish(false); closeTools(); P.reset(kind, key); }],
+        ['Cancel', () => finish(false)]
+      ]);
+    }
+    function finish(keep) {
+      const el = editing; if (!el) return;
+      editing = null;
+      el.contentEditable = 'false'; el.removeAttribute('contenteditable'); el.classList.remove('cv-editing');
+      if (keep) {
+        const kind = el.dataset.cv, key = el.dataset.cvKey;
+        let v = el.innerText.replace(/ /g, ' ').replace(/\n+$/, '');
+        if (el.id === 'p-services') v = v.split(/\n+|,/).map(x => x.trim()).filter(Boolean).join(', ');   // one per line on the page, commas in the field
+        if (v !== P.raw(kind, key)) P.set(kind, key, v);
+        const html = P.html(kind, key, el.hasAttribute('data-reveal') || !!el.closest('[data-reveal]'));
+        el.innerHTML = html == null ? orig : html;
+        if (el.id === 'p-services') el.innerHTML = v.split(', ').filter(Boolean).map(x => '<li>' + x.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</li>').join('');
+      } else el.innerHTML = orig;
+      closeTools();
+    }
+    function editLink(key) {
+      if (!tools) return;
+      tools.innerHTML = '';
+      const inp = D.createElement('input'); inp.value = P.link(key) || ''; inp.placeholder = 'https://… or page.html';
+      const ok = D.createElement('button'); ok.type = 'button'; ok.textContent = 'Save link';
+      const save = () => { P.setLink(key, inp.value.trim()); const a = D.querySelector(`[data-href="${CSS.escape(key)}"]`); if (a) a.setAttribute('href', inp.value.trim()); finish(true); };
+      ok.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); save(); });
+      inp.addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') { e.preventDefault(); save(); } if (e.key === 'Escape') finish(false); });
+      tools.append(inp, ok); place(); inp.focus(); inp.select();
+    }
+    function imageTools(el) {
+      const kind = el.dataset.cvImg, key = el.dataset.cvKey;
+      showTools(el, [
+        ['Replace image…', async () => {
+          closeTools();
+          const url = await P.pickImage(kind, key);
+          if (url === null) return;
+          el.style.display = '';
+          [...el.querySelectorAll(':scope > img, :scope > video')].forEach(n => n.remove());
+          if (url && window.setImage) window.setImage(el, url);
+          const sec = el.closest('.p-img'); if (sec) sec.classList.toggle('is-empty', !url);   // optional section image
+        }],
+        ['Hide', () => { P.hideImage(kind, key); el.style.display = 'none'; closeTools(); }],
+        ['Close', closeTools]
+      ]);
+    }
+    // block the site's own clicks/drags while editing; route them to edit actions
+    D.addEventListener('click', e => {
+      if (e.target.closest('.cv-tools, .cv-gt')) return;
+      if (editing && editing.contains(e.target)) return;
+      e.preventDefault(); e.stopPropagation();
+      if (editing) { finish(true); return; }
+      mark();
+      // a disc: the hero carousel (WebGL, asked by position) or a flat disc on the Portfolio canvas
+      const wc = e.target.closest('.wcard[data-disc-index]');
+      if (wc) { closeTools(); P.editDisc(+wc.dataset.discIndex); return; }
+      const g = e.target.closest('[data-disc-gallery]');
+      if (g && g.discAt && !e.target.closest('[data-cv]')) { const i = g.discAt(e.clientX, e.clientY); if (i >= 0) { closeTools(); P.editDisc(i); return; } }
+      const t = e.target.closest('[data-cv]');
+      if (t && getComputedStyle(t).display !== 'none') { startText(t); return; }
+      const im = e.target.closest('[data-cv-img]') || D.elementsFromPoint(e.clientX, e.clientY).find(x => x.dataset && x.dataset.cvImg);
+      if (im) { imageTools(im); return; }
+      closeTools();
+    }, true);
+    D.addEventListener('keydown', e => {
+      if (!editing) { if (e.key === 'Escape') closeTools(); return; }
+      if (e.key === 'Escape') { e.preventDefault(); finish(true); }
+      else if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); finish(true); }
+    }, true);
+    ['submit', 'dragstart'].forEach(t => D.addEventListener(t, e => e.preventDefault(), true));
+  }
+
+  /* ======================================================================
+     Export content.js
+     ====================================================================== */
+  async function toDataURL(id) {
+    const blob = await (await fetch('/_blob/' + id)).blob();
+    // photos are shrunk to web size (1600px, JPEG) so the exported file stays small
+    if (/^image\/(jpeg|png|webp|heic)/.test(blob.type)) {
+      try {
+        const bmp = await createImageBitmap(blob), s = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+        const c = document.createElement('canvas'); c.width = Math.round(bmp.width * s); c.height = Math.round(bmp.height * s);
+        c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+        return c.toDataURL(blob.type === 'image/png' ? 'image/png' : 'image/jpeg', .76);
+      } catch (e) {}
+    }
+    return await new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(blob); });
+  }
+  async function resolveImages(o) {
+    // replaces "asset:<id>" anywhere with an embedded data URL
+    const walk = async v => {
+      if (typeof v === 'string' && v.startsWith('asset:')) { try { return await toDataURL(v.slice(6)); } catch (e) { return ''; } }
+      if (Array.isArray(v)) return Promise.all(v.map(walk));
+      if (v && typeof v === 'object') { const out = {}; for (const k in v) out[k] = await walk(v[k]); return out; }
+      return v;
+    };
+    return walk(o);
+  }
+  async function buildFile() {
+    const content = await resolveImages({ site: state.site, text: state.text, links: state.links, images: state.images });
+    return `/* Content overrides — exported from the Site Editor on ${new Date().toISOString().slice(0, 10)}.\n   Replace assets/js/content.js in your site folder with this file. */\nwindow.CONTENT = ${JSON.stringify(content, null, 2)};\n`;
+  }
+  document.getElementById('btn-export').addEventListener('click', async () => {
+    const btn = document.getElementById('btn-export'); btn.disabled = true;
+    try {
+      const file = await buildFile();
+      if (downloads) {
+        try { const r = await downloads.save({ filename: 'content.js', data: file }); if (r.status === 'saved') toast('content.js saved'); }
+        catch (e) { if (!e || e.code !== 'dismissed') showCode(file); }
+      } else showCode(file);
+    } finally { btn.disabled = false; }
+  });
+  document.getElementById('btn-copy').addEventListener('click', async () => showCode(await buildFile()));
+  function showCode(file) {
+    const root = document.getElementById('modal-root');
+    root.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="box">
+      <h2 id="mt">content.js</h2><p style="margin:0;color:var(--muted)">Replace <code>assets/js/content.js</code> in your site folder with this code.</p>
+      <textarea readonly id="code">${esc(file)}</textarea>
+      <div class="acts"><button class="btn ghost" id="m-close" type="button">Close</button><button class="btn" id="m-copy" type="button">Copy code</button></div></div></div>`;
+    const ta = document.getElementById('code');
+    document.getElementById('m-close').onclick = () => root.innerHTML = '';
+    root.querySelector('.modal').onclick = e => { if (e.target.classList.contains('modal')) root.innerHTML = ''; };
+    document.getElementById('m-copy').onclick = () => {
+      navigator.clipboard.writeText(file).then(() => toast('Copied'), () => { ta.focus(); ta.select(); toast('Press ⌘C / Ctrl+C to copy'); });
+    };
+  }
+  let toastT;
+  function toast(msg, ms = 2600) {
+    let t = document.querySelector('.toast'); if (!t) { t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+    t.textContent = msg; clearTimeout(toastT); toastT = setTimeout(() => t.remove(), ms);
+  }
+
+  /* ---- navigation ------------------------------------------------------- */
+  let st;
+  document.getElementById('search').addEventListener('input', () => { clearTimeout(st); st = setTimeout(render, 150); });
+  addEventListener('hashchange', () => { document.getElementById('search').value = ''; render(); scrollTo(0, 0); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('modal-root').innerHTML = ''; });
+  boot();
+})();
+</script>

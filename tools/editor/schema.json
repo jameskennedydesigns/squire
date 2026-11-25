@@ -1,0 +1,2656 @@
+[
+ {
+  "key": "home.hero.1",
+  "page": "Home",
+  "section": "Hero",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "— a design engineer shaping products and digital experiences through motion, clarity, and timeless craft. Based in your city, working globally, I help ambitious teams express who they are and what they stand for.",
+  "order": 957
+ },
+ {
+  "key": "home.hero.pre1",
+  "page": "Home",
+  "section": "Hero",
+  "type": "text",
+  "label": "Intro title, line 1 (shown first, then replaced by the line below)",
+  "default": "Human"
+ },
+ {
+  "key": "home.hero.pre2",
+  "page": "Home",
+  "section": "Hero",
+  "type": "text",
+  "label": "Intro title, line 2 (shown first, then replaced)",
+  "default": "Agentic"
+ },
+ {
+  "key": "home.hero.2",
+  "page": "Home",
+  "section": "Hero",
+  "type": "text",
+  "label": "Title, line 1",
+  "default": "Design",
+  "order": 1818
+ },
+ {
+  "key": "home.hero.3",
+  "page": "Home",
+  "section": "Hero",
+  "type": "text",
+  "label": "Title, line 2",
+  "default": "Engineer",
+  "order": 1837
+ },
+ {
+  "key": "home.hero.4",
+  "page": "Home",
+  "section": "Hero",
+  "type": "text",
+  "label": "Text",
+  "default": "© 2018-26",
+  "order": 1908
+ },
+ {
+  "key": "home.scramble.1",
+  "page": "Home",
+  "section": "Scramble",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "I keep my process clear, collaborative, and focused. I work closely with the teams I partner with, shaping each project with intention and care. Every idea is explored from multiple angles, refined together, and guided by a shared sense of purpose. Nothing is added without reason, and nothing essential is left behind. The result is work that feels thoughtful, precise, and built to last beyond trends.",
+  "order": 2398
+ },
+ {
+  "key": "home.scramble.2",
+  "page": "Home",
+  "section": "Scramble",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "My way of working is straightforward. I design in the medium I ship in, keeping the process open and honest so decisions remain meaningful. Dialogue is constant, feedback is shared, and the direction becomes sharper with every step. I believe clarity comes from collaboration, and that strong ideas emerge when design and engineering think as one.",
+  "order": 2861
+ },
+ {
+  "key": "home.reel.img1",
+  "page": "Home",
+  "section": "Reel",
+  "type": "image",
+  "label": "Showreel / video still",
+  "default": "",
+  "order": 3748
+ },
+ {
+  "key": "home.services.1",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Heading",
+  "default": "My Services",
+  "order": 4104
+ },
+ {
+  "key": "home.services.2",
+  "page": "Home",
+  "section": "Services",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "If you’re looking for clarity in design and code, let’s build it together.",
+  "order": 4163
+ },
+ {
+  "key": "home.services.3",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Button",
+  "default": "Get Started",
+  "order": 4292,
+  "href": "contact.html"
+ },
+ {
+  "key": "home.services.4",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Index label",
+  "default": "A /",
+  "order": 4444
+ },
+ {
+  "key": "home.services.5",
+  "page": "Home",
+  "section": "Services",
+  "type": "longtext",
+  "label": "Heading",
+  "default": "I design and build interfaces that bring clarity and distinction to products — thoughtful visuals, cohesive structure, and code that lasts.",
+  "order": 4549
+ },
+ {
+  "key": "home.services.6",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Product Design",
+  "order": 4742
+ },
+ {
+  "key": "home.services.7",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "UI Engineering",
+  "order": 4781
+ },
+ {
+  "key": "home.services.8",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Prototyping",
+  "order": 4820
+ },
+ {
+  "key": "home.services.9",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Responsive Layouts",
+  "order": 4856
+ },
+ {
+  "key": "home.services.10",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Accessibility",
+  "order": 4899
+ },
+ {
+  "key": "home.services.11",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Index label",
+  "default": "B /",
+  "order": 5019
+ },
+ {
+  "key": "home.services.12",
+  "page": "Home",
+  "section": "Services",
+  "type": "longtext",
+  "label": "Heading",
+  "default": "I create design systems that scale — tokens, components, and documentation shared seamlessly between design and code.",
+  "order": 5124
+ },
+ {
+  "key": "home.services.13",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Design Tokens",
+  "order": 5295
+ },
+ {
+  "key": "home.services.14",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Component Libraries",
+  "order": 5333
+ },
+ {
+  "key": "home.services.15",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Figma to Code",
+  "order": 5377
+ },
+ {
+  "key": "home.services.16",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Documentation",
+  "order": 5415
+ },
+ {
+  "key": "home.services.17",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Theming",
+  "order": 5453
+ },
+ {
+  "key": "home.services.18",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Index label",
+  "default": "C /",
+  "order": 5567
+ },
+ {
+  "key": "home.services.19",
+  "page": "Home",
+  "section": "Services",
+  "type": "longtext",
+  "label": "Heading",
+  "default": "I craft motion and interaction that guide attention and make every change of state feel intentional across all screens.",
+  "order": 5672
+ },
+ {
+  "key": "home.services.20",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Interaction Design",
+  "order": 5845
+ },
+ {
+  "key": "home.services.21",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Motion Guidelines",
+  "order": 5888
+ },
+ {
+  "key": "home.services.22",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Micro-interactions",
+  "order": 5930
+ },
+ {
+  "key": "home.services.23",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Creative Development",
+  "order": 5973
+ },
+ {
+  "key": "home.services.24",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "WebGL & Canvas",
+  "order": 6018
+ },
+ {
+  "key": "home.services.25",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Index label",
+  "default": "D /",
+  "order": 6143
+ },
+ {
+  "key": "home.services.26",
+  "page": "Home",
+  "section": "Services",
+  "type": "longtext",
+  "label": "Heading",
+  "default": "I help teams make confident decisions by defining direction, sharpening the product, and building the foundation for meaningful growth.",
+  "order": 6248
+ },
+ {
+  "key": "home.services.27",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Design Audits",
+  "order": 6437
+ },
+ {
+  "key": "home.services.28",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Front-end Architecture",
+  "order": 6475
+ },
+ {
+  "key": "home.services.29",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Performance",
+  "order": 6522
+ },
+ {
+  "key": "home.services.30",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Workshops",
+  "order": 6558
+ },
+ {
+  "key": "home.services.31",
+  "page": "Home",
+  "section": "Services",
+  "type": "text",
+  "label": "Tag",
+  "default": "Roadmaps & Recommendations",
+  "order": 6592
+ },
+ {
+  "key": "home.in-numbers.1",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "text",
+  "label": "Heading",
+  "default": "In Numbers",
+  "order": 7014
+ },
+ {
+  "key": "home.in-numbers.2",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "A closer look at the milestones and collaborations that define my ongoing practice.",
+  "order": 7111
+ },
+ {
+  "key": "home.in-numbers.3",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "text",
+  "label": "Button",
+  "default": "Let's work together",
+  "order": 7249,
+  "href": "contact.html"
+ },
+ {
+  "key": "home.in-numbers.img1",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "image",
+  "label": "Big-number image",
+  "default": "",
+  "order": 7580
+ },
+ {
+  "key": "home.in-numbers.img2",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "image",
+  "label": "Big-number image",
+  "default": "",
+  "order": 7623
+ },
+ {
+  "key": "home.in-numbers.img3",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "image",
+  "label": "Big-number image",
+  "default": "",
+  "order": 7666
+ },
+ {
+  "key": "home.in-numbers.4",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "longtext",
+  "label": "Heading",
+  "default": "12 Industry\nAwards",
+  "order": 7944
+ },
+ {
+  "key": "home.in-numbers.5",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Recognized across global juries for clarity, craft, and concept. Every award reflects the same commitment: creating work with intention, designing with purpose, and shaping ideas that resonate far beyond their launch.",
+  "order": 8040
+ },
+ {
+  "key": "home.in-numbers.6",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "text",
+  "label": "Button",
+  "default": "See Awards",
+  "order": 8330,
+  "href": "#awards"
+ },
+ {
+  "key": "home.in-numbers.7",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "longtext",
+  "label": "Heading",
+  "default": "42 Clients\nWorldwide",
+  "order": 8603
+ },
+ {
+  "key": "home.in-numbers.8",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Built on relationships, not transactions. I partner with teams who value dialogue, trust, and shared ambition — working together to create products and digital experiences that feel true to who they are.",
+  "order": 8701
+ },
+ {
+  "key": "home.in-numbers.9",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "text",
+  "label": "Button",
+  "default": "See Clients",
+  "order": 8978,
+  "href": "#clients"
+ },
+ {
+  "key": "home.in-numbers.10",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "longtext",
+  "label": "Heading",
+  "default": "83 Shipped\nProjects",
+  "order": 9252
+ },
+ {
+  "key": "home.in-numbers.11",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Each project becomes part of my rhythm — ideas shaped, stories refined, and systems brought to life. Every collaboration deepens my perspective and strengthens the work that follows.",
+  "order": 9349
+ },
+ {
+  "key": "home.in-numbers.12",
+  "page": "Home",
+  "section": "In Numbers",
+  "type": "text",
+  "label": "Button",
+  "default": "See Portfolio",
+  "order": 9611,
+  "href": "portfolio.html"
+ },
+ {
+  "key": "home.awards.1",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Heading",
+  "default": "My",
+  "order": 9944
+ },
+ {
+  "key": "home.awards.2",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Heading",
+  "default": "Awards",
+  "order": 10007
+ },
+ {
+  "key": "home.awards.3",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Selected moments where my work was acknowledged by others.",
+  "order": 10098
+ },
+ {
+  "key": "home.awards.4",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Button",
+  "default": "My Portfolio",
+  "order": 10213,
+  "href": "portfolio.html"
+ },
+ {
+  "key": "home.awards.5",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "Red Dot",
+  "order": 10333
+ },
+ {
+  "key": "home.awards.6",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "Brand & Communication Design",
+  "order": 10361
+ },
+ {
+  "key": "home.awards.7",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "x3",
+  "order": 10414
+ },
+ {
+  "key": "home.awards.8",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "European Design Awards",
+  "order": 10479
+ },
+ {
+  "key": "home.awards.9",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "Visual Identity",
+  "order": 10522
+ },
+ {
+  "key": "home.awards.10",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "x1",
+  "order": 10558
+ },
+ {
+  "key": "home.awards.11",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "ADC Europe",
+  "order": 10623
+ },
+ {
+  "key": "home.awards.12",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "Branding & Typography",
+  "order": 10654
+ },
+ {
+  "key": "home.awards.13",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "x2",
+  "order": 10700
+ },
+ {
+  "key": "home.awards.14",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "D&AD",
+  "order": 10765
+ },
+ {
+  "key": "home.awards.15",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "Digital Design",
+  "order": 10794
+ },
+ {
+  "key": "home.awards.16",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "x3",
+  "order": 10829
+ },
+ {
+  "key": "home.awards.17",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "Tokyo TDC",
+  "order": 10894
+ },
+ {
+  "key": "home.awards.18",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "Typography Excellence",
+  "order": 10924
+ },
+ {
+  "key": "home.awards.19",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "x1",
+  "order": 10966
+ },
+ {
+  "key": "home.awards.20",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "Awwwards",
+  "order": 11031
+ },
+ {
+  "key": "home.awards.21",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "Site of the Day",
+  "order": 11060
+ },
+ {
+  "key": "home.awards.22",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "x2",
+  "order": 11096
+ },
+ {
+  "key": "home.awards.23",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "Awwwards",
+  "order": 11161
+ },
+ {
+  "key": "home.awards.24",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "Honorable Mention",
+  "order": 11190
+ },
+ {
+  "key": "home.awards.25",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "x3",
+  "order": 11228
+ },
+ {
+  "key": "home.awards.26",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "FWA",
+  "order": 11293
+ },
+ {
+  "key": "home.awards.27",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "Site of the Day",
+  "order": 11317
+ },
+ {
+  "key": "home.awards.28",
+  "page": "Home",
+  "section": "Awards",
+  "type": "text",
+  "label": "Text",
+  "default": "x1",
+  "order": 11353
+ },
+ {
+  "key": "home.about-single-person.1",
+  "page": "Home",
+  "section": "About (Single Person)",
+  "type": "text",
+  "label": "Heading",
+  "default": "About Me",
+  "order": 11648
+ },
+ {
+  "key": "home.about-single-person.2",
+  "page": "Home",
+  "section": "About (Single Person)",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "I’m {name}, a design engineer working where design meets code. What started as a fascination with how things look and feel has grown into a practice that brings structure, imagination, and craft to every project I take on.",
+  "order": 11719
+ },
+ {
+  "key": "home.about-single-person.3",
+  "page": "Home",
+  "section": "About (Single Person)",
+  "type": "text",
+  "label": "Button",
+  "default": "More About Me",
+  "order": 12045,
+  "href": "studio.html"
+ },
+ {
+  "key": "home.about-single-person.img1",
+  "page": "Home",
+  "section": "About (Single Person)",
+  "type": "image",
+  "label": "Card photo",
+  "default": "",
+  "order": 12233
+ },
+ {
+  "key": "home.about-single-person.4",
+  "page": "Home",
+  "section": "About (Single Person)",
+  "type": "text",
+  "label": "Text",
+  "default": "Your Name",
+  "order": 12356
+ },
+ {
+  "key": "home.about-single-person.5",
+  "page": "Home",
+  "section": "About (Single Person)",
+  "type": "text",
+  "label": "Text",
+  "default": "Design Engineer",
+  "order": 12428
+ },
+ {
+  "key": "home.about-single-person.img2",
+  "page": "Home",
+  "section": "About (Single Person)",
+  "type": "image",
+  "label": "Card photo",
+  "default": "",
+  "order": 12620
+ },
+ {
+  "key": "home.about-single-person.6",
+  "page": "Home",
+  "section": "About (Single Person)",
+  "type": "text",
+  "label": "Text",
+  "default": "Available",
+  "order": 12729
+ },
+ {
+  "key": "home.about-single-person.7",
+  "page": "Home",
+  "section": "About (Single Person)",
+  "type": "text",
+  "label": "Text",
+  "default": "For new projects",
+  "order": 12784
+ },
+ {
+  "key": "home.partners.1",
+  "page": "Home",
+  "section": "Partners",
+  "type": "text",
+  "label": "Heading",
+  "default": "Selected Clients",
+  "order": 13127
+ },
+ {
+  "key": "home.partners.2",
+  "page": "Home",
+  "section": "Partners",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Here are some of the brands I’ve had the privilege to collaborate with.",
+  "order": 13211
+ },
+ {
+  "key": "home.partners.img1",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Client logo",
+  "default": "",
+  "order": 13466
+ },
+ {
+  "key": "home.partners.img2",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Client logo",
+  "default": "",
+  "order": 13517
+ },
+ {
+  "key": "home.partners.img3",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Client logo",
+  "default": "",
+  "order": 13568
+ },
+ {
+  "key": "home.partners.img4",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Client logo",
+  "default": "",
+  "order": 13619
+ },
+ {
+  "key": "home.partners.img5",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Client logo",
+  "default": "",
+  "order": 13679
+ },
+ {
+  "key": "home.partners.img6",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Client logo",
+  "default": "",
+  "order": 13730
+ },
+ {
+  "key": "home.partners.img7",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Client logo",
+  "default": "",
+  "order": 13781
+ },
+ {
+  "key": "home.partners.img8",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Client logo",
+  "default": "",
+  "order": 13832
+ },
+ {
+  "key": "home.partners.img9",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Client logo",
+  "default": "",
+  "order": 13892
+ },
+ {
+  "key": "home.partners.img10",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Client logo",
+  "default": "",
+  "order": 13943
+ },
+ {
+  "key": "home.partners.img11",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Client logo",
+  "default": "",
+  "order": 13994
+ },
+ {
+  "key": "home.partners.img12",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Client logo",
+  "default": "",
+  "order": 14045
+ },
+ {
+  "key": "home.partners.img13",
+  "page": "Home",
+  "section": "Partners",
+  "type": "image",
+  "label": "Full-width image",
+  "default": "",
+  "order": 14149
+ },
+ {
+  "key": "home.process.1",
+  "page": "Home",
+  "section": "Process",
+  "type": "text",
+  "label": "Heading",
+  "default": "The Process",
+  "order": 14400
+ },
+ {
+  "key": "home.process.2",
+  "page": "Home",
+  "section": "Process",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "How I take a project from the first conversation to launch — and well beyond it.",
+  "order": 14474
+ },
+ {
+  "key": "home.process.3",
+  "page": "Home",
+  "section": "Process",
+  "type": "text",
+  "label": "Text",
+  "default": "Discovery",
+  "order": 14829
+ },
+ {
+  "key": "home.process.4",
+  "page": "Home",
+  "section": "Process",
+  "type": "text",
+  "label": "Text",
+  "default": "Strategy",
+  "order": 14917
+ },
+ {
+  "key": "home.process.5",
+  "page": "Home",
+  "section": "Process",
+  "type": "text",
+  "label": "Text",
+  "default": "Design & Build",
+  "order": 15004
+ },
+ {
+  "key": "home.process.6",
+  "page": "Home",
+  "section": "Process",
+  "type": "text",
+  "label": "Text",
+  "default": "Launch & Beyond",
+  "order": 15102
+ },
+ {
+  "key": "home.process.7",
+  "page": "Home",
+  "section": "Process",
+  "type": "text",
+  "label": "Heading",
+  "default": "Discovery",
+  "order": 15390
+ },
+ {
+  "key": "home.process.8",
+  "page": "Home",
+  "section": "Process",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "I start by listening. This phase is about understanding your goals, audience, and challenges — finding clarity before I begin designing.",
+  "order": 15449
+ },
+ {
+  "key": "home.process.9",
+  "page": "Home",
+  "section": "Process",
+  "type": "text",
+  "label": "Heading",
+  "default": "Strategy",
+  "order": 15636
+ },
+ {
+  "key": "home.process.10",
+  "page": "Home",
+  "section": "Process",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "I translate insights into direction, defining the concept, structure, and technical approach that shape your product or brand.",
+  "order": 15694
+ },
+ {
+  "key": "home.process.11",
+  "page": "Home",
+  "section": "Process",
+  "type": "text",
+  "label": "Heading",
+  "default": "Design & Build",
+  "order": 15871
+ },
+ {
+  "key": "home.process.12",
+  "page": "Home",
+  "section": "Process",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Ideas take form. From interface to interaction, I design, prototype, and develop with precision and care.",
+  "order": 15939
+ },
+ {
+  "key": "home.process.13",
+  "page": "Home",
+  "section": "Process",
+  "type": "text",
+  "label": "Heading",
+  "default": "Launch & Beyond",
+  "order": 16095
+ },
+ {
+  "key": "home.process.14",
+  "page": "Home",
+  "section": "Process",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Delivery is only the beginning. I test, refine, and support long after launch — ensuring the work performs and evolves.",
+  "order": 16164
+ },
+ {
+  "key": "home.testimonials.1",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Heading",
+  "default": "Client reflections",
+  "order": 16546
+ },
+ {
+  "key": "home.testimonials.2",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Honest impressions from the teams I’ve collaborated with across product, brand, and digital work.",
+  "order": 16629
+ },
+ {
+  "key": "home.testimonials.img1",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "image",
+  "label": "Testimonial photo",
+  "default": "",
+  "order": 17105
+ },
+ {
+  "key": "home.testimonials.3",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "“{name} turned our complex ideas into something clear and elegant — then built it, pixel for pixel. It feels natural to us.”",
+  "order": 17196
+ },
+ {
+  "key": "home.testimonials.4",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Client Name",
+  "order": 17387
+ },
+ {
+  "key": "home.testimonials.5",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Company",
+  "order": 17415
+ },
+ {
+  "key": "home.testimonials.img2",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "image",
+  "label": "Testimonial photo",
+  "default": "",
+  "order": 17511
+ },
+ {
+  "key": "home.testimonials.6",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "“Rare to find someone who thinks in systems and still sweats every detail. Our product finally feels like one thing.”",
+  "order": 17605
+ },
+ {
+  "key": "home.testimonials.7",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Client Name",
+  "order": 17756
+ },
+ {
+  "key": "home.testimonials.8",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Company",
+  "order": 17784
+ },
+ {
+  "key": "home.testimonials.img3",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "image",
+  "label": "Testimonial photo",
+  "default": "",
+  "order": 17880
+ },
+ {
+  "key": "home.testimonials.9",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "“The prototypes were so close to production that our engineers shipped them almost as-is. A huge time saver.”",
+  "order": 17974
+ },
+ {
+  "key": "home.testimonials.10",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Client Name",
+  "order": 18117
+ },
+ {
+  "key": "home.testimonials.11",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Company",
+  "order": 18145
+ },
+ {
+  "key": "home.testimonials.img4",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "image",
+  "label": "Testimonial photo",
+  "default": "",
+  "order": 18241
+ },
+ {
+  "key": "home.testimonials.12",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "“Calm, precise, and fast. Every conversation made the direction sharper and the work better.”",
+  "order": 18335
+ },
+ {
+  "key": "home.testimonials.13",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Client Name",
+  "order": 18462
+ },
+ {
+  "key": "home.testimonials.14",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Company",
+  "order": 18490
+ },
+ {
+  "key": "home.testimonials.img5",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "image",
+  "label": "Testimonial photo",
+  "default": "",
+  "order": 18586
+ },
+ {
+  "key": "home.testimonials.15",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "“The motion work gave our brand a voice we didn’t know it had. People notice it every single day.”",
+  "order": 18677
+ },
+ {
+  "key": "home.testimonials.16",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Client Name",
+  "order": 18809
+ },
+ {
+  "key": "home.testimonials.17",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Company",
+  "order": 18837
+ },
+ {
+  "key": "home.testimonials.img6",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "image",
+  "label": "Testimonial photo",
+  "default": "",
+  "order": 18933
+ },
+ {
+  "key": "home.testimonials.18",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "“A true partner. Clear thinking, honest feedback, and a design system our whole team actually uses.”",
+  "order": 19027
+ },
+ {
+  "key": "home.testimonials.19",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Client Name",
+  "order": 19161
+ },
+ {
+  "key": "home.testimonials.20",
+  "page": "Home",
+  "section": "Testimonials",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Company",
+  "order": 19189
+ },
+ {
+  "key": "home.pricing.1",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Heading",
+  "default": "Pricing",
+  "order": 19620
+ },
+ {
+  "key": "home.pricing.2",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Monthly",
+  "order": 19839
+ },
+ {
+  "key": "home.pricing.3",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Yearly –20%",
+  "order": 19943
+ },
+ {
+  "key": "home.pricing.4",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Choose a plan that fits your pace, your team, and your goals. From startups to scaling brands, my monthly options give you the design and engineering support you need.",
+  "order": 20061
+ },
+ {
+  "key": "home.pricing.5",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Not sure where to start? Let’s figure it out together.",
+  "order": 20324
+ },
+ {
+  "key": "home.pricing.6",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Button",
+  "default": "Let's Talk",
+  "order": 20435,
+  "href": "contact.html"
+ },
+ {
+  "key": "home.pricing.7",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Heading",
+  "default": "Foundation Package",
+  "order": 20576
+ },
+ {
+  "key": "home.pricing.8",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "For early-stage teams that need a clear product and visual foundation.",
+  "order": 20623
+ },
+ {
+  "key": "home.pricing.9",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Discovery session",
+  "order": 20746
+ },
+ {
+  "key": "home.pricing.10",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Product direction",
+  "order": 20785
+ },
+ {
+  "key": "home.pricing.11",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "UI design",
+  "order": 20824
+ },
+ {
+  "key": "home.pricing.12",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Visual system",
+  "order": 20864
+ },
+ {
+  "key": "home.pricing.13",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Clickable prototype",
+  "order": 20899
+ },
+ {
+  "key": "home.pricing.14",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Handoff documentation",
+  "order": 20940
+ },
+ {
+  "key": "home.pricing.15",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Small label",
+  "default": "Starting from",
+  "order": 21003
+ },
+ {
+  "key": "home.pricing.16",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Text",
+  "default": "/month",
+  "order": 21123
+ },
+ {
+  "key": "home.pricing.18",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Heading",
+  "default": "Studio Package",
+  "order": 21248
+ },
+ {
+  "key": "home.pricing.19",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "For websites, platforms, or digital-first products.",
+  "order": 21291
+ },
+ {
+  "key": "home.pricing.20",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "UX structure & sitemap",
+  "order": 21395
+ },
+ {
+  "key": "home.pricing.21",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "UI design",
+  "order": 21443
+ },
+ {
+  "key": "home.pricing.22",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Component system",
+  "order": 21474
+ },
+ {
+  "key": "home.pricing.23",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Responsive build",
+  "order": 21521
+ },
+ {
+  "key": "home.pricing.24",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Interaction & motion direction",
+  "order": 21559
+ },
+ {
+  "key": "home.pricing.25",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Small label",
+  "default": "Starting from",
+  "order": 21635
+ },
+ {
+  "key": "home.pricing.26",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Text",
+  "default": "/month",
+  "order": 21755
+ },
+ {
+  "key": "home.pricing.28",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Heading",
+  "default": "Signature Package",
+  "order": 21880
+ },
+ {
+  "key": "home.pricing.29",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "For teams that want everything aligned, from design system to shipped product.",
+  "order": 21926
+ },
+ {
+  "key": "home.pricing.30",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Product strategy",
+  "order": 22057
+ },
+ {
+  "key": "home.pricing.31",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Design system",
+  "order": 22095
+ },
+ {
+  "key": "home.pricing.32",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Front-end build",
+  "order": 22130
+ },
+ {
+  "key": "home.pricing.33",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Motion direction",
+  "order": 22176
+ },
+ {
+  "key": "home.pricing.34",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "List item",
+  "default": "Performance & accessibility",
+  "order": 22214
+ },
+ {
+  "key": "home.pricing.35",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Small label",
+  "default": "Starting from",
+  "order": 22287
+ },
+ {
+  "key": "home.pricing.36",
+  "page": "Home",
+  "section": "Pricing",
+  "type": "text",
+  "label": "Text",
+  "default": "/month",
+  "order": 22410
+ },
+ {
+  "key": "home.notes.1",
+  "page": "Home",
+  "section": "Notes",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "My thoughts on how products, systems, and stories find their form.",
+  "order": 22704
+ },
+ {
+  "key": "home.notes.2",
+  "page": "Home",
+  "section": "Notes",
+  "type": "text",
+  "label": "Button",
+  "default": "Read All",
+  "order": 22822,
+  "href": "feed.html"
+ },
+ {
+  "key": "home.notes.3",
+  "page": "Home",
+  "section": "Notes",
+  "type": "text",
+  "label": "Heading",
+  "default": "Notes",
+  "order": 22925
+ },
+ {
+  "key": "home.let-s-talk.1",
+  "page": "Home",
+  "section": "Let's Talk",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Prefer email? Write to me directly.",
+  "order": 23244
+ },
+ {
+  "key": "home.let-s-talk.2",
+  "page": "Home",
+  "section": "Let's Talk",
+  "type": "text",
+  "label": "Button",
+  "default": "Email Me",
+  "order": 23357,
+  "href": "mailto:hello@yourname.com"
+ },
+ {
+  "key": "home.faq.1",
+  "page": "Home",
+  "section": "Faq",
+  "type": "text",
+  "label": "Heading",
+  "default": "Questions, answered.",
+  "order": 23639
+ },
+ {
+  "key": "home.faq.2",
+  "page": "Home",
+  "section": "Faq",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Learn more about the person and principles behind the work.",
+  "order": 23781
+ },
+ {
+  "key": "home.faq.3",
+  "page": "Home",
+  "section": "Faq",
+  "type": "text",
+  "label": "Button",
+  "default": "About me",
+  "order": 23896,
+  "href": "studio.html"
+ },
+ {
+  "key": "home.faq.4",
+  "page": "Home",
+  "section": "Faq",
+  "type": "text",
+  "label": "Heading",
+  "default": "How do you start a new project?",
+  "order": 24127
+ },
+ {
+  "key": "home.faq.5",
+  "page": "Home",
+  "section": "Faq",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "I start by listening. Every project begins with a short discovery phase where I learn about your goals, challenges, and expectations. From there, I define the creative direction, scope, and deliverables, and set a timeline that balances clarity with craft.",
+  "order": 24207
+ },
+ {
+  "key": "home.faq.6",
+  "page": "Home",
+  "section": "Faq",
+  "type": "text",
+  "label": "Heading",
+  "default": "Can you help with strategy, not just design?",
+  "order": 24631
+ },
+ {
+  "key": "home.faq.7",
+  "page": "Home",
+  "section": "Faq",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Yes — strategy is part of everything I do. Before I design, I help define your message, audience, and positioning. That foundation shapes every decision that follows.",
+  "order": 24724
+ },
+ {
+  "key": "home.faq.8",
+  "page": "Home",
+  "section": "Faq",
+  "type": "text",
+  "label": "Heading",
+  "default": "Do you also build what you design?",
+  "order": 25058
+ },
+ {
+  "key": "home.faq.9",
+  "page": "Home",
+  "section": "Faq",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Yes. As a design engineer I take work from concept to production-ready code — components, interactions, and front-end architecture — so nothing gets lost in handoff.",
+  "order": 25141
+ },
+ {
+  "key": "home.faq.10",
+  "page": "Home",
+  "section": "Faq",
+  "type": "text",
+  "label": "Heading",
+  "default": "How long does a typical project take?",
+  "order": 25474
+ },
+ {
+  "key": "home.faq.11",
+  "page": "Home",
+  "section": "Faq",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "It depends on the scope and level of detail. A small website or product refresh may take around 4–6 weeks, while larger, more complex projects can run 2–4 months.",
+  "order": 25560
+ },
+ {
+  "key": "home.faq.12",
+  "page": "Home",
+  "section": "Faq",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Still have questions? Let’s talk about your project and how I can help.",
+  "order": 25824
+ },
+ {
+  "key": "home.faq.13",
+  "page": "Home",
+  "section": "Faq",
+  "type": "text",
+  "label": "Button",
+  "default": "Ask a question",
+  "order": 25945,
+  "href": "contact.html"
+ },
+ {
+  "key": "home.meta.title",
+  "page": "Home",
+  "section": "Search & sharing",
+  "type": "text",
+  "label": "Browser tab title",
+  "default": "Your Name — Design Engineer"
+ },
+ {
+  "key": "home.meta.description",
+  "page": "Home",
+  "section": "Search & sharing",
+  "type": "longtext",
+  "label": "Search description",
+  "default": "Design engineer shaping products and digital experiences through motion, clarity, and timeless craft."
+ },
+ {
+  "key": "portfolio.portfolio.1",
+  "page": "Portfolio",
+  "section": "Portfolio",
+  "type": "text",
+  "label": "Page heading",
+  "default": "Portfolio",
+  "order": 535
+ },
+ {
+  "key": "portfolio.portfolio.2",
+  "page": "Portfolio",
+  "section": "Portfolio",
+  "type": "text",
+  "label": "Subheading",
+  "default": "scroll / drag",
+  "order": 556
+ },
+ {
+  "key": "portfolio.meta.title",
+  "page": "Portfolio",
+  "section": "Search & sharing",
+  "type": "text",
+  "label": "Browser tab title",
+  "default": "Portfolio — Your Name"
+ },
+ {
+  "key": "portfolio.meta.description",
+  "page": "Portfolio",
+  "section": "Search & sharing",
+  "type": "longtext",
+  "label": "Search description",
+  "default": "Selected work. Scroll or drag to explore."
+ },
+ {
+  "key": "studio.intro.1",
+  "page": "About (Studio)",
+  "section": "Intro",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Have a project in mind? I’d love to hear about it.",
+  "order": 852
+ },
+ {
+  "key": "studio.intro.2",
+  "page": "About (Studio)",
+  "section": "Intro",
+  "type": "text",
+  "label": "Button",
+  "default": "Let’s Talk",
+  "order": 957,
+  "href": "contact.html"
+ },
+ {
+  "key": "studio.intro.3",
+  "page": "About (Studio)",
+  "section": "Intro",
+  "type": "longtext",
+  "label": "Page heading",
+  "default": "I am\n{name}®",
+  "order": 1075
+ },
+ {
+  "key": "studio.intro.4",
+  "page": "About (Studio)",
+  "section": "Intro",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "{name} is a design engineer working around clarity, intention, and craft. I believe that strong ideas come from thoughtful collaboration, steady focus, and an honest approach to problem-solving. Every project starts with understanding — the people, the context, and the possibilities — before anything is designed or built.",
+  "order": 1214
+ },
+ {
+  "key": "studio.intro.5",
+  "page": "About (Studio)",
+  "section": "Intro",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "I work independently and alongside teams, shaping products and digital experiences that feel precise, adaptable, and meaningful. My goal is simple: create work that lasts, grows, and continues to make sense long after launch. This is how I think, how I build, and how I show up for the people I work with.",
+  "order": 1628
+ },
+ {
+  "key": "studio.statement-snapshots.1",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "I bring the missing pieces together —",
+  "order": 2287
+ },
+ {
+  "key": "studio.statement-snapshots.2",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "the gaps between design and code, the breaks in your story, the places",
+  "order": 2394
+ },
+ {
+  "key": "studio.statement-snapshots.3",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "longtext",
+  "label": "Text",
+  "default": "where clarity slips. I connect strategy, design, and engineering into one continuous system, so nothing feels scattered or out of place.",
+  "order": 2534
+ },
+ {
+  "key": "studio.statement-snapshots.img1",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "image",
+  "label": "Card photo",
+  "default": "",
+  "order": 2818
+ },
+ {
+  "key": "studio.statement-snapshots.4",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "Your Name",
+  "order": 2928
+ },
+ {
+  "key": "studio.statement-snapshots.5",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "Design Engineer",
+  "order": 3000
+ },
+ {
+  "key": "studio.statement-snapshots.img2",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "image",
+  "label": "Card photo",
+  "default": "",
+  "order": 3108
+ },
+ {
+  "key": "studio.statement-snapshots.6",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "Systems",
+  "order": 3204
+ },
+ {
+  "key": "studio.statement-snapshots.7",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "Tokens, components & docs",
+  "order": 3257
+ },
+ {
+  "key": "studio.statement-snapshots.img3",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "image",
+  "label": "Card photo",
+  "default": "",
+  "order": 3404
+ },
+ {
+  "key": "studio.statement-snapshots.8",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "Interface",
+  "order": 3500
+ },
+ {
+  "key": "studio.statement-snapshots.9",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "Product & UI design",
+  "order": 3555
+ },
+ {
+  "key": "studio.statement-snapshots.img4",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "image",
+  "label": "Card photo",
+  "default": "",
+  "order": 3671
+ },
+ {
+  "key": "studio.statement-snapshots.10",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "Engineering",
+  "order": 3767
+ },
+ {
+  "key": "studio.statement-snapshots.11",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "Front-end & prototyping",
+  "order": 3824
+ },
+ {
+  "key": "studio.statement-snapshots.img5",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "image",
+  "label": "Card photo",
+  "default": "",
+  "order": 3969
+ },
+ {
+  "key": "studio.statement-snapshots.12",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "Motion",
+  "order": 4065
+ },
+ {
+  "key": "studio.statement-snapshots.13",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "Interaction & animation",
+  "order": 4117
+ },
+ {
+  "key": "studio.statement-snapshots.img6",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "image",
+  "label": "Card photo",
+  "default": "",
+  "order": 4232
+ },
+ {
+  "key": "studio.statement-snapshots.14",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "Writing",
+  "order": 4325
+ },
+ {
+  "key": "studio.statement-snapshots.15",
+  "page": "About (Studio)",
+  "section": "Statement + Snapshots",
+  "type": "text",
+  "label": "Text",
+  "default": "Notes on craft",
+  "order": 4378
+ },
+ {
+  "key": "studio.principles.1",
+  "page": "About (Studio)",
+  "section": "Principles",
+  "type": "text",
+  "label": "Heading",
+  "default": "My Principles.",
+  "order": 4689
+ },
+ {
+  "key": "studio.principles.2",
+  "page": "About (Studio)",
+  "section": "Principles",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "If you feel aligned with my principles, let’s build something together.",
+  "order": 4751
+ },
+ {
+  "key": "studio.principles.3",
+  "page": "About (Studio)",
+  "section": "Principles",
+  "type": "text",
+  "label": "Button",
+  "default": "Work With Me",
+  "order": 4877,
+  "href": "contact.html"
+ },
+ {
+  "key": "studio.principles.4",
+  "page": "About (Studio)",
+  "section": "Principles",
+  "type": "text",
+  "label": "Index label",
+  "default": "A /",
+  "order": 5048
+ },
+ {
+  "key": "studio.principles.5",
+  "page": "About (Studio)",
+  "section": "Principles",
+  "type": "longtext",
+  "label": "Heading",
+  "default": "I remove the unnecessary and focus on what moves the work forward. Simple beats complicated every time.",
+  "order": 5129
+ },
+ {
+  "key": "studio.principles.6",
+  "page": "About (Studio)",
+  "section": "Principles",
+  "type": "text",
+  "label": "Index label",
+  "default": "B /",
+  "order": 5300
+ },
+ {
+  "key": "studio.principles.7",
+  "page": "About (Studio)",
+  "section": "Principles",
+  "type": "longtext",
+  "label": "Heading",
+  "default": "Good work comes from good relationships. I collaborate with people I respect — clients and teammates alike.",
+  "order": 5381
+ },
+ {
+  "key": "studio.principles.8",
+  "page": "About (Studio)",
+  "section": "Principles",
+  "type": "text",
+  "label": "Index label",
+  "default": "C /",
+  "order": 5556
+ },
+ {
+  "key": "studio.principles.9",
+  "page": "About (Studio)",
+  "section": "Principles",
+  "type": "longtext",
+  "label": "Heading",
+  "default": "Design and code are one material. Shaping both keeps every idea honest, from first sketch to shipped product.",
+  "order": 5637
+ },
+ {
+  "key": "studio.gallery.img1",
+  "page": "About (Studio)",
+  "section": "Gallery",
+  "type": "image",
+  "label": "Gallery image (1089px wide)",
+  "default": "",
+  "order": 6063
+ },
+ {
+  "key": "studio.gallery.img2",
+  "page": "About (Studio)",
+  "section": "Gallery",
+  "type": "image",
+  "label": "Gallery image (615px wide)",
+  "default": "",
+  "order": 6106
+ },
+ {
+  "key": "studio.gallery.img3",
+  "page": "About (Studio)",
+  "section": "Gallery",
+  "type": "image",
+  "label": "Gallery image (1089px wide)",
+  "default": "",
+  "order": 6151
+ },
+ {
+  "key": "studio.gallery.img4",
+  "page": "About (Studio)",
+  "section": "Gallery",
+  "type": "image",
+  "label": "Gallery image (820px wide)",
+  "default": "",
+  "order": 6197
+ },
+ {
+  "key": "studio.experience.1",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Heading",
+  "default": "Experience",
+  "order": 6491
+ },
+ {
+  "key": "studio.experience.2",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "I believe meaningful work comes from people who care about clarity, craft, and the ideas behind the work. I’ve shaped my practice around these principles — keeping my focus narrow so the thinking stays sharp and the output stays strong.",
+  "order": 6619
+ },
+ {
+  "key": "studio.experience.3",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Every project is handled with intention. I collaborate closely, give space for good ideas to grow, and treat design and engineering as disciplines that deserve patience and precision.",
+  "order": 6913
+ },
+ {
+  "key": "studio.experience.4",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "I’m a designer who writes code, guided by clarity, craft, and a shared approach to meaningful work.",
+  "order": 7273
+ },
+ {
+  "key": "studio.experience.5",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "A selection of the roles that shaped how I work. Replace these placeholders with your own history.",
+  "order": 7524
+ },
+ {
+  "key": "studio.experience.6",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Heading",
+  "default": "Senior Design Engineer",
+  "order": 7798
+ },
+ {
+  "key": "studio.experience.7",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Company Name · 2023 — Present",
+  "order": 7841
+ },
+ {
+  "key": "studio.experience.8",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Leading the design system and front-end architecture for a product used by millions. Bridging design and engineering from concept to production.",
+  "order": 7958
+ },
+ {
+  "key": "studio.experience.9",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Subheading",
+  "default": "What I did",
+  "order": 8121
+ },
+ {
+  "key": "studio.experience.10",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "List item",
+  "default": "Built and maintained the cross-platform design system",
+  "order": 8168
+ },
+ {
+  "key": "studio.experience.11",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "List item",
+  "default": "Prototyped and shipped new product surfaces",
+  "order": 8230
+ },
+ {
+  "key": "studio.experience.12",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "List item",
+  "default": "Set motion and interaction guidelines",
+  "order": 8282
+ },
+ {
+  "key": "studio.experience.13",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Heading",
+  "default": "Design Engineer",
+  "order": 8493
+ },
+ {
+  "key": "studio.experience.14",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Company Name · 2020 — 2023",
+  "order": 8529
+ },
+ {
+  "key": "studio.experience.15",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Designed and built interfaces across web and mobile, working closely with product and engineering to bring ideas to life.",
+  "order": 8643
+ },
+ {
+  "key": "studio.experience.16",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Subheading",
+  "default": "What I did",
+  "order": 8783
+ },
+ {
+  "key": "studio.experience.17",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "List item",
+  "default": "Shipped responsive UI systems and components",
+  "order": 8830
+ },
+ {
+  "key": "studio.experience.18",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "List item",
+  "default": "Owned accessibility and performance standards",
+  "order": 8883
+ },
+ {
+  "key": "studio.experience.19",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "List item",
+  "default": "Mentored designers learning to code",
+  "order": 8937
+ },
+ {
+  "key": "studio.experience.20",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Heading",
+  "default": "Product Designer",
+  "order": 9146
+ },
+ {
+  "key": "studio.experience.21",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Company Name · 2018 — 2020",
+  "order": 9183
+ },
+ {
+  "key": "studio.experience.22",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Shaped product flows and visual language for an early-stage startup — from research to high-fidelity prototypes.",
+  "order": 9297
+ },
+ {
+  "key": "studio.experience.23",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Subheading",
+  "default": "What I did",
+  "order": 9428
+ },
+ {
+  "key": "studio.experience.24",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "List item",
+  "default": "Ran discovery and usability research",
+  "order": 9475
+ },
+ {
+  "key": "studio.experience.25",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "List item",
+  "default": "Defined the visual identity and UI kit",
+  "order": 9520
+ },
+ {
+  "key": "studio.experience.26",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "List item",
+  "default": "Built interactive prototypes in code",
+  "order": 9567
+ },
+ {
+  "key": "studio.experience.27",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "Want the full picture? Download my CV or send me a message on LinkedIn and I’ll share more about my background.",
+  "order": 9792
+ },
+ {
+  "key": "studio.timeline.moreTitle",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Timeline: more experience heading",
+  "default": "More experience"
+ },
+ {
+  "key": "studio.timeline.more",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "longtext",
+  "label": "Timeline: more experience (one block per role — first line = organisation; blank line between)",
+  "default": ""
+ },
+ {
+  "key": "studio.timeline.educationTitle",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Timeline: education heading",
+  "default": "Education"
+ },
+ {
+  "key": "studio.timeline.education",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "longtext",
+  "label": "Timeline: education (one block per school; blank line between)",
+  "default": ""
+ },
+ {
+  "key": "studio.timeline.linkLabel",
+  "page": "About (Studio)",
+  "section": "Experience",
+  "type": "text",
+  "label": "Timeline: full-history link (button text + link)",
+  "default": "Full history on LinkedIn",
+  "href": "#"
+ },
+ {
+  "key": "studio.featured-project.img1",
+  "page": "About (Studio)",
+  "section": "Featured Project",
+  "type": "image",
+  "label": "Featured project image",
+  "default": "",
+  "order": 10462
+ },
+ {
+  "key": "studio.meta.title",
+  "page": "About (Studio)",
+  "section": "Search & sharing",
+  "type": "text",
+  "label": "Browser tab title",
+  "default": "About — Your Name"
+ },
+ {
+  "key": "studio.meta.description",
+  "page": "About (Studio)",
+  "section": "Search & sharing",
+  "type": "longtext",
+  "label": "Search description",
+  "default": "About me — a design engineer working where design meets code."
+ },
+ {
+  "key": "feed.meta.title",
+  "page": "Feed",
+  "section": "Search & sharing",
+  "type": "text",
+  "label": "Browser tab title",
+  "default": "Feed — Your Name"
+ },
+ {
+  "key": "feed.meta.description",
+  "page": "Feed",
+  "section": "Search & sharing",
+  "type": "longtext",
+  "label": "Search description",
+  "default": "Notes on design, engineering, and the craft in between."
+ },
+ {
+  "key": "contact.contact.1",
+  "page": "Contact",
+  "section": "Contact",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "Prefer email? Write to me directly.",
+  "order": 578
+ },
+ {
+  "key": "contact.contact.2",
+  "page": "Contact",
+  "section": "Contact",
+  "type": "text",
+  "label": "Button",
+  "default": "Email Me",
+  "order": 691,
+  "href": "mailto:hello@yourname.com"
+ },
+ {
+  "key": "contact.meta.title",
+  "page": "Contact",
+  "section": "Search & sharing",
+  "type": "text",
+  "label": "Browser tab title",
+  "default": "Contact — Your Name"
+ },
+ {
+  "key": "contact.meta.description",
+  "page": "Contact",
+  "section": "Search & sharing",
+  "type": "longtext",
+  "label": "Search description",
+  "default": "Let’s talk about your project."
+ },
+ {
+  "key": "project.project-template.2",
+  "page": "Project template",
+  "section": "Project template",
+  "type": "text",
+  "label": "Small label",
+  "default": "Credits",
+  "order": 3959
+ },
+ {
+  "key": "project.project-template.3",
+  "page": "Project template",
+  "section": "Project template",
+  "type": "text",
+  "label": "Button",
+  "default": "Live Project",
+  "order": 4419,
+  "href": "#"
+ },
+ {
+  "key": "project.meta.title",
+  "page": "Project template",
+  "section": "Search & sharing",
+  "type": "text",
+  "label": "Browser tab title",
+  "default": "Project — Your Name"
+ },
+ {
+  "key": "article.article-template.1",
+  "page": "Article template",
+  "section": "Article template",
+  "type": "text",
+  "label": "Paragraph",
+  "default": "More thoughts on design, engineering, and craft.",
+  "order": 401
+ },
+ {
+  "key": "article.article-template.2",
+  "page": "Article template",
+  "section": "Article template",
+  "type": "text",
+  "label": "Button",
+  "default": "All Notes",
+  "order": 501,
+  "href": "feed.html"
+ },
+ {
+  "key": "article.meta.title",
+  "page": "Article template",
+  "section": "Search & sharing",
+  "type": "text",
+  "label": "Browser tab title",
+  "default": "Note — Your Name"
+ },
+ {
+  "key": "notfound.404.1",
+  "page": "404",
+  "section": "404",
+  "type": "text",
+  "label": "Page heading",
+  "default": "404",
+  "order": 489
+ },
+ {
+  "key": "notfound.404.2",
+  "page": "404",
+  "section": "404",
+  "type": "longtext",
+  "label": "Paragraph",
+  "default": "The page you’re looking for has moved, or never existed. Let’s get you back on track.",
+  "order": 551
+ },
+ {
+  "key": "notfound.404.3",
+  "page": "404",
+  "section": "404",
+  "type": "text",
+  "label": "Button",
+  "default": "Back Home",
+  "order": 678,
+  "href": "index.html"
+ },
+ {
+  "key": "notfound.meta.title",
+  "page": "404",
+  "section": "Search & sharing",
+  "type": "text",
+  "label": "Browser tab title",
+  "default": "404 — Your Name"
+ }
+]

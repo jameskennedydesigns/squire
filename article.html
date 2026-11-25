@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Note — Your Name</title>
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="article">
+<main>
+  <article class="article">
+    <div class="l">
+      <div class="sticky-col" style="gap:64px">
+        <p class="t-14" style="max-width:180px" data-edit="article.article-template.1">More thoughts on design, engineering, and craft.</p>
+        <div><a class="btn-b" href="feed.html" data-href="article.article-template.2" data-edit="article.article-template.2">All Notes</a></div>
+      </div>
+    </div>
+    <div class="r">
+      <p class="label" id="a-date">Date</p>
+      <h1 class="t-104" id="a-title" style="margin-top:16px">Title</h1>
+      <p class="t-20" id="a-excerpt" style="margin-top:32px;max-width:660px;color:var(--t-444)"></p>
+      <div class="cover ph reveal-img" data-aimg="image"></div>
+      <div class="body" data-afield="body">
+        <p>This is placeholder body copy for your article. Replace it with your own writing — each paragraph uses the 20px body style from the original template, with comfortable line length and spacing.</p>
+        <p>Good interfaces are the sum of many small, careful decisions. The spacing between two lines of text, the duration of a hover state, the moment a component decides to wrap — each one either supports the idea or distracts from it.</p>
+        <h2>A section heading</h2>
+        <p>Use headings to break longer pieces into clear chapters. Keep them short and descriptive so readers can scan the structure before committing to the details.</p>
+        <blockquote>“Clarity isn’t simplicity for its own sake — it’s removing what doesn’t serve meaning.”</blockquote>
+        <p>Close with a thought that connects back to the work. What changed because of this idea, and what would you try next time?</p>
+      </div>
+    </div>
+  </article>
+</main>
+<footer data-footer></footer>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/content.js"></script>
+<script src="assets/js/content-runtime.js"></script>
+<script>
+  (function () {
+    const slug = window.PAGE_PARAM || new URLSearchParams(location.search).get('p');   // PAGE_PARAM: set by the Site Editor's canvas
+    const p = SITE.posts.find(x => x.slug === slug) || SITE.posts[0];
+    document.title = `${p.title} — ${SITE.name}`;
+    document.getElementById('a-date').textContent = p.date;
+    document.getElementById('a-title').textContent = p.title;
+    document.getElementById('a-title').setAttribute('data-reveal', '');
+    document.getElementById('a-excerpt').textContent = p.excerpt;
+    if (p.image === 'none') document.querySelector('.article .cover').style.display = 'none';   // no cover image
+    else setImage(document.querySelector('.article .cover'), p.image);
+    // Body: blank line = new paragraph, "## " = heading, "> " = pull quote
+    if (p.body) {
+      const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      document.querySelector('[data-afield="body"]').innerHTML = p.body.split(/\n\s*\n/).map(b => b.trim()).filter(Boolean).map(b =>
+        b.startsWith('## ') ? `<h2>${esc(b.slice(3))}</h2>` : b.startsWith('> ') ? `<blockquote>${esc(b.slice(2))}</blockquote>` : `<p>${esc(b).replace(/\n/g, '<br>')}</p>`).join('');
+    }
+    // Where the note was first published
+    if (p.source) {
+      let host = p.source; try { host = new URL(p.source).hostname.replace(/^www\./, ''); } catch (e) {}
+      const a = document.createElement('p'); a.className = 'a-source';
+      a.innerHTML = `Originally published at <a href="${p.source.replace(/"/g, '&quot;')}" target="_blank" rel="noopener">${host} ↗</a>`;
+      document.querySelector('[data-afield="body"]').appendChild(a);
+    }
+  })();
+</script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

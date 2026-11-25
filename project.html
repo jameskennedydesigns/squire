@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project — Your Name</title>
+<link rel="preload" href="assets/fonts/InterDisplay-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="project">
+<main>
+  <!-- Hero: full-bleed cover image; company name bottom left, summary in the middle, services stacked on the right -->
+  <section class="p-hero-full" id="p-hero">
+    <div class="ph p-hero-img" id="p-cover" data-pimg="cover"></div>
+    <div class="p-hero-shade" aria-hidden="true"></div>
+    <div class="p-hero-row">
+      <h1 class="p-hero-name" id="p-title">Project</h1>
+      <p class="p-hero-sum" id="p-summary"></p>
+      <ul class="p-hero-svc" id="p-services" aria-label="Services"></ul>
+    </div>
+  </section>
+
+  <section class="p-sec">
+    <div class="txt">
+      <p class="t-16" data-reveal data-pfield="challenge">The challenge was to create clarity in a crowded space. Every project begins with competing needs — for progress, speed, and depth, expression and restraint. The task is to bring structure without losing sight of what truly matters.</p>
+    </div>
+    <div class="num"><span>/1</span></div>
+  </section>
+
+  <section class="p-state"><p data-reveal data-delay="100" data-pfield="statement">The challenge was clear: design a product that would express sophistication without excess, and stay fast without feeling bare.</p></section>
+
+  <section class="p-sec">
+    <div class="txt">
+      <p class="t-16" data-reveal data-pfield="approach">My approach is guided by reduction and intent. Every project begins with listening — understanding the context, the people, and the purpose behind the work. I move beyond surface details to uncover what truly drives the product.</p>
+      <p class="t-16" data-reveal data-delay="200" data-pfield="approach2">From there, I build with precision. Research, iteration, and refinement shape each decision until form and function align — in design files and in code.</p>
+    </div>
+    <div class="num"><span>/2</span></div>
+  </section>
+
+  <section class="p-grid">
+    <div class="ph reveal-img" data-pimg="gallery1"></div><div class="ph v2 reveal-img" data-pimg="gallery2"></div>
+    <div class="ph v3 tall reveal-img" data-pimg="gallery3"></div><div class="ph v4 tall reveal-img" data-pimg="gallery4"></div>
+  </section>
+
+  <section class="p-sec">
+    <div class="txt">
+      <p class="t-16" data-reveal data-pfield="outcome">The outcome was more than just a refresh — it became a system. A set of components, patterns, and principles the team can grow with.</p>
+      <p class="t-16" data-reveal data-delay="200" data-pfield="outcome2">The design language became a unifying force across every touchpoint, from the marketing site to the product itself.</p>
+    </div>
+    <div class="num"><span>/3</span></div>
+  </section>
+  <!-- Optional image under /3 (case.image3); hidden when there's no image -->
+  <section class="p-img is-empty"><div class="ph" data-pimg="image3"></div></section>
+
+  <!-- Extra case-study sections (case.more: "## Heading" + paragraphs) are inserted here -->
+  <div id="p-more"></div>
+
+  <section class="p-sec" id="p-results" style="padding-top:120px"><div class="txt"><p class="t-26" style="font-weight:500" data-reveal data-pfield="resultsIntro">These shifts translated into measurable improvements:</p></div><div class="num"></div></section>
+  <section class="p-stats" style="padding-top:80px">
+    <div data-rise><p class="v" data-pfield="stat1Value">+62%</p><p class="k" data-pfield="stat1Label">Increase in sign-ups</p></div>
+    <div data-rise><p class="v" data-pfield="stat2Value">+40%</p><p class="k" data-pfield="stat2Label">Return user rate</p></div>
+    <div data-rise><p class="v" data-pfield="stat3Value">+78%</p><p class="k" data-pfield="stat3Label">Task completion</p></div>
+    <div data-rise><p class="v" data-pfield="stat4Value">+36%</p><p class="k" data-pfield="stat4Label">Conversion rate</p></div>
+  </section>
+
+  <!-- References (case.refs: "## Group" + "Label: URL" lines) -->
+  <section class="p-refs" id="p-refs" hidden></section>
+
+  <section class="p-next">
+    <div><p class="label" data-edit="project.project-template.2">Credits</p><p class="t-16" style="margin-top:16px;max-width:480px" data-pfield="credits"><span data-site="name">Your Name</span> (Design &amp; Engineering), Collaborator Name (Strategy), Collaborator Name (Content)</p></div>
+    <div style="display:flex;justify-content:flex-end;gap:40px;align-items:center">
+      <a class="btn-b" id="p-source" href="#" target="_blank" rel="noopener" hidden>Read the full case study</a>
+      <a class="btn-b" id="p-next" href="#">Next Project</a>
+      <a class="btn-a" href="#" target="_blank" rel="noopener" data-pfield-href="liveUrl" data-href="project.project-template.3" data-edit="project.project-template.3">Live Project</a>
+    </div>
+  </section>
+  <div style="height:200px"></div>
+</main>
+<footer data-footer></footer>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/content.js"></script>
+<script src="assets/js/content-runtime.js"></script>
+<script>
+  (function () {
+    const P = SITE.projects.slice(0, 5);
+    const slug = window.PAGE_PARAM || new URLSearchParams(location.search).get('p');   // PAGE_PARAM: set by the Site Editor's canvas
+    const i = Math.max(0, P.findIndex(x => x.slug === slug));
+    const p = P[i], nx = P[(i + 1) % P.length];
+    document.title = `${p.title} — ${SITE.name}`;
+    const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+    set('p-title', p.title); set('p-summary', p.summary);
+    if (!p.summary) document.getElementById('p-summary').style.visibility = 'hidden';   // keeps the three-column layout
+    // services: comma-separated in the editor, one per line here
+    document.getElementById('p-services').innerHTML = String(p.services || '').split(/,|\n/).map(x => x.trim()).filter(Boolean).map(x => `<li>${x.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</li>`).join('');
+    // hero text sits at the very bottom of the screen, below where scroll reveals
+    // trigger, so it reveals on load instead ([data-hold] + is-in after site.js splits it)
+    const heroText = ['p-title', 'p-summary'].map(id => document.getElementById(id));
+    heroText.forEach(e => { e.setAttribute('data-reveal', ''); e.setAttribute('data-hold', ''); });
+    heroText[1].dataset.delay = 300;
+    addEventListener('DOMContentLoaded', () => requestAnimationFrame(() => requestAnimationFrame(() => heroText.forEach(e => e.classList.add('is-in')))));
+    // Per-project case study: fields in SITE.projects[i].case override the template copy
+    const cs = p.case || {};
+    const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    document.querySelectorAll('[data-pfield]').forEach(el => {
+      const v = cs[el.dataset.pfield];
+      if (v === '') el.style.display = 'none';
+      else if (v) el.innerHTML = esc(v).replace(/\{name\}/g, esc(SITE.name)).replace(/\n/g, '<br>');
+    });
+    document.querySelectorAll('[data-pfield-href]').forEach(el => {
+      const u = cs[el.dataset.pfieldHref];
+      if (u) el.href = u; else if (u === '' || el.getAttribute('href') === '#') el.style.display = 'none';   // no live link → no button
+    });
+    // Results: hide the stats row when every stat is hidden, and the intro too if it's empty
+    const stats = document.querySelector('.p-stats');
+    if (stats && [...stats.querySelectorAll('[data-pfield]')].every(e => e.style.display === 'none')) stats.style.display = 'none';
+    if (cs.resultsIntro === '' && stats && stats.style.display === 'none') document.getElementById('p-results').style.display = 'none';
+    const txt = v => esc(v).replace(/\{name\}/g, esc(SITE.name));
+    // Extra sections: "## Heading" starts a section; blank lines split paragraphs
+    if (cs.more) {
+      const blocks = cs.more.split(/^##\s+/m).map(b => b.trim()).filter(Boolean);
+      document.getElementById('p-more').innerHTML = blocks.map((b, k) => {
+        const [head, ...rest] = b.split('\n');
+        const paras = rest.join('\n').split(/\n\s*\n|\n/).map(x => x.trim()).filter(Boolean);
+        return `<section class="p-sec"><div class="txt"><h3 class="t-26" style="font-weight:700" data-reveal>${txt(head)}</h3>${paras.map((x, j) => `<p class="t-16" data-reveal data-delay="${100 + j * 100}">${txt(x)}</p>`).join('')}</div><div class="num"><span>/${k + 4}</span></div></section>`
+          + `<section class="p-img is-empty"><div class="ph" data-pimg="image${k + 4}"></div></section>`;   // optional image under /4, /5, …
+      }).join('');
+    }
+    // References: "## Group" then one "Label: URL" per line
+    if (cs.refs) {
+      const groups = cs.refs.split(/^##\s+/m).map(b => b.trim()).filter(Boolean);
+      const link = line => { const m = line.match(/^(.*?):\s*(https?:\/\/\S+)\s*$/); return m ? `<li><a href="${esc(m[2])}" target="_blank" rel="noopener">${txt(m[1])} ↗</a></li>` : `<li>${txt(line)}</li>`; };
+      const el = document.getElementById('p-refs');
+      el.innerHTML = `<div class="side"></div><div class="main"><p class="label">References</p><div class="groups">${groups.map(g => {
+        const [head, ...lines] = g.split('\n');
+        return `<div><h4>${txt(head)}</h4><ul>${lines.map(l => l.trim()).filter(Boolean).map(link).join('')}</ul></div>`;
+      }).join('')}</div></div>`;
+      el.hidden = false;
+    }
+    if (cs.sourceUrl) { const s = document.getElementById('p-source'); s.href = cs.sourceUrl; s.hidden = false; }
+    // Gallery under /2: 4, 6 or 8 blocks (case.galleryCount). Rows alternate wide (4:3) and tall (3:4).
+    const blocks = [6, 8].includes(+cs.galleryCount) ? +cs.galleryCount : 4, grid = document.querySelector('.p-grid');
+    grid.dataset.count = blocks;
+    for (let n = 5; n <= blocks; n++) {
+      const d = document.createElement('div');
+      d.className = 'ph reveal-img' + (n % 4 === 1 ? '' : ' v' + (((n - 1) % 4) + 1)) + (Math.ceil(n / 2) % 2 === 0 ? ' tall' : '');
+      d.dataset.pimg = 'gallery' + n; grid.appendChild(d);
+    }
+    const img = { cover: p.image, gallery1: cs.gallery1, gallery2: cs.gallery2, gallery3: cs.gallery3, gallery4: cs.gallery4 };
+    document.querySelectorAll('[data-pimg]').forEach(el => setImage(el, img[el.dataset.pimg] ?? cs[el.dataset.pimg]));
+    // Section images (/3, /4, /5 …): shown only once an image is set and loads — no gray box otherwise
+    document.querySelectorAll('.p-img').forEach(sec => {
+      const m = sec.querySelector('img, video'); if (!m) return;
+      sec.classList.remove('is-empty');
+      m.addEventListener('error', () => sec.classList.add('is-empty'));
+    });
+    const hero = document.querySelector('#p-cover > img'); if (hero) { hero.loading = 'eager'; hero.fetchPriority = 'high'; }   // above the fold
+    const n = document.getElementById('p-next'); n.href = `project.html?p=${nx.slug}`; n.textContent = 'Next: ' + nx.title;
+  })();
+</script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

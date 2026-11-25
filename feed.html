@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feed — Your Name</title>
+<meta name="description" content="Notes on design, engineering, and the craft in between.">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="feed">
+<main>
+  <section class="feed" id="feed">
+    <div class="colm"></div><div class="colm"></div><div class="colm"></div>
+  </section>
+</main>
+<footer data-footer></footer>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/content.js"></script>
+<script src="assets/js/content-runtime.js"></script>
+<script>
+  // Distribute posts across 3 columns (before site.js wires reveals/cursor)
+  (function () {
+    const cols = document.querySelectorAll('#feed .colm');
+    const card = (p, i) => `
+      <article class="post">
+        ${p.image === 'none' ? '' : `<a href="article.html?p=${p.slug}" class="reveal-img img" data-cursor="arrow" style="position:relative" aria-label="${p.title}"><div class="ph ${['', 'v2', 'v3', 'v4'][i % 4]}" style="position:absolute;inset:0">${p.image && !/^asset:/.test(p.image) ? `<img src="${p.image}" alt="" onerror="this.remove()">` : ''}</div></a>`}
+        <p class="date">${p.date}</p>
+        <a class="ttl2" href="article.html?p=${p.slug}" data-cursor="hidden">${p.title}</a>
+        <p class="t-16 ex">${p.excerpt}</p>
+      </article>`;
+    SITE.posts.forEach((p, i) => cols[i % 3].insertAdjacentHTML('beforeend', card(p, i)));
+  })();
+</script>
+<script src="assets/js/site.js"></script>
+<script>
+  // Middle column drifts against the scroll (parallax columns, as on the original feed)
+  (function () {
+    const mid = document.querySelectorAll('#feed .colm')[1];
+    const f = () => { if (innerWidth >= 810) mid.style.transform = `translate3d(0,${-scrollY * 0.25}px,0)`; else mid.style.transform = ''; };
+    addEventListener('scroll', f, { passive: true }); f();
+  })();
+</script>
+</body>
+</html>

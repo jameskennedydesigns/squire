@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio — Your Name</title>
+<meta name="description" content="Selected work. Scroll or drag to explore.">
+<link rel="preload" href="assets/fonts/InterDisplay-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="portfolio" class="work-page">
+
+<div class="work-title" id="work-title">
+  <h1 id="pf-title" data-kern data-edit="portfolio.portfolio.1">Portfolio</h1>
+  <h6 data-edit="portfolio.portfolio.2">scroll / drag</h6>
+</div>
+
+<!-- Infinite canvas: 2600×2300 tile, 12 slots. Projects come from assets/js/config.js.
+     Each project is a flat 3D disc (assets/js/discs.js) drawn on .disc-layer. -->
+<div class="canvas-wrap" id="canvas-wrap" data-disc-field>
+  <div class="canvas" id="canvas"></div>
+  <div class="disc-layer" data-disc-layer aria-hidden="true"></div>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/content.js"></script>
+<script src="assets/js/content-runtime.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/work.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+<script type="module" src="assets/js/discs.js"></script>
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name — Design Engineer</title>
+<meta name="description" content="Design engineer shaping products and digital experiences through motion, clarity, and timeless craft.">
+<link rel="preload" href="assets/fonts/InterDisplay-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/InterDisplay-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/InterDisplay-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+<script>
+  /* Hero intro: the black 0–100% loader plays on the first visit in a tab
+     session; later visits go straight to the title. See assets/js/intro.js */
+  (function (d) {
+    var full = true; try { full = !sessionStorage.getItem('introSeen'); } catch (e) {}
+    d.classList.add('intro', full ? 'intro-full' : 'intro-short');
+  })(document.documentElement);
+</script>
+</head>
+<body data-page="home">
+
+<!-- Loader: black screen counting 0–100% (assets/js/intro.js) -->
+<div class="loader" id="loader" data-cursor="white" aria-hidden="true">
+  <div class="loader-count"><span class="loader-num"><span data-loader-value>0</span>%</span></div>
+</div>
+
+<main>
+  <!-- ============================== HERO ============================== -->
+  <div class="hero-pin" data-disc-pin>
+    <section class="hero" id="hero" data-disc-gallery data-disc-count="5" data-disc-wait aria-label="Featured projects">
+      <div class="hero-intro">
+        <div class="txt">
+          <p data-reveal data-hold data-delay="0" data-logo-indent data-edit="home.hero.1">— a design engineer shaping products and digital experiences through motion, clarity, and timeless craft. Based in your city, working globally, I help ambitious teams express who they are and what they stand for.</p>
+        </div>
+      </div>
+  
+      <!-- 3D disc carousel: all 5 projects in assets/js/config.js (rendered by assets/js/discs.js) -->
+      <div class="hero-discs" data-disc-canvas aria-hidden="true"></div>
+  
+      <div class="hero-name">
+        <div class="row">
+          <!-- Title: "Human / Agentic" slides in, then up and out as "Design / Engineer" slides up into the same masks -->
+          <h1 class="fit hero-title" data-fit aria-label="Design Engineer"><span class="fit-text" aria-hidden="true"><span class="ht-line"><span class="ht-w ht-a" data-edit="home.hero.pre1">Human</span><span class="ht-w ht-b" data-edit="home.hero.2">Design</span></span><span class="ht-line"><span class="ht-w ht-a" data-edit="home.hero.pre2">Agentic</span><span class="ht-w ht-b" data-edit="home.hero.3">Engineer</span></span></span></h1>
+          <div class="copy" data-site="copy" data-edit="home.hero.4">© 2018-26</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================== SCRAMBLE ============================== -->
+  <section class="scramble-sec">
+    <div class="scramble-spacer"></div>
+    <div class="scramble"><h3 id="scramble" data-indent="17" data-seed="117" data-spread="1000"></h3></div>
+    <div class="grid-6">
+      <div class="side"></div>
+      <div class="main">
+        <div class="w-480 stack-24">
+          <p class="t-16" data-reveal data-delay="100" data-edit="home.scramble.1">I keep my process clear, collaborative, and focused. I work closely with the teams I partner with, shaping each project with intention and care. Every idea is explored from multiple angles, refined together, and guided by a shared sense of purpose. Nothing is added without reason, and nothing essential is left behind. The result is work that feels thoughtful, precise, and built to last beyond trends.</p>
+          <p class="t-16" data-reveal data-delay="200" data-edit="home.scramble.2">My way of working is straightforward. I design in the medium I ship in, keeping the process open and honest so decisions remain meaningful. Dialogue is constant, feedback is shared, and the direction becomes sharper with every step. I believe clarity comes from collaboration, and that strong ideas emerge when design and engineering think as one.</p>
+        </div>
+      </div>
+      <div class="side"></div>
+    </div>
+  </section>
+
+  <!-- ============================== REEL ============================== -->
+  <section class="reel">
+    <div class="tickers" aria-hidden="true">
+      <div class="ticker a" data-ticker="-100"><div class="track"><span class="item" data-edit="home.reel.ticker">Ideas in Motion.</span></div></div>
+      <div class="ticker b" data-ticker="100"><div class="track"><span class="item" data-edit="home.reel.ticker">Ideas in Motion.</span></div></div>
+    </div>
+    <div class="side"></div>
+    <div class="main"><div class="ph video" data-cursor="play" aria-label="Showreel placeholder" data-img="home.reel.img1"></div></div>
+    <div class="side"></div>
+  </section>
+
+  <!-- ============================== SERVICES ============================== -->
+  <section class="split services" id="services">
+    <div class="l">
+      <div class="sticky-col">
+        <h2 class="t-26 title" data-reveal data-edit="home.services.1">My Services</h2>
+        <p class="t-14 w-240" data-reveal data-edit="home.services.2">If you’re looking for clarity in design and code, let’s build it together.</p>
+        <div><a class="btn-b" href="contact.html" data-href="home.services.3" data-edit="home.services.3">Get Started</a></div>
+      </div>
+    </div>
+    <div class="r">
+      <div class="svc-list">
+        <article class="svc" data-autohide>
+          <div class="idx" data-edit="home.services.4">A /</div>
+          <div class="body">
+            <h4 class="t-56" data-reveal="words" data-delay="200" data-edit="home.services.5">I design and build interfaces that bring clarity and distinction to products — thoughtful visuals, cohesive structure, and code that lasts.</h4>
+            <div class="tags"><span class="tag" data-edit="home.services.6">Product Design</span><span class="tag" data-edit="home.services.7">UI Engineering</span><span class="tag" data-edit="home.services.8">Prototyping</span><span class="tag" data-edit="home.services.9">Responsive Layouts</span><span class="tag" data-edit="home.services.10">Accessibility</span></div>
+          </div>
+        </article>
+        <article class="svc" data-autohide>
+          <div class="idx" data-edit="home.services.11">B /</div>
+          <div class="body">
+            <h4 class="t-56" data-reveal="words" data-delay="200" data-edit="home.services.12">I create design systems that scale — tokens, components, and documentation shared seamlessly between design and code.</h4>
+            <div class="tags"><span class="tag" data-edit="home.services.13">Design Tokens</span><span class="tag" data-edit="home.services.14">Component Libraries</span><span class="tag" data-edit="home.services.15">Figma to Code</span><span class="tag" data-edit="home.services.16">Documentation</span><span class="tag" data-edit="home.services.17">Theming</span></div>
+          </div>
+        </article>
+        <article class="svc" data-autohide>
+          <div class="idx" data-edit="home.services.18">C /</div>
+          <div class="body">
+            <h4 class="t-56" data-reveal="words" data-delay="200" data-edit="home.services.19">I craft motion and interaction that guide attention and make every change of state feel intentional across all screens.</h4>
+            <div class="tags"><span class="tag" data-edit="home.services.20">Interaction Design</span><span class="tag" data-edit="home.services.21">Motion Guidelines</span><span class="tag" data-edit="home.services.22">Micro-interactions</span><span class="tag" data-edit="home.services.23">Creative Development</span><span class="tag" data-edit="home.services.24">WebGL &amp; Canvas</span></div>
+          </div>
+        </article>
+        <article class="svc" data-autohide>
+          <div class="idx" data-edit="home.services.25">D /</div>
+          <div class="body">
+            <h4 class="t-56" data-reveal="words" data-delay="200" data-edit="home.services.26">I help teams make confident decisions by defining direction, sharpening the product, and building the foundation for meaningful growth.</h4>
+            <div class="tags"><span class="tag" data-edit="home.services.27">Design Audits</span><span class="tag" data-edit="home.services.28">Front-end Architecture</span><span class="tag" data-edit="home.services.29">Performance</span><span class="tag" data-edit="home.services.30">Workshops</span><span class="tag" data-edit="home.services.31">Roadmaps &amp; Recommendations</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== IN NUMBERS ============================== -->
+  <section class="numbers">
+    <div class="headline">
+      <div class="big">
+        <h2 class="t-104" data-reveal><span data-site="name-r">Your Name®</span></h2>
+        <h2 class="t-104" data-reveal data-delay="200" data-edit="home.in-numbers.1">In Numbers</h2>
+      </div>
+      <div class="aside">
+        <p class="t-14 w-310" data-reveal data-edit="home.in-numbers.2">A closer look at the milestones and collaborations that define my ongoing practice.</p>
+        <div><a class="btn-b" href="contact.html" data-href="home.in-numbers.3" data-edit="home.in-numbers.3">Let's work together</a></div>
+      </div>
+    </div>
+
+    <div class="big-numbers" id="big-numbers">
+      <div class="bn-sticky">
+        <div class="bn-box">
+          <div class="bn-digit b"><div class="bn-strip" data-strip></div></div>
+          <div class="bn-digit a"><div class="bn-strip" data-strip></div></div>
+          <div class="bn-img ph on" data-img="home.in-numbers.img1"></div>
+          <div class="bn-img ph v2" data-img="home.in-numbers.img2"></div>
+          <div class="bn-img ph v3" data-img="home.in-numbers.img3"></div>
+        </div>
+      </div>
+      <div class="bn-panels">
+        <div class="bn-panel" data-num="12" data-numkey="home.in-numbers.num1">
+          <div class="txt">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <h3 class="t-56b" data-reveal data-edit="home.in-numbers.4">12 Industry<br><br>Awards</h3>
+              <p class="t-16 w-480" data-reveal data-delay="200" data-edit="home.in-numbers.5">Recognized across global juries for clarity, craft, and concept. Every award reflects the same commitment: creating work with intention, designing with purpose, and shaping ideas that resonate far beyond their launch.</p>
+            </div>
+            <div><a class="btn-a" href="#awards" data-href="home.in-numbers.6" data-edit="home.in-numbers.6">See Awards</a></div>
+          </div>
+          <div class="sp"></div>
+        </div>
+        <div class="bn-panel" data-num="42" data-numkey="home.in-numbers.num2">
+          <div class="txt">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <h3 class="t-56b" data-reveal data-edit="home.in-numbers.7">42 Clients<br><br>Worldwide</h3>
+              <p class="t-16 w-480" data-reveal data-delay="200" data-edit="home.in-numbers.8">Built on relationships, not transactions. I partner with teams who value dialogue, trust, and shared ambition — working together to create products and digital experiences that feel true to who they are.</p>
+            </div>
+            <div><a class="btn-a" href="#clients" data-href="home.in-numbers.9" data-edit="home.in-numbers.9">See Clients</a></div>
+          </div>
+          <div class="sp"></div>
+        </div>
+        <div class="bn-panel" data-num="83" data-numkey="home.in-numbers.num3">
+          <div class="txt">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <h3 class="t-56b" data-reveal data-edit="home.in-numbers.10">83 Shipped<br><br>Projects</h3>
+              <p class="t-16 w-480" data-reveal data-delay="200" data-edit="home.in-numbers.11">Each project becomes part of my rhythm — ideas shaped, stories refined, and systems brought to life. Every collaboration deepens my perspective and strengthens the work that follows.</p>
+            </div>
+            <div><a class="btn-a" href="portfolio.html" data-href="home.in-numbers.12" data-edit="home.in-numbers.12">See Portfolio</a></div>
+          </div>
+          <div class="sp"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== AWARDS ============================== -->
+  <section class="awards" id="awards">
+    <div class="hd">
+      <div class="col-pad">
+        <h2 class="t-104" data-reveal data-edit="home.awards.1">My</h2>
+        <h2 class="t-104" data-reveal data-delay="200" data-edit="home.awards.2">Awards</h2>
+      </div>
+      <div class="bot">
+        <p class="t-14 w-240" data-reveal data-edit="home.awards.3">Selected moments where my work was acknowledged by others.</p>
+        <div><a class="btn-b" href="portfolio.html" data-href="home.awards.4" data-edit="home.awards.4">My Portfolio</a></div>
+      </div>
+    </div>
+    <div class="list">
+      <div class="award" data-rise><div class="a" data-edit="home.awards.5">Red Dot</div><div class="b" data-edit="home.awards.6">Brand &amp; Communication Design</div><div class="c" data-edit="home.awards.7">x3</div></div>
+      <div class="award" data-rise><div class="a" data-edit="home.awards.8">European Design Awards</div><div class="b" data-edit="home.awards.9">Visual Identity</div><div class="c" data-edit="home.awards.10">x1</div></div>
+      <div class="award" data-rise><div class="a" data-edit="home.awards.11">ADC Europe</div><div class="b" data-edit="home.awards.12">Branding &amp; Typography</div><div class="c" data-edit="home.awards.13">x2</div></div>
+      <div class="award" data-rise><div class="a" data-edit="home.awards.14">D&amp;AD</div><div class="b" data-edit="home.awards.15">Digital Design</div><div class="c" data-edit="home.awards.16">x3</div></div>
+      <div class="award" data-rise><div class="a" data-edit="home.awards.17">Tokyo TDC</div><div class="b" data-edit="home.awards.18">Typography Excellence</div><div class="c" data-edit="home.awards.19">x1</div></div>
+      <div class="award" data-rise><div class="a" data-edit="home.awards.20">Awwwards</div><div class="b" data-edit="home.awards.21">Site of the Day</div><div class="c" data-edit="home.awards.22">x2</div></div>
+      <div class="award" data-rise><div class="a" data-edit="home.awards.23">Awwwards</div><div class="b" data-edit="home.awards.24">Honorable Mention</div><div class="c" data-edit="home.awards.25">x3</div></div>
+      <div class="award" data-rise><div class="a" data-edit="home.awards.26">FWA</div><div class="b" data-edit="home.awards.27">Site of the Day</div><div class="c" data-edit="home.awards.28">x1</div></div>
+    </div>
+  </section>
+
+  <!-- ============================== ABOUT (single person) ============================== -->
+  <section class="about">
+    <div class="nav-band"></div>
+    <div class="cards">
+      <div class="txt">
+        <div class="hl"><h2 class="t-26" data-reveal data-edit="home.about-single-person.1">About Me</h2></div>
+        <div class="p"><p class="t-16" data-reveal data-edit="home.about-single-person.2">I’m <span data-site="name">Your Name</span>, a design engineer working where design meets code. What started as a fascination with how things look and feel has grown into a practice that brings structure, imagination, and craft to every project I take on.</p></div>
+        <div class="bt"><a class="btn-a" href="studio.html" data-href="home.about-single-person.3" data-edit="home.about-single-person.3">More About Me</a></div>
+      </div>
+      <div class="imgs">
+        <div data-drop style="--drop:-200px">
+          <a class="person" href="studio.html" data-cursor="arrow">
+            <div class="ph" data-img="home.about-single-person.img1"></div><div class="bd"></div>
+            <div class="cap"><span class="m"><span class="n" data-site="name" data-edit="home.about-single-person.4">Your Name</span></span><span class="m"><span class="r" data-site="role" data-edit="home.about-single-person.5">Design Engineer</span></span></div>
+          </a>
+        </div>
+        <div data-drop style="--drop:-50px">
+          <a class="person" href="contact.html" data-cursor="arrow">
+            <div class="ph v2" data-img="home.about-single-person.img2"></div><div class="bd"></div>
+            <div class="cap"><span class="m"><span class="n" data-edit="home.about-single-person.6">Available</span></span><span class="m"><span class="r" data-edit="home.about-single-person.7">For new projects</span></span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== PARTNERS ============================== -->
+  <section class="partners" id="clients">
+    <div class="stk-wrap">
+      <div class="stk">
+        <div class="big"><h2 class="t-160" id="partners-title" data-edit="home.partners.1">Selected Clients</h2></div>
+        <p class="t-14 w-240" style="position:relative" data-edit="home.partners.2">Here are some of the brands I’ve had the privilege to collaborate with.</p>
+      </div>
+    </div>
+    <div class="nav-band"></div>
+    <div class="spacer"></div>
+    <div class="logos" id="logos">
+      <div class="grid">
+        <div class="logo-cell"><div class="lg" data-img="home.partners.img1"></div></div><div class="logo-cell"><div class="lg" data-img="home.partners.img2"></div></div><div class="logo-cell"><div class="lg" data-img="home.partners.img3"></div></div><div class="logo-cell"><div class="lg" data-img="home.partners.img4"></div></div>
+        <div class="logo-cell"><div class="lg" data-img="home.partners.img5"></div></div><div class="logo-cell"><div class="lg" data-img="home.partners.img6"></div></div><div class="logo-cell"><div class="lg" data-img="home.partners.img7"></div></div><div class="logo-cell"><div class="lg" data-img="home.partners.img8"></div></div>
+        <div class="logo-cell"><div class="lg" data-img="home.partners.img9"></div></div><div class="logo-cell"><div class="lg" data-img="home.partners.img10"></div></div><div class="logo-cell"><div class="lg" data-img="home.partners.img11"></div></div><div class="logo-cell"><div class="lg" data-img="home.partners.img12"></div></div>
+      </div>
+    </div>
+    <div class="gap"></div>
+    <div class="image"><div class="ph v2" style="position:absolute;inset:0 20px" data-img="home.partners.img13"></div></div>
+  </section>
+
+  <!-- ============================== PROCESS ============================== -->
+  <section class="process">
+    <div class="hd">
+      <h2 class="t-104" data-reveal data-edit="home.process.1">The Process</h2>
+      <p class="t-16 w-400" data-reveal data-delay="200" data-edit="home.process.2">How I take a project from the first conversation to launch — and well beyond it.</p>
+    </div>
+    <div class="timeline">
+      <div class="cols"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      <div class="bar" style="left:20px;top:32px;width:310px;--d:0s" data-edit="home.process.3">Discovery</div>
+      <div class="bar" style="left:253px;top:90px;width:368px;--d:.15s" data-edit="home.process.4">Strategy</div>
+      <div class="bar" style="left:487px;top:149px;width:660px;--d:.3s" data-edit="home.process.5">Design &amp; Build</div>
+      <div class="bar" style="left:953px;top:207px;width:427px;--d:.45s" data-edit="home.process.6">Launch &amp; Beyond</div>
+      <div class="nums"><div>01</div><div>02</div><div>03</div><div>04</div><div>05</div><div>06</div><div>07</div><div>08</div><div>09</div><div>10</div><div>11</div><div>12</div></div>
+    </div>
+    <div class="steps">
+      <div><h3 class="t-32" data-reveal data-edit="home.process.7">Discovery</h3><p class="t-16" data-reveal data-delay="200" data-edit="home.process.8">I start by listening. This phase is about understanding your goals, audience, and challenges — finding clarity before I begin designing.</p></div>
+      <div><h3 class="t-32" data-reveal data-edit="home.process.9">Strategy</h3><p class="t-16" data-reveal data-delay="200" data-edit="home.process.10">I translate insights into direction, defining the concept, structure, and technical approach that shape your product or brand.</p></div>
+      <div><h3 class="t-32" data-reveal data-edit="home.process.11">Design &amp; Build</h3><p class="t-16" data-reveal data-delay="200" data-edit="home.process.12">Ideas take form. From interface to interaction, I design, prototype, and develop with precision and care.</p></div>
+      <div><h3 class="t-32" data-reveal data-edit="home.process.13">Launch &amp; Beyond</h3><p class="t-16" data-reveal data-delay="200" data-edit="home.process.14">Delivery is only the beginning. I test, refine, and support long after launch — ensuring the work performs and evolves.</p></div>
+    </div>
+  </section>
+
+  <!-- ============================== TESTIMONIALS ============================== -->
+  <section class="testi">
+    <div class="hd">
+      <div class="side"></div>
+      <div class="main">
+        <h2 class="t-104" data-reveal data-edit="home.testimonials.1">Client reflections</h2>
+        <p class="t-16 w-400" data-reveal data-delay="200" data-edit="home.testimonials.2">Honest impressions from the teams I’ve collaborated with across product, brand, and digital work.</p>
+      </div>
+    </div>
+    <div class="slides" id="slides">
+      <div class="ctrl">
+        <button type="button" data-prev aria-label="Previous testimonial" data-cursor="hidden"></button>
+        <button type="button" data-next aria-label="Next testimonial" data-cursor="hidden"></button>
+      </div>
+      <div class="slide on" data-autohide><div class="side"></div><div class="img"><div class="ph" data-img="home.testimonials.img1"></div></div><div class="sp"></div>
+        <div class="q"><p class="quote" data-edit="home.testimonials.3">“<span data-site="name">Your Name</span> turned our complex ideas into something clear and elegant — then built it, pixel for pixel. It feels natural to us.”</p><div class="who"><p class="n" data-edit="home.testimonials.4">Client Name</p><p class="c" data-edit="home.testimonials.5">Company</p></div></div></div>
+      <div class="slide" data-autohide><div class="side"></div><div class="img"><div class="ph v2" data-img="home.testimonials.img2"></div></div><div class="sp"></div>
+        <div class="q"><p class="quote" data-edit="home.testimonials.6">“Rare to find someone who thinks in systems and still sweats every detail. Our product finally feels like one thing.”</p><div class="who"><p class="n" data-edit="home.testimonials.7">Client Name</p><p class="c" data-edit="home.testimonials.8">Company</p></div></div></div>
+      <div class="slide" data-autohide><div class="side"></div><div class="img"><div class="ph v3" data-img="home.testimonials.img3"></div></div><div class="sp"></div>
+        <div class="q"><p class="quote" data-edit="home.testimonials.9">“The prototypes were so close to production that our engineers shipped them almost as-is. A huge time saver.”</p><div class="who"><p class="n" data-edit="home.testimonials.10">Client Name</p><p class="c" data-edit="home.testimonials.11">Company</p></div></div></div>
+      <div class="slide" data-autohide><div class="side"></div><div class="img"><div class="ph v4" data-img="home.testimonials.img4"></div></div><div class="sp"></div>
+        <div class="q"><p class="quote" data-edit="home.testimonials.12">“Calm, precise, and fast. Every conversation made the direction sharper and the work better.”</p><div class="who"><p class="n" data-edit="home.testimonials.13">Client Name</p><p class="c" data-edit="home.testimonials.14">Company</p></div></div></div>
+      <div class="slide" data-autohide><div class="side"></div><div class="img"><div class="ph" data-img="home.testimonials.img5"></div></div><div class="sp"></div>
+        <div class="q"><p class="quote" data-edit="home.testimonials.15">“The motion work gave our brand a voice we didn’t know it had. People notice it every single day.”</p><div class="who"><p class="n" data-edit="home.testimonials.16">Client Name</p><p class="c" data-edit="home.testimonials.17">Company</p></div></div></div>
+      <div class="slide" data-autohide><div class="side"></div><div class="img"><div class="ph v2" data-img="home.testimonials.img6"></div></div><div class="sp"></div>
+        <div class="q"><p class="quote" data-edit="home.testimonials.18">“A true partner. Clear thinking, honest feedback, and a design system our whole team actually uses.”</p><div class="who"><p class="n" data-edit="home.testimonials.19">Client Name</p><p class="c" data-edit="home.testimonials.20">Company</p></div></div></div>
+      <div class="count" aria-live="polite">/<span class="num"><span>1</span></span></div>
+    </div>
+  </section>
+
+  <!-- ============================== PRICING ============================== -->
+  <section class="pricing" id="pricing" data-v="yearly">
+    <div class="l">
+      <div class="sticky-col">
+        <div class="top">
+          <div class="ttl">
+            <h2 class="t-104" data-reveal data-edit="home.pricing.1">Pricing</h2>
+            <div class="toggle" data-v="yearly" role="group" aria-label="Billing period">
+              <span class="st"></span>
+              <button type="button" data-cursor="hidden" data-bill="monthly" data-edit="home.pricing.2">Monthly</button>
+              <button type="button" data-cursor="hidden" data-bill="yearly" class="on" data-edit="home.pricing.3">Yearly –20%</button>
+            </div>
+          </div>
+          <p class="t-16 w-400" data-reveal data-delay="200" data-edit="home.pricing.4">Choose a plan that fits your pace, your team, and your goals. From startups to scaling brands, my monthly options give you the design and engineering support you need.</p>
+        </div>
+        <div class="bot">
+          <p class="t-14" style="max-width:170px" data-edit="home.pricing.5">Not sure where to start? Let’s figure it out together.</p>
+          <div><a class="btn-b" href="contact.html" data-href="home.pricing.6" data-edit="home.pricing.6">Let's Talk</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="r">
+      <div class="pkg">
+        <h3 class="t-64" data-reveal data-edit="home.pricing.7">Foundation Package</h3>
+        <p class="sub" data-edit="home.pricing.8">For early-stage teams that need a clear product and visual foundation.</p>
+        <div class="feats"><ul><li data-icon-li data-edit="home.pricing.9">Discovery session</li><li data-icon-li data-edit="home.pricing.10">Product direction</li><li data-icon-li data-edit="home.pricing.11">UI design</li></ul><ul><li data-icon-li data-edit="home.pricing.12">Visual system</li><li data-icon-li data-edit="home.pricing.13">Clickable prototype</li><li data-icon-li data-edit="home.pricing.14">Handoff documentation</li></ul></div>
+        <p class="label" data-edit="home.pricing.15">Starting from</p>
+        <div class="price"><span class="v" data-pricekey="home.pricing.price1" data-m="6500" data-y="5200">$5,200</span><span class="per" data-edit="home.pricing.16">/month</span><span class="old">$6,500</span></div>
+      </div>
+      <div class="pkg">
+        <h3 class="t-64" data-reveal data-edit="home.pricing.18">Studio Package</h3>
+        <p class="sub" data-edit="home.pricing.19">For websites, platforms, or digital-first products.</p>
+        <div class="feats"><ul><li data-icon-li data-edit="home.pricing.20">UX structure &amp; sitemap</li><li data-icon-li data-edit="home.pricing.21">UI design</li><li data-icon-li data-edit="home.pricing.22">Component system</li></ul><ul><li data-icon-li data-edit="home.pricing.23">Responsive build</li><li data-icon-li data-edit="home.pricing.24">Interaction &amp; motion direction</li></ul></div>
+        <p class="label" data-edit="home.pricing.25">Starting from</p>
+        <div class="price"><span class="v" data-pricekey="home.pricing.price2" data-m="8000" data-y="6400">$6,400</span><span class="per" data-edit="home.pricing.26">/month</span><span class="old">$8,000</span></div>
+      </div>
+      <div class="pkg">
+        <h3 class="t-64" data-reveal data-edit="home.pricing.28">Signature Package</h3>
+        <p class="sub" data-edit="home.pricing.29">For teams that want everything aligned, from design system to shipped product.</p>
+        <div class="feats"><ul><li data-icon-li data-edit="home.pricing.30">Product strategy</li><li data-icon-li data-edit="home.pricing.31">Design system</li><li data-icon-li data-edit="home.pricing.32">Front-end build</li></ul><ul><li data-icon-li data-edit="home.pricing.33">Motion direction</li><li data-icon-li data-edit="home.pricing.34">Performance &amp; accessibility</li></ul></div>
+        <p class="label" data-edit="home.pricing.35">Starting from</p>
+        <div class="price"><span class="v" data-pricekey="home.pricing.price3" data-m="14000" data-y="11200">$11,200</span><span class="per" data-edit="home.pricing.36">/month</span><span class="old">$14,000</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== NOTES ============================== -->
+  <section class="notes">
+    <div class="l">
+      <div class="sticky-col">
+        <p class="t-14" style="max-width:193px" data-edit="home.notes.1">My thoughts on how products, systems, and stories find their form.</p>
+        <div><a class="btn-b" href="feed.html" data-href="home.notes.2" data-edit="home.notes.2">Read All</a></div>
+      </div>
+    </div>
+    <div class="r">
+      <h2 class="t-104 ttl" data-reveal data-edit="home.notes.3">Notes</h2>
+      <div class="cards" id="home-notes"></div>
+    </div>
+  </section>
+
+  <!-- ============================== LET'S TALK ============================== -->
+  <section class="talk" id="talk">
+    <div class="l">
+      <div class="sticky-col" style="gap:64px">
+        <p class="t-14" style="max-width:160px" data-edit="home.let-s-talk.1">Prefer email? Write to me directly.</p>
+        <div><a class="btn-b" href="mailto:hello@yourname.com" data-mail data-href="home.let-s-talk.2" data-edit="home.let-s-talk.2">Email Me</a></div>
+      </div>
+    </div>
+    <div class="r" data-talk></div>
+  </section>
+
+  <!-- ============================== FAQ ============================== -->
+  <section class="faq">
+    <div class="l">
+      <div class="sticky-col">
+        <h2 class="t-26" data-reveal data-edit="home.faq.1">Questions, answered.</h2>
+        <div style="display:flex;flex-direction:column;gap:40px">
+          <p class="t-14" style="max-width:280px" data-edit="home.faq.2">Learn more about the person and principles behind the work.</p>
+          <div><a class="btn-b" href="studio.html" data-href="home.faq.3" data-edit="home.faq.3">About me</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="r" data-acc>
+      <div class="qa open" data-acc-item><div class="bg"></div><div class="ic" data-icon="plus"></div>
+        <div class="tx"><h3 class="t-48" data-edit="home.faq.4">How do you start a new project?</h3><div class="ans"><div><p class="t-16 w-480" data-edit="home.faq.5">I start by listening. Every project begins with a short discovery phase where I learn about your goals, challenges, and expectations. From there, I define the creative direction, scope, and deliverables, and set a timeline that balances clarity with craft.</p></div></div></div></div>
+      <div class="qa" data-acc-item><div class="bg"></div><div class="ic" data-icon="plus"></div>
+        <div class="tx"><h3 class="t-48" data-edit="home.faq.6">Can you help with strategy, not just design?</h3><div class="ans"><div><p class="t-16 w-480" data-edit="home.faq.7">Yes — strategy is part of everything I do. Before I design, I help define your message, audience, and positioning. That foundation shapes every decision that follows.</p></div></div></div></div>
+      <div class="qa" data-acc-item><div class="bg"></div><div class="ic" data-icon="plus"></div>
+        <div class="tx"><h3 class="t-48" data-edit="home.faq.8">Do you also build what you design?</h3><div class="ans"><div><p class="t-16 w-480" data-edit="home.faq.9">Yes. As a design engineer I take work from concept to production-ready code — components, interactions, and front-end architecture — so nothing gets lost in handoff.</p></div></div></div></div>
+      <div class="qa" data-acc-item><div class="bg"></div><div class="ic" data-icon="plus"></div>
+        <div class="tx"><h3 class="t-48" data-edit="home.faq.10">How long does a typical project take?</h3><div class="ans"><div><p class="t-16 w-480" data-edit="home.faq.11">It depends on the scope and level of detail. A small website or product refresh may take around 4–6 weeks, while larger, more complex projects can run 2–4 months.</p></div></div></div></div>
+      <div class="more">
+        <p class="t-14" style="max-width:280px" data-edit="home.faq.12">Still have questions? Let’s talk about your project and how I can help.</p>
+        <a class="btn-a" href="contact.html" data-href="home.faq.13" data-edit="home.faq.13">Ask a question</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer data-footer></footer>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/content.js"></script>
+<script src="assets/js/content-runtime.js"></script>
+<script src="assets/js/shared-sections.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/home.js"></script>
+<script src="assets/js/intro.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+<script type="module" src="assets/js/discs.js"></script>
+</body>
+</html>
