@@ -29,7 +29,29 @@ def find_asset(dir_, aid):
             return os.path.join(dir_, f)
     return None
 
+def compress_video_ffmpeg(src, out):
+    # same targets as compress_video.swift, for machines without macOS (needs ffmpeg + ffprobe)
+    dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', src],
+                               capture_output=True, text=True, check=True).stdout.strip() or 1)
+    max_bytes = VIDEO_MAX_MB * 1_000_000
+    rate = int(min(8_000_000, max(400_000, max_bytes * 8 * 0.9 / max(dur, 0.1))))
+    scale = f"scale='if(gt(iw,ih),min({MAX_SIDE},iw),-2)':'if(gt(iw,ih),-2,min({MAX_SIDE},ih))'"
+    for attempt in range(5):
+        subprocess.run(['ffmpeg', '-y', '-v', 'error', '-i', src, '-an', '-vf', scale + ',scale=trunc(iw/2)*2:trunc(ih/2)*2',
+                        '-c:v', 'libx264', '-profile:v', 'high', '-pix_fmt', 'yuv420p', '-b:v', str(rate),
+                        '-maxrate', str(int(rate * 1.2)), '-bufsize', str(rate * 2), '-movflags', '+faststart', out],
+                       check=True, capture_output=True)
+        size = os.path.getsize(out)
+        if size <= max_bytes: break
+        rate = int(rate * min(0.85, max_bytes / size * 0.95))
+    else:
+        raise RuntimeError(f'still over {VIDEO_MAX_MB} MB after 5 tries')
+    return f'ffmpeg {dur:.1f}s {rate // 1000} kbps -> {size / 1e6:.2f} MB'
+
 def compress_video(src, out):
+    if not shutil.which('swift'):               # not macOS: fall back to ffmpeg if it's installed
+        if shutil.which('ffmpeg') and shutil.which('ffprobe'): return compress_video_ffmpeg(src, out)
+        raise RuntimeError('needs macOS (swift) or ffmpeg')
     script = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'compress_video.swift')
     r = subprocess.run(['swift', '-suppress-warnings', script, src, out, str(VIDEO_MAX_MB), str(MAX_SIDE)], capture_output=True, text=True)
     for f in os.listdir(os.path.dirname(out)):          # temp files AVFoundation can leave behind
@@ -61,7 +83,13 @@ def optimise(src, name):
     try:
         subprocess.run(args + [src, '--out', out], check=True, capture_output=True)
     except Exception:
-        shutil.copyfile(src, out)   # no sips (not macOS): copy as-is
+        try:                        # no sips (not macOS): use Pillow if it's installed
+            from PIL import Image
+            im = Image.open(src); im.thumbnail((MAX_SIDE, MAX_SIDE))
+            if keep: im.save(out)
+            else: im.convert('RGB').save(out, 'JPEG', quality=76, optimize=True, progressive=True)
+        except Exception:
+            shutil.copyfile(src, out)   # neither available: copy as-is
     return out
 
 def main(doc_path, assets_dir):

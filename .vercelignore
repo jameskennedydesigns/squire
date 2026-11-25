@@ -1,0 +1,7 @@
+# Kept in the repo, not served on the site
+tools/
+README.md
+*.docx
+.claude/
+.gitignore
+.vercelignore
